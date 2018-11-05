@@ -52,6 +52,7 @@ class SiteController extends Controller
     /**
      * {@inheritdoc}
      */
+    
     public function actions()
     {
         return [
@@ -74,7 +75,30 @@ class SiteController extends Controller
     {
         return $this->render('index');
     }
-
+    public function actionSignup()
+    {
+        return $this->render('signup');
+    }
+    public function actionSignin()
+    {
+        return $this->render('signin');
+    }
+    public function actionRepair()
+    {
+        return $this->render('repair');
+    }
+    public function actionProduct()
+    {
+        return $this->render('product');
+    }
+    public function actionProductdetail()
+    {
+        return $this->render('product-detail');
+    }
+    public function actionCart()
+    {
+        return $this->render('cart');
+    }
     /**
      * Logs in a user.
      *
@@ -148,7 +172,7 @@ class SiteController extends Controller
      *
      * @return mixed
      */
-    public function actionSignup()
+    /*public function actionSignup()
     {
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
@@ -162,7 +186,7 @@ class SiteController extends Controller
         return $this->render('signup', [
             'model' => $model,
         ]);
-    }
+    }*/
 
     /**
      * Requests password reset.
