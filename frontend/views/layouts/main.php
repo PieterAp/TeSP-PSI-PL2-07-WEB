@@ -167,7 +167,6 @@ AppAsset::register($this);
     <div class="container-menu-header-v2 p-t-24">
         <div class="topbar2">
 
-
             <!-- Logo2 -->
             <a href="<?php echo Url::to(['/site/index'])?>" class="logot">
                 <b>
@@ -297,7 +296,7 @@ AppAsset::register($this);
     </div>
     <div class="wrap_header_mobile"     style="max-height: 0;">
         <!-- Logo moblie -->
-        <a href="<?php echo Url::to(['/site/index'])?>" class="logot">
+        <a href="<?php echo Url::to(['/site/index'])?>" style="font-size: 25px">
             <b>
                     <span class="md-red-500">
                         Fix
@@ -393,13 +392,6 @@ AppAsset::register($this);
                                 <!-- Button -->
                                 <a href="cart.html" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
                                     View Cart
-                                </a>
-                            </div>
-
-                            <div class="header-cart-wrapbtn">
-                                <!-- Button -->
-                                <a href="#" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
-                                    Check Out
                                 </a>
                             </div>
                         </div>

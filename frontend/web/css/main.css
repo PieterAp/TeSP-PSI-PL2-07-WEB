@@ -1184,6 +1184,7 @@ li.sale-noti > a {
     height: 50px;
     background: url(../images/icons/round-arrow_drop_down-24px) 96% / 15% no-repeat #eee;
     padding-left: 10px;
+    border-radius: 4px;
 }
 form > input[type=text] {
     width:100%;

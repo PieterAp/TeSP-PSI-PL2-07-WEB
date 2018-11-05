@@ -68,7 +68,7 @@ class AppAsset extends AssetBundle
         'parallax100/parallax100.js',
         'perfect-scrollbar/perfect-scrollbar.min.js',
         'select2/select2.js',
-        'select2/select2.min.js',
+            'select2/select2.min.js',
         //'slick/slick.min.js',
         'sweetalert/sweetalert.min.js',
         'js/common.js'
