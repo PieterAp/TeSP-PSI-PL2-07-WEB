@@ -12,6 +12,15 @@ use common\models\User;
  */
 class UserSearch extends User
 {
+    public $username;
+    public $userNomeProprio;
+    public $userApelido;
+    public $userNIF;
+    public $userDataNasc;
+    public $userMorada;
+    public $email;
+    public $password;
+    public $user_id;
     /**
      * {@inheritdoc}
      */
@@ -20,6 +29,42 @@ class UserSearch extends User
         return [
             [['id', 'status', 'created_at', 'updated_at'], 'integer'],
             [['username', 'auth_key', 'password_hash', 'password_reset_token', 'email'], 'safe'],
+
+            ['username', 'trim'],
+            ['username', 'required'],
+            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
+            ['username', 'string', 'min' => 2, 'max' => 255],
+
+            ['userNomeProprio', 'trim'],
+            ['userNomeProprio', 'required'],
+            ['userNomeProprio', 'string', 'min' => 3, 'max' => 16],
+
+            ['userApelido', 'trim'],
+            ['userApelido', 'required'],
+            ['userApelido', 'string', 'min' => 3, 'max' => 16],
+
+            ['userNIF', 'trim'],
+            ['userNIF', 'required'],
+            ['userNIF', 'unique', 'targetClass' => '\common\models\Userdata', 'message' => 'This NIF has already been taken.'],
+            ['userNIF', 'integer'],
+            ['userNIF', 'string', 'min' => 9, 'max' =>9],
+
+            ['userDataNasc', 'trim'],
+            ['userDataNasc', 'required'],
+            ['userDataNasc', 'date', 'format' => 'php:Y-m-d'],
+
+            ['userMorada', 'trim'],
+            ['userMorada', 'required'],
+            ['userMorada', 'string', 'min' => 9, 'max' => 255],
+
+            ['email', 'trim'],
+            ['email', 'required'],
+            ['email', 'email'],
+            ['email', 'string', 'max' => 255],
+            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
+
+            ['password', 'required'],
+            ['password', 'string', 'min' => 6],
         ];
     }
 

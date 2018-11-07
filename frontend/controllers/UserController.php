@@ -2,8 +2,10 @@
 
 namespace frontend\controllers;
 
+use common\models\Userdata;
 use Yii;
 use common\models\User;
+
 use app\models\UserSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -82,16 +84,25 @@ class UserController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($id)
+    public function actionUpdate()
     {
-        $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        $model = $this->findModel(Yii::$app->user->id);
+        $id = $this->findModel(Yii::$app->user->id);
+        //$load = new UserSearch();
+        $userdata = Userdata::find()->where(['user_id' => $id])->one();
+        //$load ->load(\Yii::$app->request->post());
+        if ($model->load(Yii::$app->request->post()) && $model->save() && $userdata->load(Yii::$app->request->post()) && $userdata->save()) {
+
+            //if ($load->validate()){
+
+            //}
+            return $this->redirect(['update']);
         }
 
         return $this->render('update', [
             'model' => $model,
+            'userdata' => $userdata,
         ]);
     }
 

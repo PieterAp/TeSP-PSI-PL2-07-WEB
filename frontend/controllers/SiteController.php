@@ -72,18 +72,7 @@ class SiteController extends Controller
     {
         return $this->render('index');
     }
-    public function actionMyacc()
-    {
-        $query = Post::find()->where(['user_id' => Yii::$app->user->id]);
-        $dataProvider = new ActiveDataProvider(['query' => $query->from('comments'),'pagination' => ['pageSize' => 20,],    ]);
 
-        return $this->render('view',[
-            'model' => $this->findModel($id),
-            'dataProvider' => $dataProvider,
-        ]);
-
-        return $this->render('myacc');
-    }
     /**
      * Logs in a user.
      *
