@@ -6,6 +6,14 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use yii\jui\DatePicker;
+
+DatePicker::widget([
+    'model' => 'datePicker',
+    'attribute' => 'from_date',
+    'language' => 'en',
+    'dateFormat' => 'php:Y-m-d',
+]);
 
 $this->title = 'Signup';
 $this->params['breadcrumbs'][] = $this->title;
@@ -18,17 +26,20 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="col-lg-5">
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
-
                 <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+                <?= $form->field($model, 'firstname') ?>
+
+                <?= $form->field($model, 'NIF') ?>
+                <?= $form->field($model, 'morada') ?>
+                <?= $form->field($model, 'dataNasc')->widget(\yii\jui\DatePicker::class, [
+
+                    ])?>
 
                 <?= $form->field($model, 'email') ?>
-
                 <?= $form->field($model, 'password')->passwordInput() ?>
-
                 <div class="form-group">
                     <?= Html::submitButton('Signup', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
                 </div>
-
             <?php ActiveForm::end(); ?>
         </div>
     </div>
