@@ -52,6 +52,7 @@ AppAsset::register($this);
             )
             . Html::endForm()
             . '</li>';
+        $menuItems[] = ['label' => 'myacc', 'url' => ['/site/myacc']];
     }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],

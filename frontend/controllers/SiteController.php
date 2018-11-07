@@ -5,6 +5,9 @@ use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
+use app\models\Userdata;
+use app\models\UserSearch;
+use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
@@ -12,7 +15,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
-
+use common\models\User;
 /**
  * Site controller
  */
@@ -26,13 +29,8 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup'],
+                'only' => ['logout'],
                 'rules' => [
-                    [
-                        'actions' => ['signup'],
-                        'allow' => true,
-                        'roles' => ['?'],
-                    ],
                     [
                         'actions' => ['logout'],
                         'allow' => true,
@@ -74,7 +72,18 @@ class SiteController extends Controller
     {
         return $this->render('index');
     }
+    public function actionMyacc()
+    {
+        $query = Post::find()->where(['user_id' => Yii::$app->user->id]);
+        $dataProvider = new ActiveDataProvider(['query' => $query->from('comments'),'pagination' => ['pageSize' => 20,],    ]);
 
+        return $this->render('view',[
+            'model' => $this->findModel($id),
+            'dataProvider' => $dataProvider,
+        ]);
+
+        return $this->render('myacc');
+    }
     /**
      * Logs in a user.
      *
@@ -88,6 +97,7 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+
             return $this->goBack();
         } else {
             $model->password = '';
@@ -109,7 +119,6 @@ class SiteController extends Controller
 
         return $this->goHome();
     }
-
     /**
      * Displays contact page.
      *
@@ -132,7 +141,6 @@ class SiteController extends Controller
             ]);
         }
     }
-
     /**
      * Displays about page.
      *
@@ -142,7 +150,6 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
-
     /**
      * Signs user up.
      *
