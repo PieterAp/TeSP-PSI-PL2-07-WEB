@@ -52,7 +52,7 @@ AppAsset::register($this);
             )
             . Html::endForm()
             . '</li>';
-        $menuItems[] = ['label' => 'myacc', 'url' => ['/site/myacc']];
+        $menuItems[] = ['label' => 'myacc', 'url' => ['/user/update']];
     }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],

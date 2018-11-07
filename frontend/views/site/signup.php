@@ -26,13 +26,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="row">
         <div class="col-lg-5">
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
-                <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
-                <?= $form->field($model, 'firstname') ?>
+                <?= $form->field($model, 'username')->textInput() ?>
 
-                <?= $form->field($model, 'NIF') ?>
-                <?= $form->field($model, 'morada') ?>
-                <?= $form->field($model, 'dataNasc')->widget(\yii\jui\DatePicker::class, [
-
+                <?= $form->field($model, 'userNomeProprio') ?>
+                <?= $form->field($model, 'userNomeProprio') ?>
+                <?= $form->field($model, 'userNIF') ?>
+                <?= $form->field($model, 'userMorada') ?>
+                <?= $form->field($model, 'userDataNasc')->widget(\yii\jui\DatePicker::class, [
+                    'dateFormat' => 'yyyy-MM-dd',
                     ])?>
 
                 <?= $form->field($model, 'email') ?>
