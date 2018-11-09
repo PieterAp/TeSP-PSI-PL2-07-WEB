@@ -7,6 +7,9 @@ use Yii;
 use common\models\User;
 
 use app\models\UserSearch;
+use yii\debug\models\search\Debug;
+use yii\helpers\VarDumper;
+use yii\log\Logger;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -86,17 +89,18 @@ class UserController extends Controller
      */
     public function actionUpdate()
     {
-
         $model = $this->findModel(Yii::$app->user->id);
-        $id = $this->findModel(Yii::$app->user->id);
-        //$load = new UserSearch();
+        $id = Yii::$app->user->id;
         $userdata = Userdata::find()->where(['user_id' => $id])->one();
-        //$load ->load(\Yii::$app->request->post());
-        if ($model->load(Yii::$app->request->post()) && $model->save() && $userdata->load(Yii::$app->request->post()) && $userdata->save()) {
+        //$user->setPassword(Yii::$app->request->post('password'));
 
-            //if ($load->validate()){
-
-            //}
+        if ($model->load(Yii::$app->request->post()) && $userdata->load(Yii::$app->request->post())) {
+            if (!$model->validate()){
+                return null;
+            }
+            $model->setPassword(Yii::$app->request->post('password'));
+            $model->save();
+            $userdata->save();
             return $this->redirect(['update']);
         }
 

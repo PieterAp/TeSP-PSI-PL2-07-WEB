@@ -8,6 +8,7 @@ use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\jui\DatePicker;
 
+
 DatePicker::widget([
     'model' => 'datePicker',
     'attribute' => 'from_date',
@@ -29,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($model, 'username')->textInput() ?>
 
                 <?= $form->field($model, 'userNomeProprio') ?>
-                <?= $form->field($model, 'userNomeProprio') ?>
+                <?= $form->field($model, 'userApelido') ?>
                 <?= $form->field($model, 'userNIF') ?>
                 <?= $form->field($model, 'userMorada') ?>
                 <?= $form->field($model, 'userDataNasc')->widget(\yii\jui\DatePicker::class, [

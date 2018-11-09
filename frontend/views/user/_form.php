@@ -26,8 +26,10 @@ DatePicker::widget([
     <?= $form->field($userdata, 'userDataNasc')->widget(\yii\jui\DatePicker::class, [
         'dateFormat' => 'yyyy-MM-dd',
     ])?>
-    <?= $form->field($userdata, 'userMorada')->textInput() ?>
-    <?php /*<?= $form->field($model, 'password')->passwordInput() */ echo 'password'?>
+
+    <?= Html::passwordInput('password') ; ?>
+    
+
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
