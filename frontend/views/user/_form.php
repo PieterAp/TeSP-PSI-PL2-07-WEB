@@ -19,21 +19,17 @@ DatePicker::widget([
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'username')->textInput() ?>
+    <?= $form->field($model, 'username')->textInput(['readonly'=> true]) ?>
     <?= $form->field($userdata, 'userNomeProprio')->textInput() ?>
     <?= $form->field($userdata, 'userApelido')->textInput() ?>
     <?= $form->field($userdata, 'userNIF')->textInput() ?>
     <?= $form->field($userdata, 'userDataNasc')->widget(\yii\jui\DatePicker::class, [
         'dateFormat' => 'yyyy-MM-dd',
     ])?>
-
-    <?= Html::passwordInput('password') ; ?>
-    
-
+    <?= Html::passwordInput('password','',['class' => 'form-control']) ; ?>
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
-
     <?php ActiveForm::end(); ?>
 
 </div>

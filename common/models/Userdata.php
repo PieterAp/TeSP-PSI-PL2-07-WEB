@@ -23,13 +23,13 @@ use Yii;
 class Userdata extends \yii\db\ActiveRecord
 {
     /**
+     *
      * {@inheritdoc}
      */
     public static function tableName()
     {
         return 'userdata';
     }
-
     /**
      * {@inheritdoc}
      */
@@ -41,8 +41,32 @@ class Userdata extends \yii\db\ActiveRecord
             [['userDataNasc'], 'safe'],
             [['userEstado'], 'string'],
             [['userNomeProprio', 'userApelido'], 'string', 'max' => 16],
-            [['userMorada'], 'string', 'max' => 45],
+            [['userMorada'], 'string', 'max' => 255],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+
+
+            ['userNomeProprio', 'trim'],
+            ['userNomeProprio', 'required'],
+            ['userNomeProprio', 'string', 'min' => 3, 'max' => 16],
+
+            ['userApelido', 'trim'],
+            ['userApelido', 'required'],
+            ['userApelido', 'string', 'min' => 3, 'max' => 16],
+
+            ['userNIF', 'trim'],
+            ['userNIF', 'required'],
+            ['userNIF', 'unique', 'targetClass' => '\common\models\Userdata', 'message' => 'This NIF has already been taken.'],
+            ['userNIF', 'integer'],
+            ['userNIF', 'string', 'min' => 9, 'max' =>9],
+
+            ['userDataNasc', 'trim'],
+            ['userDataNasc', 'required'],
+            ['userDataNasc', 'date', 'format' => 'php:Y-m-d'],
+
+            ['userMorada', 'trim'],
+            ['userMorada', 'required'],
+            ['userMorada', 'string', 'min' => 9, 'max' => 255],
+
         ];
     }
 

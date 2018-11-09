@@ -7,7 +7,6 @@ use yii\widgets\ActiveForm;
 /* @var $model app\models\UserSearch */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-
 <div class="user-search">
 
     <?php $form = ActiveForm::begin([
