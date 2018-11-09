@@ -19,6 +19,7 @@ use yii\filters\VerbFilter;
  */
 class UserController extends Controller
 {
+    
     /**
      * {@inheritdoc}
      */
@@ -94,11 +95,16 @@ class UserController extends Controller
         $userdata = Userdata::find()->where(['user_id' => $id])->one();
         //$user->setPassword(Yii::$app->request->post('password'));
 
-        if ($model->load(Yii::$app->request->post()) && $userdata->load(Yii::$app->request->post())) {
-            if (!$model->validate()){
-                return null;
+        if ($userdata->load(Yii::$app->request->post())) {
+            if (!$userdata->validate()){
+                $errors = $model->errors;
+                //return null
+                return $this->redirect(['update'],$errors);
             }
-            $model->setPassword(Yii::$app->request->post('password'));
+            if(Yii::$app->request->post('password') != ''){
+                $model->setPassword(Yii::$app->request->post('password'));
+            }
+
             $model->save();
             $userdata->save();
             return $this->redirect(['update']);
