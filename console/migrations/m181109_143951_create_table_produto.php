@@ -12,7 +12,7 @@ class m181109_143951_create_table_produto extends Migration
         }
 
         $this->createTable('{{%produto}}', [
-            'idprodutos' => $this->integer()->notNull(),
+            'idprodutos' => $this->primaryKey(),
             'produtoNome' => $this->string()->notNull(),
             'produtoCodigo' => $this->string()->notNull(),
             'produtoDataCriacao' => $this->dateTime()->notNull(),
@@ -36,7 +36,6 @@ class m181109_143951_create_table_produto extends Migration
             'produtoImagem4' => $this->string(),
         ], $tableOptions);
 
-        $this->addPrimaryKey('PRIMARYKEY', '{{%produto}}', ['idprodutos', 'categoria_idcategorias']);
         $this->createIndex('fk_produto_categoria1_idx', '{{%produto}}', 'categoria_idcategorias');
         $this->addForeignKey('fk_produto_categoria1', '{{%produto}}', 'categoria_idcategorias', '{{%categoria}}', 'idcategorias', 'NO ACTION', 'NO ACTION');
     }
