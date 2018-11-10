@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m181109_143949_create_table_categoria extends Migration
+class m181109_143950_create_table_categoria extends Migration
 {
     public function up()
     {
