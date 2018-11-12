@@ -25,8 +25,10 @@ DatePicker::widget([
     <?= $form->field($userdata, 'userNIF')->textInput() ?>
     <?= $form->field($userdata, 'userDataNasc')->widget(\yii\jui\DatePicker::class, [
         'dateFormat' => 'yyyy-MM-dd',
-    ])?>
-    <?= Html::passwordInput('password','',['class' => 'form-control']) ; ?>
+    ])->textInput()?>
+    
+    <label class="control-label">Password</label>
+    <?= Html::passwordInput('password','',['class' => 'form-control','min' => '6']) ; ?>
     <div class="form-group">
         <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
     </div>
