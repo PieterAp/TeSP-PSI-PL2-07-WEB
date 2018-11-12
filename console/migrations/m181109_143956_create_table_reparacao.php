@@ -2,7 +2,7 @@
 
 use yii\db\Migration;
 
-class m181109_143949_create_table_reparacao extends Migration
+class m181109_143956_create_table_reparacao extends Migration
 {
     public function up()
     {
