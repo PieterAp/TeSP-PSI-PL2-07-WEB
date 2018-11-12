@@ -76,14 +76,14 @@ class Userdata extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'iduser' => 'Iduser',
-            'userNomeProprio' => 'User Nome Proprio',
-            'userApelido' => 'User Apelido',
-            'userNIF' => 'User Nif',
-            'userDataNasc' => 'User Data Nasc',
-            'userEstado' => 'User Estado',
-            'userMorada' => 'User Morada',
-            'user_id' => 'User ID',
+            'iduser' => 'ID',
+            'userNomeProprio' => 'First name',
+            'userApelido' => 'Last name',   
+            'userNIF' => 'NIF',
+            'userDataNasc' => 'Birthday',
+            'userEstado' => 'Estate',
+            'userMorada' => 'Adress',
+            'user_id' => 'USER_ID',
         ];
     }
 

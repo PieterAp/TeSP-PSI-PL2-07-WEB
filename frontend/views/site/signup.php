@@ -28,14 +28,13 @@ $this->params['breadcrumbs'][] = $this->title;
         <div class="col-lg-5">
             <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
                 <?= $form->field($model, 'username')->textInput() ?>
-
-                <?= $form->field($model, 'userNomeProprio') ?>
-                <?= $form->field($model, 'userApelido') ?>
-                <?= $form->field($model, 'userNIF') ?>
-                <?= $form->field($model, 'userMorada') ?>
+                <?= $form->field($model, 'userNomeProprio')->textInput()->label('First name')  ?>
+                <?= $form->field($model, 'userApelido')->textInput()->label('Last name')  ?>
+                <?= $form->field($model, 'userNIF')->textInput()->label('NIF')  ?>
+                <?= $form->field($model, 'userMorada')->textInput()->label('Adress')  ?>
                 <?= $form->field($model, 'userDataNasc')->widget(\yii\jui\DatePicker::class, [
                     'dateFormat' => 'yyyy-MM-dd',
-                    ])?>
+                    ])->textInput()->label('Birthday') ?>
 
                 <?= $form->field($model, 'email') ?>
                 <?= $form->field($model, 'password')->passwordInput() ?>
