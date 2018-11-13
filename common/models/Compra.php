@@ -11,6 +11,7 @@ use Yii;
  * @property string $compraData
  * @property int $user_iduser
  * @property double $compraValor
+ * @property int $compraEstado
  *
  * @property Userdata $userIduser
  * @property Compraproduto[] $compraprodutos
@@ -34,7 +35,7 @@ class Compra extends \yii\db\ActiveRecord
         return [
             [['compraData', 'user_iduser', 'compraValor'], 'required'],
             [['compraData'], 'safe'],
-            [['user_iduser'], 'integer'],
+            [['user_iduser', 'compraEstado'], 'integer'],
             [['compraValor'], 'number'],
             [['user_iduser'], 'exist', 'skipOnError' => true, 'targetClass' => Userdata::className(), 'targetAttribute' => ['user_iduser' => 'iduser']],
         ];
@@ -50,6 +51,7 @@ class Compra extends \yii\db\ActiveRecord
             'compraData' => 'Compra Data',
             'user_iduser' => 'User Iduser',
             'compraValor' => 'Compra Valor',
+            'compraEstado' => 'Compra Estado',
         ];
     }
 
