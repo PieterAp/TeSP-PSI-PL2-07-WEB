@@ -1,11 +1,13 @@
 <?php
 namespace backend\controllers;
 
+use common\models\Userdata;
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
+use common\models\User;
 
 /**
  * Site controller
@@ -80,6 +82,7 @@ class SiteController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             $auth = \Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
+            $userdata = new Userdata;
             $role= '';
             if (array_key_exists ('admin' , $auth)){
                 $role = 'admin';
@@ -92,6 +95,12 @@ class SiteController extends Controller
             }
 
             if (($role != 'admin') && ($role != 'funcionario')){
+                Yii::$app->user->logout();
+                return $this->render('index');
+            }
+            $identity = User::findOne(['username' => $model->username]);
+            $user = Userdata::findOne(['user_id' => $identity->id]);
+            if ($user->userVisibilidade == '0'){
                 Yii::$app->user->logout();
                 return $this->render('index');
             }
@@ -114,18 +123,5 @@ class SiteController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
-    }
-
-    public function getRoleUserOne(){
-        $auth = \Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
-        if (array_key_exists ('admin' , $auth)){
-            return 'admin';
-        }
-        if (array_key_exists ('cliente' , $auth)){
-            return 'admin';
-        }
-        if (array_key_exists ('funcionario' , $auth)){
-            return 'funcionario';
-        }
     }
 }

@@ -27,12 +27,12 @@ class UserController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['create', 'index'],
+                        'actions' => ['create', 'index','view'],
                         'allow' => true,
                         'roles' => ['admin', 'funcionario'],
                     ],
                     [
-                        'actions' => ['delete'],
+                        'actions' => ['delete','update'],
                         'allow' => true,
                         'roles' => ['admin'],
                     ],
@@ -54,29 +54,19 @@ class UserController extends Controller
      */
     public function actionIndex()
     {
-        $searchModelUser = new User();
-        $searchModelUserdata = new Userdata();
+        $searchModel = new UserSearch();
+
         $rows = (new Query())
             ->select(['id','username', 'userNomeProprio', 'userApelido', 'userVisibilidade'])
             ->from('user')
             ->innerJoin('userdata','user_id=id');
         $command = $rows->createCommand();
         $data = $command->queryAll();
+        $dataProvider = new ActiveDataProvider(['query' => $rows]);
 
-        $provider = new ActiveDataProvider([
-            'query' => $data,
-            'pagination' => [
-                'pageSize' => 10,
-            ],
-            'sort' => [
-                'defaultOrder' => [
-                    'created_at' => SORT_DESC,
-                    'title' => SORT_ASC,
-                ]
-            ],
-        ]);
         return $this->render('index', [
-            'dataProvider' => $provider,
+            'dataProvider' => $dataProvider,
+            'searchModel' => $searchModel,
         ]);
     }
 
@@ -88,8 +78,11 @@ class UserController extends Controller
      */
     public function actionView($id)
     {
+        $userdata = Userdata::find()->where(['user_id' => $id+1])->one();
+
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $this->findModel($id+1),
+            'userdata' => $userdata,
         ]);
     }
 
@@ -157,14 +150,21 @@ class UserController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
+        $userdata = Userdata::find()->where(['user_id' => $id])->one();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        //$user->setPassword(Yii::$app->request->post('password'));
+
+        if (Yii::$app->request->post()) {
+            $userdata->load(Yii::$app->request->post());
+            $userdata->save(false);
+            return $this->redirect(['index']);
         }
 
         return $this->render('update', [
             'model' => $model,
+            'userdata' => $userdata,
         ]);
+
     }
 
     /**
@@ -174,15 +174,23 @@ class UserController extends Controller
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete()
+    public function actionDelete($id)
     {
-        $userdata = new Userdata();
-        $id=36;
-        $identity = Userdata::findOne(['user_id' => $id]);
-        $userdata->user_id =$identity->id;
-        $userdata->user_id = $identity->user_id;
-        var_dump($identity);
-        die();
+        $auth = \Yii::$app->authManager->getRolesByUser($id+1);
+        $userdata = new Userdata;
+        $role= '';
+        if (array_key_exists ('admin' , $auth)){
+            $role = 'admin';
+        }
+
+        if (($role != 'admin') ){
+            $userdata = new Userdata();
+            $userdata = Userdata::findOne(['iduser' => $id+1]);
+            $userdata->userVisibilidade = 0;
+            $userdata->save(false);
+            return $this->redirect(['index']);
+        }
+
         return $this->redirect(['index']);
     }
 
