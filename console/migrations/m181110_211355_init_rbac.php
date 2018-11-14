@@ -219,9 +219,9 @@ class m181110_211355_init_rbac extends Migration
 
 
         //region assignRole (Assign roles to specific users (only users that already exist in the database))
-        $auth->assign($admin, 1);
+        /*$auth->assign($admin, 1);
         $auth->assign($funcionario, 2);
-        $auth->assign($cliente, 3);
+        $auth->assign($cliente, 3);*/
         //endregion
     }
 

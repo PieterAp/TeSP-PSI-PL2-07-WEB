@@ -14,6 +14,7 @@ use Yii;
  * @property string $userDataNasc
  * @property string $userEstado
  * @property string $userMorada
+ * @property int $userVisibilidade
  * @property int $user_id
  *
  * @property Compra[] $compras
@@ -42,6 +43,8 @@ class Userdata extends \yii\db\ActiveRecord
             [['userEstado'], 'string'],
             [['userNomeProprio', 'userApelido'], 'string', 'max' => 16],
             [['userMorada'], 'string', 'max' => 255],
+            [['userVisibilidade'], 'integer'],
+
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
 
 

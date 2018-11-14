@@ -30,6 +30,7 @@ class SiteController extends Controller
                         'allow' => true,
                         'roles' => ['@'],
                     ],
+
                 ],
             ],
             'verbs' => [
@@ -74,18 +75,35 @@ class SiteController extends Controller
             return $this->goHome();
         }
 
+
         $model = new LoginForm();
+
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            $auth = \Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
+            $role= '';
+            if (array_key_exists ('admin' , $auth)){
+                $role = 'admin';
+            }
+            if (array_key_exists ('cliente' , $auth)){
+                $role = 'cliente';
+            }
+            if (array_key_exists ('funcionario' , $auth)){
+               $role = 'funcionario';
+            }
+
+            if (($role != 'admin') && ($role != 'funcionario')){
+                Yii::$app->user->logout();
+                return $this->render('index');
+            }
+
             return $this->goBack();
         } else {
             $model->password = '';
-
             return $this->render('login', [
                 'model' => $model,
             ]);
         }
     }
-
     /**
      * Logout action.
      *
@@ -96,5 +114,18 @@ class SiteController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
+    }
+
+    public function getRoleUserOne(){
+        $auth = \Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
+        if (array_key_exists ('admin' , $auth)){
+            return 'admin';
+        }
+        if (array_key_exists ('cliente' , $auth)){
+            return 'admin';
+        }
+        if (array_key_exists ('funcionario' , $auth)){
+            return 'funcionario';
+        }
     }
 }

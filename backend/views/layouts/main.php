@@ -49,6 +49,9 @@ AppAsset::register($this);
             )
             . Html::endForm()
             . '</li>';
+        $menuItems[] = ['label' => 'Create employee', 'url' => ['/user/create']];
+        $menuItems[] = ['label' => 'view employee', 'url' => ['/user/index']];
+        $menuItems[] = ['label' => 'delete employees', 'url' => ['/user/delete']];
     }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],

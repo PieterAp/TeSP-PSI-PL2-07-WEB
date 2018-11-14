@@ -1,23 +1,31 @@
 <?php
 
-use yii\helpers\Html;
-use yii\widgets\ActiveForm;
-
 /* @var $this yii\web\View */
-/* @var $model common\models\User */
-/* @var $form yii\widgets\ActiveForm */
+/* @var $form yii\bootstrap\ActiveForm */
+/* @var $model \frontend\models\SignupForm */
+
+use yii\helpers\Html;
+use yii\bootstrap\ActiveForm;
+
 ?>
+<div class="site-signup">
+    <p>Please fill out the following fields to create employee:</p>
 
-<div class="user-form">
+    <div class="row">
+        <div class="col-lg-5">
+            <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
+            <?= $form->field($model, 'username')->textInput() ?>
 
-    <?php $form = ActiveForm::begin(); ?>
+            <?= $form->field($userdata, 'userNomeProprio') ?>
+            <?= $form->field($userdata, 'userApelido') ?>
 
-    <?= $form->field($model, 'status')->textInput() ?>
-
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+            <label class="control-label">Password</label>
+            <?= Html::passwordInput('password','',['class' => 'form-control']) ; ?>
+            <br>
+            <div class="form-group">
+                <?= Html::submitButton('create', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
+            </div>
+            <?php ActiveForm::end(); ?>
+        </div>
     </div>
-
-    <?php ActiveForm::end(); ?>
-
 </div>
