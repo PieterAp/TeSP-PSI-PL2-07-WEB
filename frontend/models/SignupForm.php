@@ -79,6 +79,7 @@ class SignupForm extends Model
         $user->email = $this->email;
         $user->setPassword($this->password);
         $user->generateAuthKey();
+
         $user->save(false);
 
         $userdata = new Userdata();
@@ -88,8 +89,12 @@ class SignupForm extends Model
         $userdata->userDataNasc = $this->userDataNasc;
         $userdata->userMorada =$this->userMorada;
         $identity = User::findOne(['username' => $user->username]);
-
         $userdata->user_id =$identity->id;
+
+        $auth = \Yii::$app->authManager;
+        $authorRole = $auth->getRole('cliente');
+        $auth->assign($authorRole, $user->getId());
+
         $userdata->save(false);
         return $user;
 

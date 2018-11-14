@@ -12,7 +12,7 @@ class m181109_143952_create_table_userdata extends Migration
         }
 
         $this->createTable('{{%userdata}}', [
-            'iduser' => $this->integer()->notNull(),
+            'iduser' => $this->primaryKey(),
             'userNomeProprio' => $this->string()->notNull(),
             'userApelido' => $this->string()->notNull(),
             'userNIF' => $this->integer(),
@@ -23,7 +23,6 @@ class m181109_143952_create_table_userdata extends Migration
             'userVisibilidade' => $this->tinyInteger()->defaultValue('1'),
         ], $tableOptions);
 
-        $this->addPrimaryKey('PRIMARYKEY', '{{%userdata}}', ['iduser', 'user_id']);
         $this->createIndex('fk_userdata_user1_idx', '{{%userdata}}', 'user_id');
         $this->addForeignKey('fk_userdata_user1', '{{%userdata}}', 'user_id', '{{%user}}', 'id', 'NO ACTION', 'NO ACTION');
     }
