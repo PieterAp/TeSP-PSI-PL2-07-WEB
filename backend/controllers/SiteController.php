@@ -96,13 +96,14 @@ class SiteController extends Controller
 
             if (($role != 'admin') && ($role != 'funcionario')){
                 Yii::$app->user->logout();
-                return $this->render('index');
+                return $this->render('notallowed');
             }
             $identity = User::findOne(['username' => $model->username]);
             $user = Userdata::findOne(['user_id' => $identity->id]);
             if ($user->userVisibilidade == '0'){
                 Yii::$app->user->logout();
-                return $this->render('index');
+
+                return $this->render('disabled_error');
             }
 
             return $this->goBack();
