@@ -1,11 +1,11 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\Userdata;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
-use app\models\Userdata;
 use app\models\UserSearch;
 use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
@@ -86,7 +86,12 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-
+            $identity = User::findOne(['username' => $model->username]);
+            $user = Userdata::findOne(['user_id' => $identity->id]);
+            if ($user->userVisibilidade == '0'){
+                Yii::$app->user->logout();
+                return $this->render('disabled_error');
+            }
             return $this->goBack();
         } else {
             $model->password = '';

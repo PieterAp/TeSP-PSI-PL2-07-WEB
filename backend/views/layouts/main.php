@@ -51,6 +51,8 @@ AppAsset::register($this);
             . '</li>';
         $menuItems[] = ['label' => 'Create employee', 'url' => ['/user/create']];
         $menuItems[] = ['label' => 'view employee', 'url' => ['/user/index']];
+        $menuItems[] = ['label' => 'Create employee', 'url' => ['/user/create']];
+        $menuItems[] = ['label' => 'view employee', 'url' => ['/user/index']];
     }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
