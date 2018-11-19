@@ -29,15 +29,15 @@ class m181109_143951_create_table_produto extends Migration
             'produtoDescricao8' => $this->string(),
             'produtoDescricao9' => $this->string(),
             'produtoDescricao10' => $this->string(),
-            'categoria_idcategorias' => $this->integer()->notNull(),
+            'categoria_child_id' => $this->integer()->notNull(),
             'produtoImagem1' => $this->string()->notNull(),
             'produtoImagem2' => $this->string(),
             'produtoImagem3' => $this->string(),
             'produtoImagem4' => $this->string(),
         ], $tableOptions);
-
-        $this->createIndex('fk_produto_categoria1_idx', '{{%produto}}', 'categoria_idcategorias');
-        $this->addForeignKey('fk_produto_categoria1', '{{%produto}}', 'categoria_idcategorias', '{{%categoria}}', 'idcategorias', 'NO ACTION', 'NO ACTION');
+        
+        $this->createIndex('fk_produto_categoria1_idx', '{{%produto}}', 'categoria_child_id');
+        $this->addForeignKey('fk_produto_categoria1', '{{%produto}}', 'categoria_child_id', '{{%categoria_child}}', 'idchild', 'NO ACTION', 'NO ACTION');
     }
 
     public function down()
