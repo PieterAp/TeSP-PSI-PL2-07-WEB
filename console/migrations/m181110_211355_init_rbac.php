@@ -88,6 +88,12 @@ class m181110_211355_init_rbac extends Migration
         $auth->add($deleteCliente);
         //endregion
 
+        //region createPermission Funcionario
+        $createFuncionario = $auth->createPermission('createFuncionario');
+        $createFuncionario->description = 'Criar um funcionario';
+        $auth->add($createFuncionario);
+        //endregion
+
 
         //region createPermission Produto
         $createProduto = $auth->createPermission('createProduto');
@@ -195,6 +201,7 @@ class m181110_211355_init_rbac extends Migration
         $auth->addChild($admin, $deleteProduto);
         $auth->addChild($admin, $deleteCampanha);
         $auth->addChild($admin, $deleteCategoria);
+        $auth->addChild($admin, $createFuncionario);
         //endregion
 
 
