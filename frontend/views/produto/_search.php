@@ -49,7 +49,7 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'produtoDescricao10') ?>
 
-    <?php // echo $form->field($model, 'categoria_idcategorias') ?>
+    <?php // echo $form->field($model, 'categoria_child_id') ?>
 
     <?php // echo $form->field($model, 'produtoImagem1') ?>
 

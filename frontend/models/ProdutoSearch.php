@@ -18,7 +18,7 @@ class ProdutoSearch extends Produto
     public function rules()
     {
         return [
-            [['idprodutos', 'produtoStock', 'categoria_idcategorias'], 'integer'],
+            [['idprodutos', 'produtoStock', 'categoria_child_id'], 'integer'],
             [['produtoNome', 'produtoCodigo', 'produtoDataCriacao', 'produtoMarca', 'produtoDescricao1', 'produtoDescricao2', 'produtoDescricao3', 'produtoDescricao4', 'produtoDescricao5', 'produtoDescricao6', 'produtoDescricao7', 'produtoDescricao8', 'produtoDescricao9', 'produtoDescricao10', 'produtoImagem1', 'produtoImagem2', 'produtoImagem3', 'produtoImagem4'], 'safe'],
             [['produtoPreco'], 'number'],
         ];
@@ -64,7 +64,7 @@ class ProdutoSearch extends Produto
             'produtoDataCriacao' => $this->produtoDataCriacao,
             'produtoStock' => $this->produtoStock,
             'produtoPreco' => $this->produtoPreco,
-            'categoria_idcategorias' => $this->categoria_idcategorias,
+            'categoria_child_id' => $this->categoria_child_id,
         ]);
 
         $query->andFilterWhere(['like', 'produtoNome', $this->produtoNome])
