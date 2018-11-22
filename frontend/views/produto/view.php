@@ -6,7 +6,7 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model common\models\Produto */
 
-$this->title = $model->idprodutos;
+$this->title = $model->produtoNome;
 $this->params['breadcrumbs'][] = ['label' => 'Produtos', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -15,8 +15,8 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
 
     <p>
-        <?= Html::a('Update', ['update', 'idprodutos' => $model->idprodutos, 'categoria_idcategorias' => $model->categoria_idcategorias], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'idprodutos' => $model->idprodutos, 'categoria_idcategorias' => $model->categoria_idcategorias], [
+        <?= Html::a('Update', ['update', 'id' => $model->idprodutos], ['class' => 'btn btn-primary']) ?>
+        <?= Html::a('Delete', ['delete', 'id' => $model->idprodutos], [
             'class' => 'btn btn-danger',
             'data' => [
                 'confirm' => 'Are you sure you want to delete this item?',
@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'produtoDescricao8',
             'produtoDescricao9',
             'produtoDescricao10',
-            'categoria_idcategorias',
+            'categoria_child_id',
             'produtoImagem1',
             'produtoImagem2',
             'produtoImagem3',

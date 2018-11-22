@@ -44,8 +44,6 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'produtoDescricao10')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'categoria_idcategorias')->textInput() ?>
-
     <?= $form->field($model, 'produtoImagem1')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'produtoImagem2')->textInput(['maxlength' => true]) ?>
