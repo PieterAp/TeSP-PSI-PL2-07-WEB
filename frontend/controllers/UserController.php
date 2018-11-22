@@ -8,6 +8,7 @@ use common\models\User;
 
 use app\models\UserSearch;
 use yii\debug\models\search\Debug;
+use yii\filters\AccessControl;
 use yii\helpers\VarDumper;
 use yii\log\Logger;
 use yii\web\Controller;
@@ -26,6 +27,17 @@ class UserController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index','historic'],
+                'rules' => [
+                    [
+                        'actions' => ['index','historic'],
+                        'allow' => true,
+                        'roles' => ['@'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -94,12 +106,19 @@ class UserController extends Controller
         $id = Yii::$app->user->id;
         $userdata = Userdata::find()->where(['user_id' => $id])->one();
         //$user->setPassword(Yii::$app->request->post('password'));
-
+        
         if ($userdata->load(Yii::$app->request->post())) {
-            if (!$userdata->validate()){
-                $errors = $model->errors;
+            if ($userdata->validate($errors)){
+
+                var_dump($model->errors);
+                var_dump($model);
+                die();
                 //return null
-                return $this->redirect(['update'],$errors);
+                return $this->redirect(['update'],$model);
+            }else{
+                $errors = $model->errors;
+                var_dump($model->errors);
+                die();
             }
             if(Yii::$app->request->post('password') != ''){
                 $model->setPassword(Yii::$app->request->post('password'));

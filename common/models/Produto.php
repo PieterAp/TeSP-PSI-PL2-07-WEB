@@ -69,13 +69,13 @@ class Produto extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idprodutos' => 'Idprodutos',
-            'produtoNome' => 'Produto Nome',
-            'produtoCodigo' => 'Produto Codigo',
-            'produtoDataCriacao' => 'Produto Data Criacao',
-            'produtoStock' => 'Produto Stock',
-            'produtoPreco' => 'Produto Preco',
-            'produtoMarca' => 'Produto Marca',
+            'idprodutos' => 'ID',
+            'produtoNome' => 'Name',
+            'produtoCodigo' => 'Code',
+            'produtoDataCriacao' => 'Date',
+            'produtoStock' => 'Stock',
+            'produtoPreco' => 'Price',
+            'produtoMarca' => 'Brand',
             'produtoDescricao1' => 'Produto Descricao1',
             'produtoDescricao2' => 'Produto Descricao2',
             'produtoDescricao3' => 'Produto Descricao3',

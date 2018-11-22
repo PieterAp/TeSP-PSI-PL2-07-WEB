@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ProdutoSearch */
@@ -48,7 +49,16 @@ $this->params['breadcrumbs'][] = $this->title;
             //'produtoImagem3',
             //'produtoImagem4',
 
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'header' => 'Action',
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{view} {add} {delete}',  // the default buttons + your custom button
+                'buttons' => [
+                    'add' =>  function ($key, $model) {
+                        return Html::a('', ['compra/create', 'id' => $model->idprodutos], ['class' => 'glyphicon glyphicon-plus']);
+                    }
+                ]
+            ]
         ],
     ]); ?>
 </div>
