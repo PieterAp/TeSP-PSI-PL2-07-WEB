@@ -2,9 +2,14 @@
 
 namespace backend\controllers;
 
+use common\models\Compraproduto;
+use common\models\Produto;
 use Yii;
 use common\models\Compra;
 use app\models\CompraSearch;
+use yii\data\ActiveDataProvider;
+use yii\db\Query;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -20,6 +25,17 @@ class CompraController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index','historic'],
+                'rules' => [
+                    [
+                        'actions' => ['historic'],
+                        'allow' => true,
+                        'roles' => ['admin','funcionario'],
+                    ],
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -43,6 +59,21 @@ class CompraController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+    public function actionHistoric()
+    {
+        $rows = (new Query())
+            ->select(['userNomeProprio','userApelido','produto_preco','compraData','produtoNome','produtoMarca'])
+            ->from('userdata')
+            ->innerJoin('compra','user_iduser=iduser')
+            ->innerJoin('compraproduto','compra_idcompras=idcompras')
+            ->innerJoin('produto','produto_idprodutos=idprodutos')
+            ->where(['compraEstado' => 0]);
+
+        $dataProvider = new ActiveDataProvider(['query' => $rows]);
+        return $this->render('historic',[
+            'dataProvider' => $dataProvider,
+        ]);
+    }
 
     /**
      * Displays a single Compra model.
@@ -62,17 +93,32 @@ class CompraController extends Controller
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id)
     {
-        $model = new Compra();
+        $compra = new Compra();
+        $produto = Produto::findOne($id);
+        $compra = Compra::find()
+            ->andWhere(['user_iduser' => Yii::$app->user->id])
+            ->andWhere(['or','compraEstado'=> 1])
+            ->one();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idcompras]);
+        if($compra == null){
+            $compra = new Compra();
+            $compra->compraData = date('Y-m-d H:i:s');
+            $compra->user_iduser = Yii::$app->user->id;
+            $compra->compraValor = $produto->produtoPreco;
+        }else{
+            $compra->compraData = date('Y-m-d H:i:s');
+            $compra->user_iduser = Yii::$app->user->id;
+            $compra->compraValor += $produto->produtoPreco;
         }
+        $compraproduto = new Compraproduto();
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+        $compraproduto->compra_idcompras = $compra->idcompras;
+        $compraproduto->produto_idprodutos = $id;
+        $compra->save();
+        $compraproduto->save();
+        return $this->redirect(['index']);
     }
 
     /**

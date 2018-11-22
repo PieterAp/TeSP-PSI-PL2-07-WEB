@@ -52,7 +52,12 @@ AppAsset::register($this);
             )
             . Html::endForm()
             . '</li>';
-        $menuItems[] = ['label' => 'myacc', 'url' => ['/user/update']];
+        $menuItems[] = ['label' => 'my acc', 'url' => ['/user/update']];
+        $menuItems[] = ['label' => 'All Purchase (to be removed)', 'url' => ['/compra/index']];
+        $menuItems[] = ['label' => 'Product', 'url' => ['/produto/index']];
+        $menuItems[] = ['label' => 'History', 'url' => ['/compra/historic']];
+        $menuItems[] = ['label' => 'Cart', 'url' => ['/compra/cart']];
+        
     }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
