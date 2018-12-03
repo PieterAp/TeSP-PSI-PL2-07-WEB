@@ -9,7 +9,7 @@ use common\models\Userdata;
  * Class m181120_151707_createSpecialUsers
  */
 class m181125_162407_createDefaultTableData extends Migration
-{
+{/*
     public function createUser($username,$email,$password)
     {
         $user = new User();
@@ -176,6 +176,6 @@ class m181125_162407_createDefaultTableData extends Migration
             echo $each;
         }
         echo "Deleted all users!";*/
-    }
+    }*/
 
 }
