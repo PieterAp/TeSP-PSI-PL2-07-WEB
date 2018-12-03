@@ -9,7 +9,7 @@ use common\models\Userdata;
  * Class m181120_151707_createSpecialUsers
  */
 class m181125_162407_createDefaultTableData extends Migration
-{/*
+{
     public function createUser($username,$email,$password)
     {
         $user = new User();
@@ -48,7 +48,7 @@ class m181125_162407_createDefaultTableData extends Migration
     }
 
 
-    public function up()
+/*    public function up()
     {
         //region table_user
         //region Role:admin
@@ -154,7 +154,7 @@ class m181125_162407_createDefaultTableData extends Migration
         //region table_reparacao
 
         //endregion
-    }
+    }*/
 
     public function down()
     {
@@ -176,6 +176,6 @@ class m181125_162407_createDefaultTableData extends Migration
             echo $each;
         }
         echo "Deleted all users!";*/
-    }*/
+    }
 
 }
