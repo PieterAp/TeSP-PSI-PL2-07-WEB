@@ -1,9 +1,14 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\Categoria;
+use common\models\CategoriaChild;
+use common\models\Produto;
 use common\models\Userdata;
 use Yii;
 use yii\base\InvalidParamException;
+use yii\db\Query;
+use yii\helpers\Url;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use app\models\UserSearch;
@@ -19,7 +24,7 @@ use common\models\User;
 /**
  * Site controller
  */
-class SiteController extends Controller
+class SiteController extends LayoutController
 {
     /**
      * {@inheritdoc}
@@ -63,6 +68,7 @@ class SiteController extends Controller
         ];
     }
 
+
     /**
      * Displays homepage.
      *
@@ -70,8 +76,53 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+/*
+        $query = (new Query())
+            ->select(['categoria.*', 'categoria_child.*', 'COUNT(Distinct(categoria.idcategorias)) as "qntCategorias"'])
+            ->from('categoria')
+            ->leftJoin('categoria_child', '`categoria`.`idcategorias` = `categoria_child`.`categoria_idcategorias`');
+
+        $command = $query->createCommand();
+        $allCategories = $command->queryAll();
+
+        var_dump($allCategories);
+        die();*/
+
+        $allCategories = Categoria::find()
+            ->select('Categoria.*')
+            ->distinct()
+            ->all();
+
+        $allCategoryChilds = CategoriaChild::find()
+            ->select('categoria_child.*')
+            ->distinct()
+            ->all();
+
+        $allBrands = Produto::find()
+            ->select('produto.produtoMarca')
+            ->distinct()
+            ->all();
+
+        $allProducts = Produto::find()
+            ->select('produto.*')
+            ->all();
+
+
+        return $this->render('index', [
+            'allCategories' => $allCategories,
+            'allCategoryChilds' => $allCategoryChilds,
+            'allBrands' => $allBrands,
+            'allProducts' => $allProducts,
+        ]);
     }
+
+
+    public function actionFilter($type, $params)
+    {
+
+    }
+
+
 
     /**
      * Logs in a user.

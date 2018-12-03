@@ -9,8 +9,11 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
+use common\models\Categoria;
 
 AppAsset::register($this);
+
+$categoriaNavbar = $this->params['categoriaNavbar'];
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -23,10 +26,11 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body>
+<body style="margin-top: 60px color">
 <?php $this->beginBody() ?>
 
 <div class="wrap">
+    <!-- Default navbar -->
     <?php
     NavBar::begin([
         'brandLabel' => Yii::$app->name,
@@ -59,6 +63,40 @@ AppAsset::register($this);
         'items' => $menuItems,
     ]);
     NavBar::end();
+    ?>
+
+
+
+
+
+
+
+
+
+
+    <!-- Navbar displaying all the categories in the database -->
+    <?php
+    if ($categoriaNavbar!=null) {
+        NavBar::begin([
+            'brandUrl' => Yii::$app->homeUrl,
+            'options' => [
+                'class' => 'navbar-inverse navbar-fixed-top',
+                'style' => 'top:50px;',
+            ],
+            'innerContainerOptions' => [
+                'class' => 'container-fluid'
+            ],
+        ]);
+
+        echo Nav::widget([
+            'options' => [
+                'class' => 'navbar-nav navbar-middle',
+                'style' => 'float:unset; display: flex; justify-content: center;',
+            ],
+            'items' => $categoriaNavbar,
+        ]);
+        NavBar::end();
+    }
     ?>
 
     <div class="container">

@@ -2,6 +2,8 @@
 
 namespace frontend\controllers;
 
+use common\models\Categoria;
+use common\models\Produto;
 use Yii;
 use common\models\CategoriaChild;
 use app\models\CategoriaChildSearch;
@@ -12,7 +14,7 @@ use yii\filters\VerbFilter;
 /**
  * CategoriaChildController implements the CRUD actions for CategoriaChild model.
  */
-class CategoriaChildController extends Controller
+class CategoriaChildController extends LayoutController
 {
     /**
      * {@inheritdoc}
@@ -52,61 +54,34 @@ class CategoriaChildController extends Controller
      */
     public function actionView($id)
     {
+        //get category from product ID
+        $categoriaSelecionada = Categoria::find()
+            ->select('categoria.*')
+            ->leftJoin('categoria_child', '`categoria`.`idcategorias` = `categoria_child`.`categoria_idcategorias`')
+            ->leftJoin('produto', '`produto`.`categoria_child_id` = `categoria_child`.`idchild`')
+            ->where(['produto.idprodutos'=>$id])
+            ->one();
+
+        /*
+        $categoriaSelecionada = Categoria::find()
+            ->where(['categoria.idcategorias' => $categoriaSelecionadaId])
+            ->one();
+        */
+
+        $allProducts = Produto::find()
+            ->select('produto.*')
+            ->innerJoin('categoria_child', '`produto`.`categoria_child_id` = `categoria_child`.`idchild`')
+            ->where(['categoria_child.idchild' => $id])
+            ->all();
+
+        //todo: Improve query above for the following reason: However, a better approach is to exploit the existing relation declarations by calling yii\db\ActiveQuery::joinWith():
+        //todo: https://www.yiiframework.com/doc/guide/2.0/en/db-active-record#joining-with-relations
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'allProducts' => $allProducts,
+            'categoriaSelecionada' => $categoriaSelecionada
         ]);
-    }
-
-    /**
-     * Creates a new CategoriaChild model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new CategoriaChild();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idchild]);
-        }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Updates an existing CategoriaChild model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idchild]);
-        }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Deletes an existing CategoriaChild model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
     }
 
     /**

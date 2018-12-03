@@ -5,14 +5,17 @@ namespace frontend\controllers;
 use Yii;
 use common\models\Categoria;
 use app\models\CategoriaSearch;
+use yii\db\Query;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use common\models\CategoriaChild;
+use common\models\Produto;
 
 /**
  * CategoriaController implements the CRUD actions for Categoria model.
  */
-class CategoriaController extends Controller
+class CategoriaController extends LayoutController
 {
     /**
      * {@inheritdoc}
@@ -32,15 +35,22 @@ class CategoriaController extends Controller
     /**
      * Lists all Categoria models.
      * @return mixed
+     * @throws \yii\db\Exception
      */
     public function actionIndex()
     {
-        $searchModel = new CategoriaSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $query = (new Query())
+            ->select(['categoria.*', 'COUNT(produto.idprodutos) as "qntProdutos"'])
+            ->from('Categoria')
+            ->leftJoin('categoria_child', '`categoria`.`idcategorias` = `categoria_child`.`categoria_idcategorias`')
+            ->leftJoin('produto', '`produto`.`categoria_child_id` = `categoria_child`.`idchild`')
+            ->groupBy('categoria.idcategorias');
+
+        $command = $query->createCommand();
+        $categorias = $command->queryAll();
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+            'categorias' => $categorias,
         ]);
     }
 
@@ -52,61 +62,35 @@ class CategoriaController extends Controller
      */
     public function actionView($id)
     {
+        //Group of category childs belonging to the selected category $id
+        $allCategoriaChilds = CategoriaChild::findAll(['categoria_idcategorias' => $id]);
+
+
+        //Group of products belonging to the selected category $id
+        //old SQL(working), might still be useful
+        /*
+        $sql = 'SELECT produto.produtoNome
+                FROM produto JOIN categoria_child ON produto.categoria_child_id=categoria_child.idchild
+                             JOIN categoria ON categoria_child.categoria_idcategorias=categoria.idcategorias
+                WHERE categoria.idcategorias='.$id;
+        $allProducts = Produto::findBySql($sql)->all();
+        */
+
+        $allProducts = Produto::find()
+        ->select('produto.*')
+        ->innerJoin('categoria_child', '`produto`.`categoria_child_id` = `categoria_child`.`idchild`')
+        ->innerJoin('categoria', '`categoria_child`.`categoria_idcategorias` = `categoria`.`idcategorias`')
+        ->where(['categoria.idcategorias' => $id])
+        ->all();
+
+        //todo: Improve query above by using: However, a better approach is to exploit the existing relation declarations by calling yii\db\ActiveQuery::joinWith():
+        //todo: https://www.yiiframework.com/doc/guide/2.0/en/db-active-record#joining-with-relations
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'allCategoriaChilds' => $allCategoriaChilds,
+            'allProducts' => $allProducts,
         ]);
-    }
-
-    /**
-     * Creates a new Categoria model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new Categoria();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idcategorias]);
-        }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Updates an existing Categoria model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idcategorias]);
-        }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Deletes an existing Categoria model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
     }
 
     /**

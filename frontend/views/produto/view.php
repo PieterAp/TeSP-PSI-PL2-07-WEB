@@ -7,23 +7,37 @@ use yii\widgets\DetailView;
 /* @var $model common\models\Produto */
 
 $this->title = $model->produtoNome;
-$this->params['breadcrumbs'][] = ['label' => 'Produtos', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Categorias'];
+$this->params['breadcrumbs'][] = ['label' => $produtoCategoria->categoriaNome, 'url' => ['categoria/view', 'id' => $produtoCategoria->idcategorias]];
+$this->params['breadcrumbs'][] = ['label' => $produtoCategoriaChild->childNome, 'url' => ['categoria-child/view', 'id' => $produtoCategoriaChild->idchild]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="produto-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <div class="table-bordered">
 
-    <p>
-        <?= Html::a('Update', ['update', 'id' => $model->idprodutos], ['class' => 'btn btn-primary']) ?>
-        <?= Html::a('Delete', ['delete', 'id' => $model->idprodutos], [
-            'class' => 'btn btn-danger',
-            'data' => [
-                'confirm' => 'Are you sure you want to delete this item?',
-                'method' => 'post',
-            ],
-        ]) ?>
-    </p>
+        <?= Html::img('@web/images/face.jpg', ['alt'=>'face', 'class'=>'img-responsive text-center', 'style' => 'width:100%;']);?>
+        <div class="page-header" style="padding-left: 10px;">
+            <h1><?= Html::encode($model->produtoNome) ?><span style="color:#777;"> - <?= $model->produtoMarca ?></span>
+                <br>
+                <small><h4><?= $produtoCategoria->categoriaNome.'/'.$produtoCategoriaChild->childNome ?></h4></small>
+            </h1>
+        </div>
+        <div style="padding-left: 10px;">
+            <h3>Description:</h3>
+            <div style="padding-left: 20px;">
+                <?php
+                    for ($i=1;$i<=10;$i++)
+                    {
+                        $description = 'produtoDescricao'.$i;
+                        echo '<p>'.$model->$description.'</p>';
+                    }
+                ?>
+            </div>
+        </div>
+    </div>
+
+    <br>
 
     <?= DetailView::widget([
         'model' => $model,

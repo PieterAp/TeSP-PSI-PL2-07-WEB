@@ -2,6 +2,8 @@
 
 namespace frontend\controllers;
 
+use common\models\Categoria;
+use common\models\CategoriaChild;
 use Yii;
 use common\models\Produto;
 use app\models\ProdutoSearch;
@@ -12,7 +14,7 @@ use yii\filters\VerbFilter;
 /**
  * ProdutoController implements the CRUD actions for Produto model.
  */
-class ProdutoController extends Controller
+class ProdutoController extends LayoutController
 {
     /**
      * {@inheritdoc}
@@ -45,69 +47,52 @@ class ProdutoController extends Controller
     }
 
     /**
+     * Lists all Produto models.
+     * @return mixed
+     */
+    public function actionIndexProducts($idsProdutos)
+    {
+        //make query to list all the produts that i'm recieving
+
+        $searchModel = new ProdutoSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+
+        return $this->render('index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
+    /**
      * Displays a single Produto model.
      * @param integer $id
-     * @return mixed
+     * @return mixed (model,)
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionView($id)
     {
+        $produtoCategoria = Categoria::find()
+            ->select('categoria.*')
+            ->leftJoin('categoria_child', '`categoria`.`idcategorias` = `categoria_child`.`categoria_idcategorias`')
+            ->leftJoin('produto', '`produto`.`categoria_child_id` = `categoria_child`.`idchild`')
+            ->where(['produto.idprodutos'=>$id])
+            ->one();
+
+        $produtoCategoriaChild = CategoriaChild::find()
+            ->select('categoria_child.*')
+            ->innerJoin('produto','`produto`.`categoria_child_id` = `categoria_child`.`idchild`')
+            ->where(['produto.idprodutos'=>$id])
+            ->one();
+
+
         return $this->render('view', [
             'model' => $this->findModel($id),
+            'produtoCategoria' => $produtoCategoria,
+            'produtoCategoriaChild' => $produtoCategoriaChild,
         ]);
     }
 
-    /**
-     * Creates a new Produto model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
-     */
-    public function actionCreate()
-    {
-        $model = new Produto();
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idprodutos]);
-        }
-
-        return $this->render('create', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Updates an existing Produto model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idprodutos]);
-        }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Deletes an existing Produto model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
-    }
 
     /**
      * Finds the Produto model based on its primary key value.
