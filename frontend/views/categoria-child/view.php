@@ -8,7 +8,8 @@ use yii\widgets\DetailView;
 /* @var $model common\models\CategoriaChild */
 
 $this->title = $model->childNome;
-$this->params['breadcrumbs'][] = ['label' => 'Categoria Children', 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => 'Categorias'];
+$this->params['breadcrumbs'][] = ['label' => $categoriaSelecionada->categoriaNome, 'url' => ['categoria/view', 'id' => $categoriaSelecionada->idcategorias]];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="categoria-child-view">
@@ -31,19 +32,15 @@ $this->params['breadcrumbs'][] = $this->title;
                 $path = Url::to(['produto/view', 'id' => $eachProduct->idprodutos]);
 
                 echo '
-                        <div class="col-lg-4 text-left table-bordered">
-                            <h2>'.$eachProduct->produtoNome.'</h2>
-
-                            <p>Descrição do produto:</p>            
+                        <div class="col-lg-4 col-md-4 text-left table-bordered">
+                            <h4>'.$eachProduct->produtoNome.'</h4>
+     
                             <p>'.$eachProduct->produtoDescricao1.'</p>
                             <p>'.$eachProduct->produtoDescricao2.'</p>
                             <p>'.$eachProduct->produtoDescricao3.'</p>
-                            <p>'.$eachProduct->produtoDescricao4.'</p>
-                            <p>'.$eachProduct->produtoDescricao5.'</p>
-                            <p>(...)</p>
                             
             
-                            <p class="text-right"><a class="btn btn-warning" href="'.$path.'">Take a look &raquo;</a></p>
+                            <p class="text-right"><a class="btn btn-success" href="'.$path.'">Take a look &raquo;</a></p>
                         </div>
                 ';
 
@@ -54,8 +51,8 @@ $this->params['breadcrumbs'][] = $this->title;
             }
             echo'</div>
                    </div>';
-        }
+        }?>
 
-        ?>
+
     </div>
 </div>

@@ -46,15 +46,14 @@ class ProdutoController extends Controller
 
     /**
      * Displays a single Produto model.
-     * @param integer $idprodutos
-     * @param integer $categoria_idcategorias
+     * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionView($idprodutos, $categoria_idcategorias)
+    public function actionView($id)
     {
         return $this->render('view', [
-            'model' => $this->findModel($idprodutos, $categoria_idcategorias),
+            'model' => $this->findModel($id),
         ]);
     }
 
@@ -68,7 +67,7 @@ class ProdutoController extends Controller
         $model = new Produto();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'idprodutos' => $model->idprodutos, 'categoria_idcategorias' => $model->categoria_idcategorias]);
+            return $this->redirect(['view', 'id' => $model->idprodutos]);
         }
 
         return $this->render('create', [
@@ -79,17 +78,16 @@ class ProdutoController extends Controller
     /**
      * Updates an existing Produto model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $idprodutos
-     * @param integer $categoria_idcategorias
+     * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionUpdate($idprodutos, $categoria_idcategorias)
+    public function actionUpdate($id)
     {
-        $model = $this->findModel($idprodutos, $categoria_idcategorias);
+        $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'idprodutos' => $model->idprodutos, 'categoria_idcategorias' => $model->categoria_idcategorias]);
+            return $this->redirect(['view', 'id' => $model->idprodutos]);
         }
 
         return $this->render('update', [
@@ -100,14 +98,13 @@ class ProdutoController extends Controller
     /**
      * Deletes an existing Produto model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $idprodutos
-     * @param integer $categoria_idcategorias
+     * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($idprodutos, $categoria_idcategorias)
+    public function actionDelete($id)
     {
-        $this->findModel($idprodutos, $categoria_idcategorias)->delete();
+        $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
     }
@@ -115,14 +112,13 @@ class ProdutoController extends Controller
     /**
      * Finds the Produto model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
-     * @param integer $idprodutos
-     * @param integer $categoria_idcategorias
+     * @param integer $id
      * @return Produto the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($idprodutos, $categoria_idcategorias)
+    protected function findModel($id)
     {
-        if (($model = Produto::findOne(['idprodutos' => $idprodutos, 'categoria_idcategorias' => $categoria_idcategorias])) !== null) {
+        if (($model = Produto::findOne($id)) !== null) {
             return $model;
         }
 

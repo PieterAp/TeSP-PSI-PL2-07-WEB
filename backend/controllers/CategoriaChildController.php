@@ -2,11 +2,10 @@
 
 namespace backend\controllers;
 
-use app\models\CategoriaChildSearch;
-use common\models\CategoriaChild;
-use Yii;
 use common\models\Categoria;
-use app\models\CategoriaSearch;
+use Yii;
+use common\models\CategoriaChild;
+use app\models\CategoriaChildSearch;
 use yii\db\Query;
 use yii\filters\AccessControl;
 use yii\web\Controller;
@@ -14,9 +13,9 @@ use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 
 /**
- * CategoriaController implements the CRUD actions for Categoria model.
+ * CategoriaChildController implements the CRUD actions for CategoriaChild model.
  */
-class CategoriaController extends Controller
+class CategoriaChildController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -48,44 +47,17 @@ class CategoriaController extends Controller
         ];
     }
 
-
     /**
-     * Lists all Categoria models.
+     * Lists all CategoriaChild models.
      * @return mixed
-     * @throws \yii\db\Exception
      */
     public function actionIndex()
     {
-        $query = (new Query())
-            ->select(['categoria.*', 'COUNT(produto.idprodutos) as "qntProdutos"', 'COUNT(DISTINCT categoria_child.idchild) as "qntCategoriasChild"'])
-            ->from('Categoria')
-            ->leftJoin('categoria_child', '`categoria`.`idcategorias` = `categoria_child`.`categoria_idcategorias`')
-            ->leftJoin('produto', '`produto`.`categoria_child_id` = `categoria_child`.`idchild`')
-            ->groupBy('categoria.idcategorias');
-
-        $command = $query->createCommand();
-        $allCategories = $command->queryAll();
-
-
-        $query = (new Query())
-            ->select(['categoria_child.*', 'COUNT(produto.idprodutos) as "qntProdutos"'])
-            ->from('Categoria')
-            ->rightJoin('categoria_child', '`categoria`.`idcategorias` = `categoria_child`.`categoria_idcategorias`')
-            ->leftJoin('produto', '`produto`.`categoria_child_id` = `categoria_child`.`idchild`')
-            ->groupBy('categoria_child.idchild');
-
-        $command = $query->createCommand();
-        $allCategoryChilds = $command->queryAll();
-
-
-        return $this->render('index', [
-            'allCategories' => $allCategories,
-            'allCategoryChilds' => $allCategoryChilds,
-        ]);
+        return $this->redirect(['categoria/index']);
     }
 
     /**
-     * Displays a single Categoria model.
+     * Displays a single CategoriaChild model.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
@@ -98,25 +70,42 @@ class CategoriaController extends Controller
     }
 
     /**
-     * Creates a new Categoria model.
+     * Creates a new CategoriaChild model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
+    public function actionCreate($id=null)
     {
-        $model = new Categoria();
+        $model = new CategoriaChild();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['index']);
+        if ($id==null)
+        {
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['view', 'id' => $model->idchild]);
+            }
+
+            return $this->render('create', [
+                'model' => $model,
+            ]);
         }
+        else
+        {
+            $categoriaAssociada = Categoria::find()->where(['idcategorias'=>$id])->one();
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
+
+            if ($model->load(Yii::$app->request->post()) && $model->save()) {
+                return $this->redirect(['categoria/index']);
+            }
+
+            return $this->render('create', [
+                'model' => $model,
+                'categoriaAssociada' => $categoriaAssociada,
+            ]);
+        }
     }
 
     /**
-     * Updates an existing Categoria model.
+     * Updates an existing CategoriaChild model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
@@ -127,7 +116,7 @@ class CategoriaController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idcategorias]);
+            return $this->redirect(['view', 'id' => $model->idchild]);
         }
 
         return $this->render('update', [
@@ -136,7 +125,7 @@ class CategoriaController extends Controller
     }
 
     /**
-     * Deletes an existing Categoria model.
+     * Deletes an existing CategoriaChild model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
@@ -150,15 +139,15 @@ class CategoriaController extends Controller
     }
 
     /**
-     * Finds the Categoria model based on its primary key value.
+     * Finds the CategoriaChild model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Categoria the loaded model
+     * @return CategoriaChild the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
     protected function findModel($id)
     {
-        if (($model = Categoria::findOne($id)) !== null) {
+        if (($model = CategoriaChild::findOne($id)) !== null) {
             return $model;
         }
 
