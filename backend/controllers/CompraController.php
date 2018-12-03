@@ -2,14 +2,18 @@
 
 namespace backend\controllers;
 
+use common\models\Campanha;
 use common\models\Compraproduto;
 use common\models\Produto;
+use common\models\Produtocampanha;
 use Yii;
 use common\models\Compra;
 use app\models\CompraSearch;
 use yii\data\ActiveDataProvider;
 use yii\db\Query;
 use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
+use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -27,7 +31,7 @@ class CompraController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index','historic'],
+                'only' => ['index','historic','protudocampanha'],
                 'rules' => [
                     [
                         'actions' => ['historic'],
@@ -59,6 +63,7 @@ class CompraController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
+    
     public function actionHistoric()
     {
         $rows = (new Query())

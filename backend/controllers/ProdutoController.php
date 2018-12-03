@@ -2,9 +2,13 @@
 
 namespace backend\controllers;
 
+use common\models\Campanha;
+use common\models\Produtocampanha;
 use Yii;
 use common\models\Produto;
 use app\models\ProdutoSearch;
+use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -20,6 +24,22 @@ class ProdutoController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['produtocampanha','index'],
+                        'allow' => true,
+                        'roles' => ['admin', 'funcionario'],
+                    ],
+                    [
+                        'actions' => ['delete','update'],
+                        'allow' => true,
+                        'roles' => ['admin'],
+                    ],
+
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -33,6 +53,36 @@ class ProdutoController extends Controller
      * Lists all Produto models.
      * @return mixed
      */
+    public function actionProdutocampanha($id)
+    {
+        $productsale = new Produtocampanha();
+        $sales = Campanha::find()
+            ->where (['>','campanhaDataInicio', date('Y-m-d')])
+            ->orderBy('idCampanha')
+            ->all();
+        $sale  = ArrayHelper::map($sales,'idCampanha','campanhaNome');
+
+        if (Yii::$app->request->post()) {
+            $productsale = Yii::$app->request->post('Produtocampanha');
+            $sale = Yii::$app->request->post('Campanha');
+
+
+            $productSale = new Produtocampanha();
+            $productSale->produtos_idprodutos = $id;
+            $productSale->campanha_idCampanha = $sale['campanhaNome'];
+            $productSale->campanhaPercentagem = $productsale['campanhaPercentagem'];
+
+            $productSale->save(false);
+
+            return $this->redirect(['index']);
+        }
+        return $this->render('produtocampanha', [
+            'productsale' => $productsale,
+            'sale' => $sale,
+            'sales' => $sales,
+        ]);
+
+    }
     public function actionIndex()
     {
         $searchModel = new ProdutoSearch();

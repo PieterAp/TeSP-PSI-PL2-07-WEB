@@ -58,7 +58,7 @@ class Userdata extends \yii\db\ActiveRecord
 
             ['userNIF', 'trim'],
             ['userNIF', 'required'],
-            ['userNIF', 'unique', 'targetClass' => '\common\models\Userdata', 'message' => 'This NIF has already been taken.'],
+            ['userNIF', 'unique', 'message' => 'This NIF has already been taken.'],
             ['userNIF', 'integer'],
             ['userNIF', 'string', 'min' => 9, 'max' =>9],
 

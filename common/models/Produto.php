@@ -24,15 +24,14 @@ use Yii;
  * @property string $produtoDescricao8
  * @property string $produtoDescricao9
  * @property string $produtoDescricao10
- * @property int $categoria_idcategorias
+ * @property int $categoria_child_id
  * @property string $produtoImagem1
  * @property string $produtoImagem2
  * @property string $produtoImagem3
  * @property string $produtoImagem4
  *
  * @property Compraproduto[] $compraprodutos
- * @property Compra[] $compraIdcompras
- * @property Categoria $categoriaIdcategorias
+ * @property CategoriaChild $categoriaChild
  * @property Produtocampanha[] $produtocampanhas
  * @property Campanha[] $campanhaIdCampanhas
  */
@@ -52,14 +51,12 @@ class Produto extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['produtoNome', 'produtoCodigo', 'produtoDataCriacao', 'produtoStock', 'produtoPreco', 'produtoMarca', 'categoria_idcategorias', 'produtoImagem1'], 'required'],
+            [['produtoNome', 'produtoCodigo', 'produtoDataCriacao', 'produtoStock', 'produtoPreco', 'produtoMarca', 'categoria_child_id', 'produtoImagem1'], 'required'],
             [['produtoDataCriacao'], 'safe'],
-            [['produtoStock', 'categoria_idcategorias'], 'integer'],
+            [['produtoStock', 'categoria_child_id'], 'integer'],
             [['produtoPreco'], 'number'],
-            [['produtoNome', 'produtoImagem1', 'produtoImagem2', 'produtoImagem3', 'produtoImagem4'], 'string', 'max' => 45],
-            [['produtoCodigo', 'produtoMarca'], 'string', 'max' => 16],
-            [['produtoDescricao1', 'produtoDescricao2', 'produtoDescricao3', 'produtoDescricao4', 'produtoDescricao5', 'produtoDescricao6', 'produtoDescricao7', 'produtoDescricao8', 'produtoDescricao9', 'produtoDescricao10'], 'string', 'max' => 128],
-            [['categoria_idcategorias'], 'exist', 'skipOnError' => true, 'targetClass' => Categoria::className(), 'targetAttribute' => ['categoria_idcategorias' => 'idcategorias']],
+            [['produtoNome', 'produtoCodigo', 'produtoMarca', 'produtoDescricao1', 'produtoDescricao2', 'produtoDescricao3', 'produtoDescricao4', 'produtoDescricao5', 'produtoDescricao6', 'produtoDescricao7', 'produtoDescricao8', 'produtoDescricao9', 'produtoDescricao10', 'produtoImagem1', 'produtoImagem2', 'produtoImagem3', 'produtoImagem4'], 'string', 'max' => 255],
+            [['categoria_child_id'], 'exist', 'skipOnError' => true, 'targetClass' => CategoriaChild::className(), 'targetAttribute' => ['categoria_child_id' => 'idchild']],
         ];
     }
 
@@ -69,13 +66,13 @@ class Produto extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idprodutos' => 'ID',
-            'produtoNome' => 'Name',
-            'produtoCodigo' => 'Code',
-            'produtoDataCriacao' => 'Date',
-            'produtoStock' => 'Stock',
-            'produtoPreco' => 'Price',
-            'produtoMarca' => 'Brand',
+            'idprodutos' => 'Idprodutos',
+            'produtoNome' => 'Product name',
+            'produtoCodigo' => 'Produto Codigo',
+            'produtoDataCriacao' => 'Produto Data Criacao',
+            'produtoStock' => 'Produto Stock',
+            'produtoPreco' => 'Produto Preco',
+            'produtoMarca' => 'Produto Marca',
             'produtoDescricao1' => 'Produto Descricao1',
             'produtoDescricao2' => 'Produto Descricao2',
             'produtoDescricao3' => 'Produto Descricao3',
@@ -86,7 +83,7 @@ class Produto extends \yii\db\ActiveRecord
             'produtoDescricao8' => 'Produto Descricao8',
             'produtoDescricao9' => 'Produto Descricao9',
             'produtoDescricao10' => 'Produto Descricao10',
-            'categoria_idcategorias' => 'Categoria Idcategorias',
+            'categoria_child_id' => 'Categoria Child ID',
             'produtoImagem1' => 'Produto Imagem1',
             'produtoImagem2' => 'Produto Imagem2',
             'produtoImagem3' => 'Produto Imagem3',
@@ -105,17 +102,9 @@ class Produto extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCompraIdcompras()
+    public function getCategoriaChild()
     {
-        return $this->hasMany(Compra::className(), ['idcompras' => 'compra_idcompras'])->viaTable('compraproduto', ['produto_idprodutos' => 'idprodutos']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCategoriaIdcategorias()
-    {
-        return $this->hasOne(Categoria::className(), ['idcategorias' => 'categoria_idcategorias']);
+        return $this->hasOne(CategoriaChild::className(), ['idchild' => 'categoria_child_id']);
     }
 
     /**

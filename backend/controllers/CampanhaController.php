@@ -2,9 +2,18 @@
 
 namespace backend\controllers;
 
+use common\models\Produto;
+use common\models\Produtocampanha;
+use backend\models\CampanhaSales;
 use Yii;
+use yii\db\IntegrityException;
 use common\models\Campanha;
 use app\models\CampanhaSearch;
+use yii\base\ErrorException;
+use yii\data\ActiveDataProvider;
+use yii\db\Query;
+use yii\filters\AccessControl;
+use yii\helpers\ArrayHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -20,6 +29,22 @@ class CampanhaController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'actions' => ['create', 'index','view','produtocampanha'],
+                        'allow' => true,
+                        'roles' => ['admin', 'funcionario'],
+                    ],
+                    [
+                        'actions' => ['delete','update'],
+                        'allow' => true,
+                        'roles' => ['admin'],
+                    ],
+
+                ],
+            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
@@ -56,7 +81,6 @@ class CampanhaController extends Controller
             'model' => $this->findModel($id),
         ]);
     }
-
     /**
      * Creates a new Campanha model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -64,14 +88,45 @@ class CampanhaController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Campanha();
+        $model = new CampanhaSales();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idCampanha]);
+        /*$product = Produto::find()
+            ->orderBy('idprodutos')
+            ->all();
+        $produtos=ArrayHelper::map($product,'idprodutos','produtoNome');*/
+        if ($model->load(Yii::$app->request->post())) {
+            if ($data = $model->CampanhaValidate()) {
+                $sale = new Campanha();
+                $sale->campanhaNome = $data->campanhaNome;
+                $sale->campanhaDescricao = $data->campanhaDescricao;
+                $sale->campanhaDataInicio = $data->campanhaDataInicio;
+                $sale->campanhaDataFim = $data->campanhaDataFim;
+                $sale->save();
+                /*if ($sale->save()){
+                    $productSale = new Produtocampanha();
+
+                    $newsale = Campanha::find()
+                        ->where(['campanhaNome' => $data->campanhaNome])
+                        ->where(['campanhaDataInicio' => $data->campanhaDataInicio])
+                        ->where(['campanhaDescricao' => $data->campanhaDescricao])
+                        ->where(['campanhaDataFim' => $data->campanhaDataFim])
+                        ->one();
+
+                    if (!isset($newsale) || !isset($product)){
+                        return $this->render('index');
+                    }
+                    $productSale->produtos_idprodutos = $postProduto['produtoNome'];
+                    $productSale->campanha_idCampanha = $newsale->idCampanha;
+                    $productSale->campanhaPercentagem = $data->campanhaPercentagem;
+
+                    $productSale->save(false);
+                }*/
+            }
         }
 
         return $this->render('create', [
             'model' => $model,
+
         ]);
     }
 
@@ -85,8 +140,10 @@ class CampanhaController extends Controller
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            if(!$model->CampanhaValidate()){
+                $model->save();
+            }
             return $this->redirect(['view', 'id' => $model->idCampanha]);
         }
 
@@ -104,8 +161,18 @@ class CampanhaController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        try {
+            $this->findModel($id)->delete();
+        } catch (IntegrityException $e) {
+            $errors = 1;
+            $searchModel = new CampanhaSearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+            return $this->render('index', [
+                'errors' => $errors,
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }
         return $this->redirect(['index']);
     }
 

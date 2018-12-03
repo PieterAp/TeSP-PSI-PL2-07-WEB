@@ -32,10 +32,19 @@ class Campanha extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['campanhaNome', 'campanhaDataInicio', 'campanhaDescricao', 'campanhaDataFim'], 'required'],
+
+            [['campanhaNome', 'campanhaDataInicio', 'campanhaDataFim'], 'required'],
+            ['campanhaDataInicio', 'date', 'format' => 'php:Y-m-d'],
+            ['campanhaDataFim', 'date', 'format' => 'php:Y-m-d'],
+
             [['campanhaDataInicio', 'campanhaDataFim'], 'safe'],
             [['campanhaNome'], 'string', 'max' => 45],
             [['campanhaDescricao'], 'string', 'max' => 128],
+
+
+
+            ['campanhaDataInicio', 'compare', 'compareAttribute' => 'campanhaDataFim', 'operator' => '<', 'message' => 'Date End must be higher than Date Start'],
+
         ];
     }
 
@@ -45,11 +54,11 @@ class Campanha extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idCampanha' => 'Id Campanha',
-            'campanhaNome' => 'Campanha Nome',
-            'campanhaDataInicio' => 'Campanha Data Inicio',
-            'campanhaDescricao' => 'Campanha Descricao',
-            'campanhaDataFim' => 'Campanha Data Fim',
+            'idCampanha' => 'Sale id',
+            'campanhaNome' => 'Sale name',
+            'campanhaDataInicio' => 'Sale date start',
+            'campanhaDescricao' => 'Sale description',
+            'campanhaDataFim' => 'Sale date end',
         ];
     }
 
@@ -67,5 +76,12 @@ class Campanha extends \yii\db\ActiveRecord
     public function getProdutosIdprodutos()
     {
         return $this->hasMany(Produto::className(), ['idprodutos' => 'produtos_idprodutos'])->viaTable('produtocampanha', ['campanha_idCampanha' => 'idCampanha']);
+    }
+    public function CampanhaValidate()
+    {
+        if (!$this->validate()) {
+            return null;
+        }
+        return $this;
     }
 }
