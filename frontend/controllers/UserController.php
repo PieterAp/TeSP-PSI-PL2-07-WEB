@@ -4,8 +4,9 @@ namespace frontend\controllers;
 
 use common\models\Userdata;
 use Yii;
+use frontend\models\editAccountForm;
 use common\models\User;
-
+use frontend\models\SignupForm;
 use app\models\UserSearch;
 use yii\debug\models\search\Debug;
 use yii\filters\AccessControl;
@@ -95,43 +96,43 @@ class UserController extends Controller
 
     /**
      * Updates an existing User model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
+     * If update is successful, the browser will be redirected to the 'update+-+-
+     * ' page.
+     * @return mixed, $user from user table and $usedata from userdata table
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate()
     {
-        $model = $this->findModel(Yii::$app->user->id);
-        $id = Yii::$app->user->id;
-        $userdata = Userdata::find()->where(['user_id' => $id])->one();
-        //$user->setPassword(Yii::$app->request->post('password'));
-        
-        if ($userdata->load(Yii::$app->request->post())) {
-            if ($userdata->validate($errors)){
-
-                var_dump($model->errors);
-                var_dump($model);
-                die();
-                //return null
-                return $this->redirect(['update'],$model);
-            }else{
-                $errors = $model->errors;
-                var_dump($model->errors);
-                die();
+        $model = new EditAccountForm();
+        if ($model->load(Yii::$app->request->post())) {
+            if ($user = $model->editAccount()) {
+                if(Yii::$app->request->post('password') != ''){
+                    $user = $this->findModel(Yii::$app->user->id);
+                    $user->setPassword(Yii::$app->request->post('password'));
+                    $user->save();
+                }else{
+                    $userdata = Userdata::find()->where(['user_id' => Yii::$app->user->id])->one();
+                    $userdata->userNomeProprio = $model->userNomeProprio;
+                    $userdata->userApelido = $model->userApelido;
+                    $userdata->userMorada = $model->userMorada;
+                    $userdata->userDataNasc = $model->userDataNasc;
+                    $userdata->save();
+                }
             }
-            if(Yii::$app->request->post('password') != ''){
-                $model->setPassword(Yii::$app->request->post('password'));
-            }
-
-            $model->save();
-            $userdata->save();
-            return $this->redirect(['update']);
+        }else{
+            $user = User::find()->select('username')->where(['id' => Yii::$app->user->id])->one();
+            $model->username = $user->username;
+            $id = Yii::$app->user->id;
+            $userdata = Userdata::find()->where(['user_id' => $id])->one();
+            $model->userNomeProprio = $userdata->userNomeProprio;
+            $model->userApelido = $userdata->userApelido;
+            $model->userDataNasc = $userdata->userDataNasc;
+            $model->userMorada = $userdata->userMorada;
+            $model->userNIF = $userdata->userNIF;
         }
 
         return $this->render('update', [
             'model' => $model,
-            'userdata' => $userdata,
         ]);
     }
 

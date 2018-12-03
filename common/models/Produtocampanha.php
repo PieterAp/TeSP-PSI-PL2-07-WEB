@@ -31,10 +31,12 @@ class Produtocampanha extends \yii\db\ActiveRecord
     {
         return [
             [['produtos_idprodutos', 'campanha_idCampanha', 'campanhaPercentagem'], 'required'],
+            ['campanhaPercentagem', 'trim'],
             [['produtos_idprodutos', 'campanha_idCampanha', 'campanhaPercentagem'], 'integer'],
             [['produtos_idprodutos', 'campanha_idCampanha'], 'unique', 'targetAttribute' => ['produtos_idprodutos', 'campanha_idCampanha']],
             [['campanha_idCampanha'], 'exist', 'skipOnError' => true, 'targetClass' => Campanha::className(), 'targetAttribute' => ['campanha_idCampanha' => 'idCampanha']],
             [['produtos_idprodutos'], 'exist', 'skipOnError' => true, 'targetClass' => Produto::className(), 'targetAttribute' => ['produtos_idprodutos' => 'idprodutos']],
+            ['campanhaPercentagem', 'string', 'min' => '1', 'max' => '2'],
         ];
     }
 
@@ -46,7 +48,8 @@ class Produtocampanha extends \yii\db\ActiveRecord
         return [
             'produtos_idprodutos' => 'Produtos Idprodutos',
             'campanha_idCampanha' => 'Campanha Id Campanha',
-            'campanhaPercentagem' => 'Campanha Percentagem',
+            'campanhaPercentagem' => 'Sale %',
+            'idprodutocampanha' => 'NAN',
         ];
     }
 

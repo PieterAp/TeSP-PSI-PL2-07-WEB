@@ -28,10 +28,10 @@ class CompraController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index','historic','cart','purchase'],
+                'only' => ['index','historic','cart','purchase','delete'],
                 'rules' => [
                     [
-                        'actions' => ['index','historic','cart','purchase'],
+                        'actions' => ['index','historic','cart','purchase','delete'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -61,6 +61,7 @@ class CompraController extends Controller
         ]);
     }
 
+
     /**
      * Displays a single Compra model.
      * @param integer $id
@@ -73,20 +74,48 @@ class CompraController extends Controller
             'model' => $this->findModel($id),
         ]);
     }
+    /**
+     * save models after purchase
+        If creation is successful, the browser will be redirected to the 'purchase' page, if not go to 'errorstock' view.
+     */
     public function actionPurchase()
     {
         $compra = Compra::find()
             ->where(['user_iduser' => Yii::$app->user->id, 'compraEstado'=> 1])
             ->one();
         $compra->compraEstado = 0;
+
+        $cart = Compraproduto::find()
+            ->where (['compra_idcompras' => $compra->idcompras])
+            ->all();
+
+        foreach ($cart as $key){
+            $produto = Produto::find()
+                ->where (['idprodutos' => $key->produto_idprodutos])
+                ->all();;
+
+            if ($produto[0]->produtoStock >0){
+                $produto[0]->produtoStock -= 1;
+
+            }else{
+                return $this->render('errorstock');
+            }
+        }
+        $produto[0]->save();
         $compra->save();
-        
+
+
         return $this->render('purchase');
     }
+    /**
+     * Displays a single Compra model.
+     * @return mixed
+     * @return $total integer with the price of all prodocts in cart
+     */
     public function actionCart()
     {
         $rows = (new Query())
-            ->select(['produto_preco','compraData','produtoNome','produtoMarca'])
+            ->select(['produto_preco','compraData','produtoNome','produtoMarca','produtoStock'])
             ->from('userdata')
             ->innerJoin('compra','user_iduser=iduser')
             ->innerJoin('compraproduto','compra_idcompras=idcompras')
@@ -97,16 +126,19 @@ class CompraController extends Controller
             ->where(['user_iduser' => Yii::$app->user->id, 'compraEstado'=> 1])
             ->one();
 
+        
+
         $dataProvider = new ActiveDataProvider(['query' => $rows]);
         return $this->render('cart',[
             'dataProvider' => $dataProvider,
             'total' => $total,
+            
         ]);
     }
 
     /**
      * Creates a new Compra model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+     * If creation is successful, the browser will be redirected to the 'index' page.
      * @return mixed
      */
     public function actionCreate($id)
@@ -132,10 +164,10 @@ class CompraController extends Controller
             $compra->save();
         }
         if ($produto->produtoStock >0){
-            var_dump($produto->produtoStock);
+
             }else {
-            var_dump('no stock avaible');
-            die();
+            return $this->render('errorstock');
+
 
         }
 
@@ -178,8 +210,6 @@ class CompraController extends Controller
      */
     public function actionDelete($id)
     {
-
-
         $compra = Compra::find()
             ->where(['user_iduser' => Yii::$app->user->id, 'compraEstado'=> 1])
             ->one();
@@ -187,10 +217,6 @@ class CompraController extends Controller
         $cart = Compraproduto::find()
             ->where (['compra_idcompras' => $compra->idcompras])
             ->all();
-
-
-
-        var_dump($cart[$id]->compra_idcompras);
 
         $myCommand =  Yii::$app->db->createCommand()
             ->delete('compraproduto', 'compra_idcompras = '.$cart[$id]->compra_idcompras.' AND produto_idprodutos = '.$cart[$id]->produto_idprodutos.' AND produto_preco = '.$cart[$id]->produto_preco.' limit 1');
@@ -203,6 +229,12 @@ class CompraController extends Controller
         }
         return $this->redirect(['index']);
     }
+
+    /**
+     * Finds the Compra model based on its primary key value.
+     * @return Compra the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
     public function actionHistoric()
     {
         $rows = (new Query())

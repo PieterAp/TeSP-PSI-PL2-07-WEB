@@ -26,7 +26,6 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
 
-            'idprodutos',
             'produtoNome',
             'produtoCodigo',
             'produtoDataCriacao',
@@ -52,10 +51,10 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'header' => 'Action',
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{view} {add} {delete}',  // the default buttons + your custom button
+                'template' => '{add} ',  // the default buttons + your custom button
                 'buttons' => [
                     'add' =>  function ($key, $model) {
-                        return Html::a('', ['compra/create', 'id' => $model->idprodutos], ['class' => 'glyphicon glyphicon-plus']);
+                        return Html::a('', ['produto/produtocampanha', 'id' => $model->idprodutos], ['class' => 'glyphicon glyphicon-plus']);
                     }
                 ]
             ]

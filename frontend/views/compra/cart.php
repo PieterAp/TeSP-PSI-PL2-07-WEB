@@ -22,26 +22,28 @@ $this->params['breadcrumbs'][] = $this->title;
             'compraData',
             'produtoNome',
             'produtoMarca',
+            'produtoStock',
             [
                 'header' => 'Action',
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{delete}{purchaseAll}',
-                'buttons' => [
-                    'purchaseAll' =>  function () {
-                        return Html::a('', ['compra/purchase'], ['class' => 'glyphicon glyphicon-shopping-cart']);
-                    }
-                ]
+                'template' => '{delete}',
+
             ]
         ],
     ]); ?>
     <?php
-        if($total){
+    $ok = sizeof($dataProvider->models);
+
+    for ($i=0;$i<$ok;$i++){
+        if ($dataProvider->models[$i]['produtoStock']>0){
+            $va = 1;
+        }
+    }
+    if(isset ($total) && isset ($va)){
             echo '<h1> Total: '.$total->compraValor .'€ </h1>';
             echo '<p>';?>
             <?= Html::a('Purchase', ['compra/purchase'], ['class' => 'btn btn-success']);
             echo '</p>';
-        }
-           
+    }
     ?>
-
 </div>
