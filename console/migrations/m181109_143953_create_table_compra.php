@@ -15,7 +15,7 @@ class m181109_143953_create_table_compra extends Migration
             'idcompras' => $this->primaryKey(),
             'compraData' => $this->dateTime()->notNull(),
             'user_iduser' => $this->integer()->notNull(),
-            'compraValor' => $this->float()->notNull(),
+            'compraValor' => $this->decimal(10,2)->notNull(),
             'compraEstado' => $this->tinyInteger()->defaultValue('1'),
         ], $tableOptions);
 

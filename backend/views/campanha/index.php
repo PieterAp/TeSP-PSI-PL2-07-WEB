@@ -10,11 +10,17 @@ use yii\grid\GridView;
 $this->title = 'Campanhas';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
+
+
 <div class="campanha-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+    <?php
+    if (isset($errors)) {
+        echo '<div class="alert alert-danger">
+            <strong>Error!</strong> Sales cannot be deleted because sales has products
+        </div>';
+    } ?>
     <p>
         <?= Html::a('Create Campanha', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
@@ -24,13 +30,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'idCampanha',
             'campanhaNome',
             'campanhaDataInicio',
             'campanhaDescricao',
             'campanhaDataFim',
-
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

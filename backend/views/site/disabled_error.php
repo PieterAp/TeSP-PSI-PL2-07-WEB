@@ -9,7 +9,6 @@ use yii\helpers\Html;
 
 ?>
 <div class="site-error">
-
     <h1>Your account has been disabled</h1>
     <p>
         Please contact us if you think this is a server error. Thank you.
@@ -17,5 +16,4 @@ use yii\helpers\Html;
     <p>
         Go to
     </p>
-
 </div>

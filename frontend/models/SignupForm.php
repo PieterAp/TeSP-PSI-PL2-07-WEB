@@ -48,6 +48,7 @@ class SignupForm extends Model
             ['userDataNasc', 'trim'],
             ['userDataNasc', 'required'],
             ['userDataNasc', 'date', 'format' => 'php:Y-m-d'],
+            ['userDataNasc', 'validateDates'],
 
             ['userMorada', 'trim'],
             ['userMorada', 'required'],
@@ -98,5 +99,10 @@ class SignupForm extends Model
         $userdata->save(false);
         return $user;
 
+    }
+    public function validateDates(){
+        if ((date('Y-m-d') - $this->userDataNasc) < 12){
+            $this->addError('userDataNasc','Must be at least 12 years old');
+        }
     }
 }

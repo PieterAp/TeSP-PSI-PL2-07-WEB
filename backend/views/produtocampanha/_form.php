@@ -13,16 +13,21 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'campanhaNome')->textInput(['maxlength' => true]) ?>
+    <?=  $form->field($productsale, 'campanhaPercentagem')->textInput(['maxlength' => true]);?>
+    <?php echo $form->field($listsales[0], 'idCampanha')
+            ->dropDownList(
+                ArrayHelper::map($listsales, 'idCampanha', 'campanhaNome'),
+                ['options'=>[$sales[0]['idCampanha']=>["Selected"=>true]]]
+            );
+    ?>
 
-    <?= $form->field($model, 'campanhaDataInicio')->widget(\yii\jui\DatePicker::class, [
-        'dateFormat' => 'yyyy-MM-dd',
-    ])->textInput()?>
+    <?php echo $form->field($listproducts[0], 'idprodutos')
+        ->dropDownList(
+            ArrayHelper::map($listproducts, 'idprodutos', 'produtoNome'),
+            ['options'=>[$products[0]['idprodutos']=>["Selected"=>true]]]
+        );
+    ?>
 
-    <?= $form->field($model, 'campanhaDataFim')->widget(\yii\jui\DatePicker::class, [
-        'dateFormat' => 'yyyy-MM-dd',
-    ])->textInput()?>
-    <?= $form->field($model, 'campanhaDescricao')->textInput(['maxlength' => true]) ?>
     
    
 

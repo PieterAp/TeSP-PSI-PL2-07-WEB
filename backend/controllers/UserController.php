@@ -60,8 +60,7 @@ class UserController extends Controller
             ->select(['id','username', 'userNomeProprio', 'userApelido', 'userVisibilidade'])
             ->from('user')
             ->innerJoin('userdata','user_id=id');
-        $command = $rows->createCommand();
-        $data = $command->queryAll();
+
         $dataProvider = new ActiveDataProvider(['query' => $rows]);
 
         return $this->render('index', [
@@ -96,6 +95,12 @@ class UserController extends Controller
         $model = new User();
         $userdata = new Userdata();
         if ($model->load(Yii::$app->request->post()) &&  $userdata->load(Yii::$app->request->post())) {
+            if (\Yii::$app->user->can('deleteCompras')) {
+                var_dump('yes');
+            }else{
+                var_dump('no');
+            }
+
             foreach (Yii::$app->request->post('User') as $row)
             {
                 $model->username = $row;

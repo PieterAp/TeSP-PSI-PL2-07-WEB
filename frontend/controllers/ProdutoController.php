@@ -39,10 +39,13 @@ class ProdutoController extends LayoutController
     {
         $searchModel = new ProdutoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $model = new Produto();
+        $model = Produto::find()->all();
 
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'model' => $model,
         ]);
     }
 
