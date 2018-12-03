@@ -34,17 +34,12 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'label' => 'Role',
                 'value' => function ($dataProvider) {
-
                     $roles = \Yii::$app->authManager->getRolesByUser($dataProvider['id']);
-
-
                     $role = '';
-
                     foreach($roles as $key => $value)
                     {
                         $role = $key;
                     }
-
                     return $role;
                 },
             ],

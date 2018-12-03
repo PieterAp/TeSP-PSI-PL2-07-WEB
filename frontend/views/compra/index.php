@@ -29,7 +29,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'compraData',
             'user_iduser',
             'compraValor',
-
+            'compraEstado',
+            
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

@@ -12,12 +12,12 @@ class m181109_143955_create_table_produtocampanha extends Migration
         }
 
         $this->createTable('{{%produtocampanha}}', [
+            'idprodutocampanha' => $this->primaryKey(),
             'produtos_idprodutos' => $this->integer()->notNull(),
             'campanha_idCampanha' => $this->integer()->notNull(),
             'campanhaPercentagem' => $this->integer()->notNull(),
         ], $tableOptions);
-
-        $this->addPrimaryKey('PRIMARYKEY', '{{%produtocampanha}}', ['produtos_idprodutos', 'campanha_idCampanha']);
+        
         $this->createIndex('fk_produtos_has_campanha_campanha1_idx', '{{%produtocampanha}}', 'campanha_idCampanha');
         $this->createIndex('fk_produtos_has_campanha_produtos1_idx', '{{%produtocampanha}}', 'produtos_idprodutos');
         $this->addForeignKey('fk_produtos_has_campanha_campanha1', '{{%produtocampanha}}', 'campanha_idCampanha', '{{%campanha}}', 'idCampanha', 'NO ACTION', 'NO ACTION');
