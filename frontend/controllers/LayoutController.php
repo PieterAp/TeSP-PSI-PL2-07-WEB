@@ -24,7 +24,9 @@ class LayoutController extends Controller
      */
     public function beforeAction($action)
     {
-        $categorias = Categoria::find()->orderBy("categoriaNome")->all();
+        $categorias = Categoria::find()->where(['categoriaEstado' => 1])->orderBy("categoriaNome")->all();
+
+        $categoriaNavbar = null;
 
         foreach ($categorias as $categoria)
         {

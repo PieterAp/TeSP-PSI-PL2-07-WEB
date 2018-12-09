@@ -10,8 +10,9 @@ use Yii;
  * @property int $idcategorias
  * @property string $categoriaNome
  * @property string $categoriaDescricao
+ * @property int $categoriaEstado
  *
- * @property Produto[] $produtos
+ * @property CategoriaChild[] $categoriaChildren
  */
 class Categoria extends \yii\db\ActiveRecord
 {
@@ -30,8 +31,8 @@ class Categoria extends \yii\db\ActiveRecord
     {
         return [
             [['categoriaNome'], 'required'],
-            [['categoriaNome'], 'string', 'max' => 16],
-            [['categoriaDescricao'], 'string', 'max' => 128],
+            [['categoriaEstado'], 'integer'],
+            [['categoriaNome', 'categoriaDescricao'], 'string', 'max' => 255],
         ];
     }
 
@@ -44,14 +45,15 @@ class Categoria extends \yii\db\ActiveRecord
             'idcategorias' => 'Idcategorias',
             'categoriaNome' => 'Categoria Nome',
             'categoriaDescricao' => 'Categoria Descricao',
+            'categoriaEstado' => 'Categoria Estado',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getProdutos()
+    public function getCategoriaChildren()
     {
-        return $this->hasMany(Produto::className(), ['categoria_idcategorias' => 'idcategorias']);
+        return $this->hasMany(CategoriaChild::className(), ['categoria_idcategorias' => 'idcategorias']);
     }
 }

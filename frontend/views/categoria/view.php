@@ -8,7 +8,7 @@ use yii\widgets\DetailView;
 /* @var $model common\models\Categoria */
 
 $this->title = $model->categoriaNome;
-$this->params['breadcrumbs'][] = ['label' => 'Categorias'];
+$this->params['breadcrumbs'][] = ['label' => 'Categories'];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="categoria-view">
@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <div style="text-align: center">
         <?php
-        echo ('<h3>Sub Categorias:</h3>');
+        echo ('<h3>Sub Categories:</h3>');
         if ($allCategoriaChilds==null)
         {
             echo ('<p style="color: red"> There are no sub categories inside this caregory! </p>');
@@ -55,7 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
         echo '<br><br>';
-        echo ('<h3>Produtos:</h3>');
+        echo ('<h3>Products:</h3>');
         if ($allProducts==null)
         {
             echo ('<p style="color: red"> There are no products inside this caregory! </p>');
