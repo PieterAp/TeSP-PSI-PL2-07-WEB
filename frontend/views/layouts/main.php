@@ -26,7 +26,7 @@ $categoriaNavbar = $this->params['categoriaNavbar'];
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body style="margin-top: 60px color">
+<body style="margin-top: 60px;">
 <?php $this->beginBody() ?>
 
 <div class="wrap">
@@ -69,14 +69,6 @@ $categoriaNavbar = $this->params['categoriaNavbar'];
     ]);
     NavBar::end();
     ?>
-
-
-
-
-
-
-
-
 
 
     <!-- Navbar displaying all the categories in the database -->

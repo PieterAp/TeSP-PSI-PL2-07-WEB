@@ -16,8 +16,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <div style="text-align: center">
         <?php
-        //todo: beautify as i did in products view!
-
         echo ('<h3>Sub Categorias:</h3>');
         if ($allCategoriaChilds==null)
         {
