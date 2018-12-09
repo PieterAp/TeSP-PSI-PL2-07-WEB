@@ -21,6 +21,17 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
 
     <?php
+    if ($allCategories==null)
+    {
+        echo '
+        <ul class="list-group"  style="margin-top: 50px;">
+          <li class="list-group-item list-group-item-danger">No categories available!!</li>
+        </ul>
+        
+        ';
+    }
+    else
+    {
     foreach ($allCategories as $eachCategory)
     {
         $safeCategoriyName = preg_replace('/\s+/', '_', $eachCategory['categoriaNome']);
@@ -30,19 +41,19 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="panel-heading" style="padding-top: 0px; padding-bottom: 0px;">                  
                     <div class="row" style="display: flex; align-items: center;">
                         <div class="col-lg-10 col-md-10 col-xs-10">
-                            <h3 class="panel-title"><strong>'.$eachCategory['categoriaNome'].'</strong><span style="color: #5e5e5e"> - <a href="'.Url::to(['categoria/view', 'id' => $eachCategory['idcategorias']]).'">'.$eachCategory['qntProdutos'].' products <span class="glyphicon glyphicon-share-alt"></span></a></span></h3>
+                            <h3 class="panel-title"><strong>'.$eachCategory['categoriaNome'].'</strong><span style="color: #5e5e5e"> - <a href="'.Url::to(['categoria/indexproduto', 'idCategoria' => $eachCategory['idcategorias']]).'">'.$eachCategory['qntProdutos'].' products <span class="glyphicon glyphicon-share-alt"></span></a></span></h3>
                         </div>
                         <div class="col-lg-2 col-md-2 col-xs-2 text-right">
                             <ul class="nav navbar-nav navbar-right text-center pull-right">
                                 <li>
-                                    <a data-toggle="collapse" href="#collapse'.$safeCategoriyName.'" aria-expanded="false" aria-controls="collapse'.$safeCategoriyName.'">';
-                                    if ($eachCategory['categoriaDescricao']!=null)
+                                    <a href="'.Url::to(['categoria/changeestado', 'id' => $eachCategory['idcategorias']]).'">';
+                                    if ($eachCategory['categoriaEstado']==1)
                                     {
-                                        echo '<span class="glyphicon glyphicon-eye-close"></span> Hide</a></li>';
+                                        echo '<span class="glyphicon glyphicon-eye-close"></span> Hide Cat</a></li>';
                                     }
                                     else
                                     {
-                                        echo '<span class="glyphicon glyphicon-eye-open"></span> Show</a></li>';
+                                        echo '<span class="glyphicon glyphicon-eye-open"></span> Unhide Cat</a></li>';
                                     }
                            echo'</li>
                             </ul>
@@ -140,8 +151,8 @@ $this->params['breadcrumbs'][] = $this->title;
             $safeChildName = preg_replace('/\s+/', '_', $eachCategoryChild['childNome']);
 
             echo'
-              <div class="panel panel-default">
-                <div class="panel-heading" role="tab" id="'.$safeChildName.'">
+              <div class="panel panel-default" style="margin-top: 0px;" id="'.$safeChildName.'">
+                <div class="panel-heading" role="tab">
                   <h4 class="panel-title text-center">
                     <div class="row" style="display: flex; align-items: center;">
                         <div class="col-lg-6 col-md-6 col-xs-10 text-left">
@@ -160,7 +171,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             </a>
                         </div>
                         <div class="col-lg-6 col-md-6 col-xs-10 text-right">
-                            <span style="color: #5e5e5e"><a href="'.Url::to(['categoria-child/view', 'id' => $eachCategoryChild['idchild']]).'">'.$eachCategoryChild['qntProdutos'].' products <span class="glyphicon glyphicon-share-alt"></span></a></span>
+                            <span style="color: #5e5e5e"><a href="'.Url::to(['categoria-child/indexproduto', 'idCategoriaChild' => $eachCategoryChild['idchild']]).'">'.$eachCategoryChild['qntProdutos'].' products <span class="glyphicon glyphicon-share-alt"></span></a></span>
                         </div>
                     </div>               
                   </h4>
@@ -187,20 +198,24 @@ $this->params['breadcrumbs'][] = $this->title;
                         </div>                  
                          <div class="col-lg-3 col-md-4 col-xs-4" style="padding-left: 0px">
                             <ul class="nav navbar-nav navbar-right text-center pull-right">
-                            <li>
-                                    <a data-toggle="collapse" href="#collapse'.$safeCategoriyName.'" aria-expanded="false" aria-controls="collapse'.$safeCategoriyName.'">';
-                                    if ($eachCategory['categoriaDescricao']!=null)
+                            
+                                    ';
+                                    if ($eachCategoryChild['childEstado']==1)
                                     {
-                                        echo '<span class="glyphicon glyphicon-eye-close"></span><br>Hide</a></li>';
+                                        echo '<li><a href="'.Url::to(['categoria-child/changeestado', 'id' => $eachCategoryChild['idchild']]).'"><span class="glyphicon glyphicon-eye-close"></span><br>Hide Sub</a></li>';
                                     }
                                     else
                                     {
-                                        echo '<span class="glyphicon glyphicon-eye-open"></span><br>Show</a></li>';
+                                        if ($eachCategory['categoriaEstado']==1)
+                                        {
+                                            echo '<li><a href="'.Url::to(['categoria-child/changeestado', 'id' => $eachCategoryChild['idchild']]).'"><span class="glyphicon glyphicon-eye-open"></span><br>Unhide Sub</a></li>';
+                                        }
+                                        else
+                                        {
+                                            echo '<li title="The main category is hidden!"  class="disabled"><a><span class="glyphicon glyphicon-eye-open"></span><br>Unhide Sub</a></li>';
+                                        }
                                     }
                            echo'</li>
-                            
-                            
-                            
                                 <li><a href="'.Url::to(['categoria-child/update', 'id' => $eachCategoryChild['idchild']]).'"><span class="glyphicon glyphicon-pencil"></span><br>Edit</a></li>';
                                 if ((\Yii::$app->user->can('deleteCategoria')) && ($eachCategoryChild['qntProdutos']==0))
                                 {
@@ -241,6 +256,7 @@ $this->params['breadcrumbs'][] = $this->title;
   echo'
 </div>
 </div>';
+    }
     }
     ?>
 </div>
