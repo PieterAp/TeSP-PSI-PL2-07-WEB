@@ -5,9 +5,10 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model common\models\CategoriaChild */
 
-$this->title = 'Update Categoria Child: ' . $model->idchild;
+$this->title = 'Update sub-category: ' . $model->childNome;
 $this->params['breadcrumbs'][] = ['label' => 'Categoria Children', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->idchild, 'url' => ['view', 'id' => $model->idchild]];
+$safeSubCategoriyName = preg_replace('/\s+/', '_', $model->childNome);
+$this->params['breadcrumbs'][] = ['label' => $model->childNome, 'url' => ['categoria/index','#'=>$safeSubCategoriyName]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="categoria-child-update">

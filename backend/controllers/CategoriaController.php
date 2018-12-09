@@ -3,7 +3,9 @@
 namespace backend\controllers;
 
 use app\models\CategoriaChildSearch;
+use app\models\ProdutoSearch;
 use common\models\CategoriaChild;
+use common\models\Produto;
 use Yii;
 use common\models\Categoria;
 use app\models\CategoriaSearch;
@@ -28,7 +30,7 @@ class CategoriaController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index','view','create','update'],
+                        'actions' => ['index','view','create','update','indexproduto','changeestado'],
                         'allow' => true,
                         'roles' => ['admin','funcionario'],
                     ],
@@ -97,6 +99,29 @@ class CategoriaController extends Controller
         ]);
     }
 
+
+    /**
+     * @param $idCategoria
+     * @return string
+     */
+    public function actionIndexproduto($idCategoria)
+    {
+        $searchModel = new ProdutoSearch();
+
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        $dataProvider->query
+            ->innerJoin('categoria_child', '`produto`.`categoria_child_id` = `categoria_child`.`idchild`')
+            ->innerJoin('categoria', '`categoria_child`.`categoria_idcategorias` = `categoria`.`idcategorias`')
+            ->where(['categoria.idcategorias' => $idCategoria]);
+
+
+        return $this->render('//produto/index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
     /**
      * Creates a new Categoria model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -145,6 +170,63 @@ class CategoriaController extends Controller
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
+
+        return $this->redirect(['index']);
+    }
+
+
+    /**
+     * @param $id
+     * @return \yii\web\Response
+     * @throws NotFoundHttpException
+     * @throws \Exception
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
+    public function actionChangeestado($id)
+    {
+        $model = $this->findModel($id);
+
+        $modelCategoryChild = new CategoriaChild();
+        $allCategoryChilds = $modelCategoryChild->find()->where('categoria_idcategorias = '.$id)->all();
+
+        $modelProduto = new Produto();
+        $allProducts = $modelProduto::find()
+            ->select('produto.*')
+            ->innerJoin('categoria_child', '`produto`.`categoria_child_id` = `categoria_child`.`idchild`')
+            ->innerJoin('categoria', '`categoria_child`.`categoria_idcategorias` = `categoria`.`idcategorias`')
+            ->where(['categoria.idcategorias' => $id])
+            ->all();
+
+        if ($model->categoriaEstado==1)
+        {
+            $model->categoriaEstado=0;
+            foreach ($allCategoryChilds as $eachCategoryChild)
+            {
+                $eachCategoryChild->childEstado=0;
+                $eachCategoryChild->save();
+            }
+            foreach ($allProducts as $eachProduct)
+            {
+                $eachProduct->produtoEstado=0;
+                $eachProduct->save();
+            }
+        }
+        else
+        {
+            $model->categoriaEstado=1;
+            foreach ($allCategoryChilds as $eachCategoryChild)
+            {
+                $eachCategoryChild->childEstado=1;
+                $eachCategoryChild->save();
+            }
+            foreach ($allProducts as $eachProduct)
+            {
+                $eachProduct->produtoEstado=1;
+                $eachProduct->save();
+            }
+        }
+        $model->save();
 
         return $this->redirect(['index']);
     }

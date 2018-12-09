@@ -2,7 +2,9 @@
 
 namespace backend\controllers;
 
+use app\models\ProdutoSearch;
 use common\models\Categoria;
+use common\models\Produto;
 use Yii;
 use common\models\CategoriaChild;
 use app\models\CategoriaChildSearch;
@@ -27,7 +29,7 @@ class CategoriaChildController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['index','view','create','update'],
+                        'actions' => ['index','view','create','update','indexproduto','changeestado'],
                         'allow' => true,
                         'roles' => ['admin','funcionario'],
                     ],
@@ -69,6 +71,24 @@ class CategoriaChildController extends Controller
         ]);
     }
 
+
+    public function actionIndexproduto($idCategoriaChild)
+    {
+        $searchModel = new ProdutoSearch();
+
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        $dataProvider->query
+            ->innerJoin('categoria_child', '`produto`.`categoria_child_id` = `categoria_child`.`idchild`')
+            ->where(['categoria_child.idchild' => $idCategoriaChild]);
+
+
+        return $this->render('//produto/index', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+
     /**
      * Creates a new CategoriaChild model.
      * If creation is successful, the browser will be redirected to the 'view' page.
@@ -81,7 +101,7 @@ class CategoriaChildController extends Controller
         if ($id==null)
         {
             if ($model->load(Yii::$app->request->post()) && $model->save()) {
-                return $this->redirect(['view', 'id' => $model->idchild]);
+                return $this->redirect(['categoria/index']);
             }
 
             return $this->render('create', [
@@ -116,7 +136,7 @@ class CategoriaChildController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idchild]);
+            return $this->redirect(['categoria/index']);
         }
 
         return $this->render('update', [
@@ -137,6 +157,45 @@ class CategoriaChildController extends Controller
 
         return $this->redirect(['index']);
     }
+
+    /**
+     * @param $id
+     * @return \yii\web\Response
+     * @throws NotFoundHttpException
+     */
+    public function actionChangeestado($id)
+    {
+        $model = $this->findModel($id);
+
+        $modelProduto = new Produto();
+        $allProducts = $modelProduto::find()
+            ->select('produto.*')
+            ->where(['categoria_child_id' => $id])
+            ->all();
+
+        if ($model->childEstado==1)
+        {
+            $model->childEstado=0;
+            foreach ($allProducts as $eachProduct)
+            {
+                $eachProduct->produtoEstado=0;
+                $eachProduct->save();
+            }
+        }
+        else
+        {
+            $model->childEstado=1;
+            foreach ($allProducts as $eachProduct)
+            {
+                $eachProduct->produtoEstado=1;
+                $eachProduct->save();
+            }
+        }
+        $model->save();
+
+        return $this->redirect(['index']);
+    }
+
 
     /**
      * Finds the CategoriaChild model based on its primary key value.

@@ -11,6 +11,7 @@ use Yii;
  * @property string $childNome
  * @property string $childDescricao
  * @property int $categoria_idcategorias
+ * @property int $childEstado
  *
  * @property Categoria $categoriaIdcategorias
  * @property Produto[] $produtos
@@ -32,7 +33,7 @@ class CategoriaChild extends \yii\db\ActiveRecord
     {
         return [
             [['childNome', 'categoria_idcategorias'], 'required'],
-            [['categoria_idcategorias'], 'integer'],
+            [['categoria_idcategorias', 'childEstado'], 'integer'],
             [['childNome', 'childDescricao'], 'string', 'max' => 255],
             [['categoria_idcategorias'], 'exist', 'skipOnError' => true, 'targetClass' => Categoria::className(), 'targetAttribute' => ['categoria_idcategorias' => 'idcategorias']],
         ];
@@ -48,6 +49,7 @@ class CategoriaChild extends \yii\db\ActiveRecord
             'childNome' => 'Child Nome',
             'childDescricao' => 'Child Descricao',
             'categoria_idcategorias' => 'Categoria Idcategorias',
+            'childEstado' => 'Child Estado',
         ];
     }
 
