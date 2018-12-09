@@ -58,15 +58,8 @@ class CategoriaChildController extends LayoutController
         $categoriaSelecionada = Categoria::find()
             ->select('categoria.*')
             ->leftJoin('categoria_child', '`categoria`.`idcategorias` = `categoria_child`.`categoria_idcategorias`')
-            ->leftJoin('produto', '`produto`.`categoria_child_id` = `categoria_child`.`idchild`')
-            ->where(['produto.idprodutos'=>$id])
+            ->where(['categoria_child.idchild'=>$id])
             ->one();
-
-        /*
-        $categoriaSelecionada = Categoria::find()
-            ->where(['categoria.idcategorias' => $categoriaSelecionadaId])
-            ->one();
-        */
 
         $allProducts = Produto::find()
             ->select('produto.*')
