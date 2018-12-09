@@ -65,6 +65,7 @@ class CategoriaChildController extends LayoutController
             ->select('produto.*')
             ->innerJoin('categoria_child', '`produto`.`categoria_child_id` = `categoria_child`.`idchild`')
             ->where(['categoria_child.idchild' => $id])
+            ->andWhere(['produto.produtoEstado' => 1])
             ->all();
 
         //todo: Improve query above for the following reason: However, a better approach is to exploit the existing relation declarations by calling yii\db\ActiveQuery::joinWith():

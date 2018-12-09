@@ -63,7 +63,10 @@ class CategoriaController extends LayoutController
     public function actionView($id)
     {
         //Group of category childs belonging to the selected category $id
-        $allCategoriaChilds = CategoriaChild::findAll(['categoria_idcategorias' => $id]);
+        $allCategoriaChilds = CategoriaChild::find()
+                                ->where(['categoria_idcategorias' => $id])
+                                ->andWhere(['childEstado' => 1])
+                                ->all();
 
 
         //Group of products belonging to the selected category $id
@@ -81,6 +84,7 @@ class CategoriaController extends LayoutController
         ->innerJoin('categoria_child', '`produto`.`categoria_child_id` = `categoria_child`.`idchild`')
         ->innerJoin('categoria', '`categoria_child`.`categoria_idcategorias` = `categoria`.`idcategorias`')
         ->where(['categoria.idcategorias' => $id])
+        ->andWhere(['categoria.categoriaEstado' => 1])
         ->all();
 
         //todo: Improve query above by using: However, a better approach is to exploit the existing relation declarations by calling yii\db\ActiveQuery::joinWith():
