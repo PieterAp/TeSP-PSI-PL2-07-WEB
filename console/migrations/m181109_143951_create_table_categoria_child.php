@@ -16,7 +16,7 @@ class m181109_143951_create_table_categoria_child extends Migration
             'childNome' => $this->string()->notNull(),
             'childDescricao' => $this->string(),
             'categoria_idcategorias' => $this->integer()->notNull(),
-            'childEstado' => $this->tinyInteger()->defaultValue('0')
+            'childEstado' => $this->tinyInteger()->defaultValue('1')
         ], $tableOptions);
 
         $this->createIndex('fk_categoria_child_categoria1_idx', '{{%categoria_child}}', 'categoria_idcategorias');
