@@ -15,7 +15,7 @@ class m181109_143950_create_table_categoria extends Migration
             'idcategorias' => $this->primaryKey(),
             'categoriaNome' => $this->string()->notNull(),
             'categoriaDescricao' => $this->string(),
-            'categoriaEstado' => $this->tinyInteger()->defaultValue('0')
+            'categoriaEstado' => $this->tinyInteger()->defaultValue('1')
         ], $tableOptions);
     }
 
