@@ -52,4 +52,24 @@ $('.dropdown2').click(function(){
         $(".plus2").removeClass("fa-minus");
     }
 });
+function compraDeleteAJAX($url,$id,$csrf){
+    $.ajax({
+        url: $url + '/compra/delete',
+        type: 'post',
+        data: {
+            idproduto: $id ,
+            _csrf : $csrf
+        }
+    })
+        .done( function (data) {
+            $(".values"+data.check).remove();
+            $(".total").html("Total:"+data.total);
+            $(".header-icons-noti").html(data.count);
+            $(".comprabuttom").remove();
+        })
+        .fail( function (xhr, textStatus, errorThrown){
+            $(".total").html("Something went wrong, refresh page and if this error persists, contact support");
+            console.log(errorThrown);
+        });
+}
 

@@ -28,7 +28,6 @@ AppAsset::register($this);
 
 <div class="wrap">
     <?php
-
     NavBar::begin([
         'brandLabel' => Yii::$app->name,
         'brandUrl' => Yii::$app->homeUrl,
@@ -50,6 +49,13 @@ AppAsset::register($this);
             )
             . Html::endForm()
             . '</li>';
+        $menuItems[] = ['label' => 'produtos', 'url' => ['/produto/index']];
+        $menuItems[] = ['label' => 'view employee', 'url' => ['/user/index']];
+        $menuItems[] = ['label' => 'History purchase', 'url' => ['/compra/historic']];
+        $menuItems[] = ['label' => 'Promotion Campaign', 'url' => ['/campanha/index']];
+        $menuItems[] = ['label' => 'product sales', 'url' => ['/produtocampanha/index']];
+
+
     }
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],

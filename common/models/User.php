@@ -26,7 +26,7 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
 
-
+    
     /**
      * {@inheritdoc}
      */
@@ -162,6 +162,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_hash = Yii::$app->security->generatePasswordHash($password);
     }
+
 
     /**
      * Generates "remember me" authentication key
