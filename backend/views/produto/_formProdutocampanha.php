@@ -20,8 +20,8 @@ use yii\widgets\ActiveForm;
     ->dropDownList
     ($sale, ['prompt'=>'Choose...']);
     }else{
-    //Yii::$app->response->redirect(['produto/index']);
-    var_dump('NO PRODUCTS FOUND!');
+    Yii::$app->response->redirect(['produto/index']);
+    var_dump('SALES NOT FOUND!');
     DIE();
 
     } ?>

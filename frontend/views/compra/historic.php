@@ -13,19 +13,14 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="compra-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    Historico das compras que foram compradas compraEstado = 0
-    <p>
-        <?= Html::a('Create Compra', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-            'produto_preco',
-            'compraData',
-            'produtoNome',
-            'produtoMarca',
+            ['header' => 'Product name', 'attribute' => 'produtoNome'],
+            ['header' => 'Product Price', 'attribute' => 'produto_preco'],
+            ['header' => 'Date', 'attribute' => 'compraData'],
+            ['header' => 'Brand', 'attribute' => 'produtoMarca'],
         ],
     ]); ?>
 </div>

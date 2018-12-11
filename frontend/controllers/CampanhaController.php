@@ -2,9 +2,13 @@
 
 namespace frontend\controllers;
 
+use common\models\Produto;
+use common\models\Produtocampanha;
 use Yii;
 use common\models\Campanha;
 use app\models\CampanhaSearch;
+use yii\data\ActiveDataProvider;
+use yii\db\Query;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -40,6 +44,22 @@ class CampanhaController extends LayoutController
 
         return $this->render('index', [
             'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    public function actionProdutocampanha(){
+        $rows = (new Query())
+            ->select(['idCampanha','idprodutos','campanhaNome','campanhaDataInicio','campanhaDataFim','campanhaPercentagem','produtoNome'])
+            ->from('campanha')
+            ->innerJoin('produtocampanha','campanha_idCampanha=idCampanha')
+            ->innerJoin('produto','produtos_idprodutos=idprodutos')
+            ->where(['>','campanhaDataFim', date('Y-m-d')])
+            ->andWhere(['<','campanhaDataInicio', date('Y-m-d')]);
+
+        $dataProvider = new ActiveDataProvider(['query' => $rows]);
+
+
+        return $this->render('../produtocampanha/index', [
             'dataProvider' => $dataProvider,
         ]);
     }

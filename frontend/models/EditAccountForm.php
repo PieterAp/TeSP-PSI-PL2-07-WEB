@@ -27,7 +27,7 @@ class EditAccountForm extends Model
         return [
             ['username', 'trim'],
             ['username', 'string', 'min' => 2, 'max' => 255],
-            
+
             ['userNomeProprio', 'trim'],
             ['userNomeProprio', 'required'],
             ['userNomeProprio', 'string', 'min' => 3, 'max' => 16],
@@ -35,7 +35,7 @@ class EditAccountForm extends Model
             ['userApelido', 'trim'],
             ['userApelido', 'required'],
             ['userApelido', 'string', 'min' => 3, 'max' => 16],
-            
+
             ['userNIF', 'integer'],
             ['userNIF', 'string', 'min' => 9, 'max' =>9],
 
@@ -50,7 +50,19 @@ class EditAccountForm extends Model
             ['password', 'string', 'min' => 6],
         ];
     }
-
+    public function attributeLabels()
+    {
+        return [
+            'iduser' => 'ID',
+            'userNomeProprio' => 'First name',
+            'userApelido' => 'Last name',
+            'userNIF' => 'NIF',
+            'userDataNasc' => 'Birthday',
+            'userEstado' => 'Estate',
+            'userMorada' => 'Adress',
+            'user_id' => 'USER_ID',
+        ];
+    }
     /**
      * Signs user up.
      *
