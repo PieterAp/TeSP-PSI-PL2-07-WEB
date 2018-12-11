@@ -34,12 +34,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 echo '
                         <div class="col-lg-4 col-md-4 text-left table-bordered">
                             <h4>'.$eachProduct->produtoNome.'</h4>
-     
+
                             <p>'.$eachProduct->produtoDescricao1.'</p>
                             <p>'.$eachProduct->produtoDescricao2.'</p>
                             <p>'.$eachProduct->produtoDescricao3.'</p>
-                            
-            
+
+
                             <p class="text-right"><a class="btn btn-success" href="'.$path.'">Take a look &raquo;</a></p>
                         </div>
                 ';

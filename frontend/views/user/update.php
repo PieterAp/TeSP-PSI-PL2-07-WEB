@@ -10,7 +10,7 @@ use yii\helpers\Html;
 $this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
-<div class="user-update">
+<div class="modal-dialog">
 
     <h1><?= Html::encode($this->title) ?></h1>
 

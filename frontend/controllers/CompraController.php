@@ -14,6 +14,7 @@ use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\Response;
 
 /**
  * CompraController implements the CRUD actions for Compra model.
@@ -40,7 +41,7 @@ class CompraController extends LayoutController
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'delete' => ['POST'],
+                    'delete' => ['post'],
                 ],
             ],
         ];
@@ -83,29 +84,43 @@ class CompraController extends LayoutController
         $compra = Compra::find()
             ->where(['user_iduser' => Yii::$app->user->id, 'compraEstado'=> 1])
             ->one();
-        $compra->compraEstado = 0;
 
         $cart = Compraproduto::find()
             ->where (['compra_idcompras' => $compra->idcompras])
             ->all();
+        $compra->compraEstado = 0;
 
         foreach ($cart as $key){
             $produto = Produto::find()
                 ->where (['idprodutos' => $key->produto_idprodutos])
-                ->all();;
-
-            if ($produto[0]->produtoStock >0){
-                $produto[0]->produtoStock -= 1;
-
+                ->one();
+            if ($produto->produtoStock >0){
+                $produto->produtoStock -= 1;
+                $produto->save();
             }else{
-                return $this->render('errorstock');
+                $cart1 = Compraproduto::find()
+                    ->where (['compra_idcompras' => $compra->idcompras])
+                    ->all();
+
+                $myCommand =  Yii::$app->db->createCommand()
+                    ->delete('compraproduto', 'compra_idcompras = '.$key->compra_idcompras.' AND produto_idprodutos = '.$key->produto_idprodutos.' AND produto_preco = '.$key->produto_preco.' limit 1');
+                $check = $myCommand->execute();
+
+                if ($check == 1){
+                    $compra->compraValor = $compra->compraValor - $key->produto_preco;
+                    $compra->save();
+                    $nostock[] = $produto->produtoNome .' - '. $key->produto_preco;
+                }
             }
         }
-        $produto[0]->save();
         $compra->save();
+        if (isset($nostock)){
+            return $this->redirect(['cart', 'nostock' => $nostock]);
 
+        }else{
+            return $this->redirect(['cart']);
+        }
 
-        return $this->render('purchase');
     }
     /**
      * Displays a single Compra model.
@@ -115,7 +130,7 @@ class CompraController extends LayoutController
     public function actionCart()
     {
         $rows = (new Query())
-            ->select(['produto_preco','compraData','produtoNome','produtoMarca','produtoStock'])
+            ->select(['produto_preco','compraData','produtoNome','produtoMarca','produtoStock','produtoImagem1','idprodutos'])
             ->from('userdata')
             ->innerJoin('compra','user_iduser=iduser')
             ->innerJoin('compraproduto','compra_idcompras=idcompras')
@@ -125,14 +140,12 @@ class CompraController extends LayoutController
         $total = Compra::find()
             ->where(['user_iduser' => Yii::$app->user->id, 'compraEstado'=> 1])
             ->one();
+        $cart = $rows->all();
 
-        
-
-        $dataProvider = new ActiveDataProvider(['query' => $rows]);
         return $this->render('cart',[
-            'dataProvider' => $dataProvider,
+            'cart' => $cart,
             'total' => $total,
-            
+
         ]);
     }
 
@@ -145,6 +158,10 @@ class CompraController extends LayoutController
     {
         $compra = new Compra();
         $produto = Produto::findOne($id);
+        if ($produto->produtoStock >0){
+        }else {
+            return $this->render('errorstock');
+        }
         $compra = Compra::find()
             ->where(['user_iduser' => Yii::$app->user->id, 'compraEstado'=> 1])
             ->one();
@@ -163,13 +180,7 @@ class CompraController extends LayoutController
             $compra->compraValor += $produto->produtoPreco;
             $compra->save();
         }
-        if ($produto->produtoStock >0){
 
-            }else {
-            return $this->render('errorstock');
-
-
-        }
 
         $compraproduto = new Compraproduto();
         $compraproduto->produto_preco = $produto->produtoPreco;
@@ -208,26 +219,42 @@ class CompraController extends LayoutController
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public function actionDelete($id)
+    public function actionDelete()
     {
-        $compra = Compra::find()
-            ->where(['user_iduser' => Yii::$app->user->id, 'compraEstado'=> 1])
-            ->one();
+        if (Yii::$app->request->isAjax) {
+            $id = Yii::$app->request->post('idproduto');
+            \Yii::$app->response->format = Response::FORMAT_JSON;
+            $compra = Compra::find()
+                ->where(['user_iduser' => Yii::$app->user->id, 'compraEstado'=> 1])
+                ->one();
 
-        $cart = Compraproduto::find()
-            ->where (['compra_idcompras' => $compra->idcompras])
-            ->all();
+            $cart = Compraproduto::find()
+                ->where (['compra_idcompras' => $compra->idcompras])
+                ->all();
 
-        $myCommand =  Yii::$app->db->createCommand()
-            ->delete('compraproduto', 'compra_idcompras = '.$cart[$id]->compra_idcompras.' AND produto_idprodutos = '.$cart[$id]->produto_idprodutos.' AND produto_preco = '.$cart[$id]->produto_preco.' limit 1');
+            $myCommand =  Yii::$app->db->createCommand()
+                ->delete('compraproduto', 'compra_idcompras = '.$cart[$id]->compra_idcompras.' AND produto_idprodutos = '.$cart[$id]->produto_idprodutos.' AND produto_preco = '.$cart[$id]->produto_preco.' limit 1');
             $check = $myCommand->execute();
 
-        var_dump($check);
-        if ($check == 1){
-            $compra->compraValor = $compra->compraValor - $cart[$id]->produto_preco;
-            $compra->save();
+            if ($check == 1){
+                $compra->compraValor = $compra->compraValor - $cart[$id]->produto_preco;
+                $compra->save();
+            }
+            $rows = (new Query())
+                ->select(['count(*)'])
+                ->from('userdata')
+                ->innerJoin('compra','user_iduser=iduser')
+                ->innerJoin('compraproduto','compra_idcompras=idcompras')
+                ->innerJoin('produto','produto_idprodutos=idprodutos')
+                ->where(['iduser'=>Yii::$app->user->id, 'compraEstado' => 1]);
+            $cart = $rows->all();
+
+            return [
+                'check' => $id,
+                'total' =>$compra->compraValor,
+                'count' =>$compra->compraValor
+            ];
         }
-        return $this->redirect(['index']);
     }
 
     /**

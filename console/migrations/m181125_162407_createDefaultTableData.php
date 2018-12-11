@@ -54,28 +54,18 @@ class m181125_162407_createDefaultTableData extends Migration
     public function up()
     {
         //region table_user
-
-        $myfile = fopen("users.txt", "w") or print_r("Unable to open file!");
-
         //region Role:admin
         //region Username:pieter Role:admin
         $user = $this->createUser('pieter','pieter@gmail.com','pieterpieter');
         $this->createUserData($user,'Pieter','Aparicio','245875326','1997-05-08','Avenida Humberto Delgado, Leiria');
         $this->givePermission($user,'admin');
-
-        $txt = "ADMIN Username: ".$user->username." Password: pieterpieter"."\n";
-        $myfile = file_put_contents('users.txt', $txt.PHP_EOL , FILE_APPEND | LOCK_EX);
         //endregion
 
         //region Username:pedro Role:admin
         $user = $this->createUser('pedro','pedro@gmail.com','pedropedro');
         $this->createUserData($user,'Pedro','Inácio','245875326','1997-09-08','Rua António Frade, Marinha Grande');
         $this->givePermission($user,'admin');
-
-        $txt = "ADMIN Username: ".$user->username." Password: pedropedro";
-        $myfile = file_put_contents('users.txt', $txt.PHP_EOL , FILE_APPEND | LOCK_EX);
         //endregion
-
         //endregion
 
         //region Role:funcionarios
@@ -83,18 +73,12 @@ class m181125_162407_createDefaultTableData extends Migration
         $user = $this->createUser('david','david@gmail.com','daviddavid');
         $this->createUserData($user,'David','Sousa','245875326','1995-09-08','Rua Humberto Delgado, Lisboa');
         $this->givePermission($user,'funcionario');
-
-        $txt = "FUNCIONARIO Username: ".$user->username." Password: daviddavid";
-        $myfile = file_put_contents('users.txt', $txt.PHP_EOL , FILE_APPEND | LOCK_EX);
         //endregion
 
         //region Username:tiago Role:funcionario
         $user = $this->createUser('tiago','tiago@gmail.com','tiagotiago');
         $this->createUserData($user,'Tiago','Mendes','245875326','1995-09-08','Rua Humberto Delgado, Lisboa');
         $this->givePermission($user,'funcionario');
-
-        $txt = "FUNCIONARIO Username: ".$user->username." Password: tiagotiago";
-        $myfile = file_put_contents('users.txt', $txt.PHP_EOL , FILE_APPEND | LOCK_EX);
         //endregion
         //endregion
 
@@ -103,31 +87,23 @@ class m181125_162407_createDefaultTableData extends Migration
         $user = $this->createUser('margarida','margarida@gmail.com','margaridamargarida');
         $this->createUserData($user,'Margarida','Isabel','245875326','1997-02-14','Rua Humberto Delgado, Rio Maior');
         $this->givePermission($user,'cliente');
-
-        $txt = "CLIENTE Username: ".$user->username." Password: margaridamargarida";
-        $myfile = file_put_contents('users.txt', $txt.PHP_EOL , FILE_APPEND | LOCK_EX);
         //endregion
 
         //region Username:joao Role:cliente
         $user = $this->createUser('joao','joao@gmail.com','joaojoao');
         $this->createUserData($user,'João','Almeida','245875326','1997-09-06','Rua Humberto Delgado, Lisboa');
         $this->givePermission($user,'cliente');
-
-        $txt = "CLIENTE Username: ".$user->username." Password: joaojoao";
-        $myfile = file_put_contents('users.txt', $txt.PHP_EOL , FILE_APPEND | LOCK_EX);
         //endregion
         //endregion
-
-        echo "\n * * * User information has been written to file users.txt in the root of this project! * * * \n";
         //endregion
 
 
         //region table_campanha
-        //region Campanha: Christmas
+        //region Campanha: Saldos de natal
         $campanha = new Campanha();
-        $campanha->campanhaNome = 'Christmas';
+        $campanha->campanhaNome = 'Saldos de Natal';
         $campanha->campanhaDataInicio = '2018-12-01';
-        $campanha->campanhaDescricao = 'All the best for your family and friends for a pleasent holiday!';
+        $campanha->campanhaDescricao = 'Produtos em desconto durante a época de natal';
         $campanha->campanhaDataFim = '2018-12-25';
         $campanha->save();
         //endregion
