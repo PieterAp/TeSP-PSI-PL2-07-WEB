@@ -1,11 +1,13 @@
 <?php
 namespace backend\controllers;
 
+use common\models\Userdata;
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
+use common\models\User;
 
 /**
  * Site controller
@@ -30,6 +32,7 @@ class SiteController extends Controller
                         'allow' => true,
                         'roles' => ['@'],
                     ],
+
                 ],
             ],
             'verbs' => [
@@ -70,22 +73,48 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
+        $this->layout = 'loginLayout';
         if (!Yii::$app->user->isGuest) {
             return $this->goHome();
         }
 
+
         $model = new LoginForm();
+
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            $auth = \Yii::$app->authManager->getRolesByUser(Yii::$app->user->id);
+            $userdata = new Userdata;
+            $role= '';
+            if (array_key_exists ('admin' , $auth)){
+                $role = 'admin';
+            }
+            if (array_key_exists ('cliente' , $auth)){
+                $role = 'cliente';
+            }
+            if (array_key_exists ('funcionario' , $auth)){
+               $role = 'funcionario';
+            }
+
+            if (($role != 'admin') && ($role != 'funcionario')){
+                Yii::$app->user->logout();
+                return $this->render('notallowed');
+            }
+            $identity = User::findOne(['username' => $model->username]);
+            $user = Userdata::findOne(['user_id' => $identity->id]);
+            if ($user->userVisibilidade == '0'){
+                Yii::$app->user->logout();
+
+                return $this->render('disabled_error');
+            }
+
             return $this->goBack();
         } else {
             $model->password = '';
-
             return $this->render('login', [
                 'model' => $model,
             ]);
         }
     }
-
     /**
      * Logout action.
      *

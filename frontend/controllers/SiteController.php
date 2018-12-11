@@ -1,10 +1,18 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\Categoria;
+use common\models\CategoriaChild;
+use common\models\Produto;
+use common\models\Userdata;
 use Yii;
 use yii\base\InvalidParamException;
+use yii\db\Query;
+use yii\helpers\Url;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
+use app\models\UserSearch;
+use yii\data\ActiveDataProvider;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
@@ -12,11 +20,11 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
-
+use common\models\User;
 /**
  * Site controller
  */
-class SiteController extends Controller
+class SiteController extends LayoutController
 {
     /**
      * {@inheritdoc}
@@ -26,13 +34,8 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup'],
+                'only' => ['logout'],
                 'rules' => [
-                    [
-                        'actions' => ['signup'],
-                        'allow' => true,
-                        'roles' => ['?'],
-                    ],
                     [
                         'actions' => ['logout'],
                         'allow' => true,
@@ -43,7 +46,7 @@ class SiteController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'logout' => ['post'],
+                    'logout' => ['POST'],
                 ],
             ],
         ];
@@ -52,7 +55,6 @@ class SiteController extends Controller
     /**
      * {@inheritdoc}
      */
-    
     public function actions()
     {
         return [
@@ -66,6 +68,7 @@ class SiteController extends Controller
         ];
     }
 
+
     /**
      * Displays homepage.
      *
@@ -73,32 +76,54 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+/*die();
+        $query = (new Query())
+            ->select(['categoria.*', 'categoria_child.*', 'COUNT(Distinct(categoria.idcategorias)) as "qntCategorias"'])
+            ->from('categoria')
+            ->leftJoin('categoria_child', '`categoria`.`idcategorias` = `categoria_child`.`categoria_idcategorias`');
+
+        $command = $query->createCommand();
+        $allCategories = $command->queryAll();
+
+        var_dump($allCategories);
+        die();*/
+
+        $allCategories = Categoria::find()
+            ->select('Categoria.*')
+            ->distinct()
+            ->all();
+
+        $allCategoryChilds = CategoriaChild::find()
+            ->select('categoria_child.*')
+            ->distinct()
+            ->all();
+
+        $allBrands = Produto::find()
+            ->select('produto.produtoMarca')
+            ->distinct()
+            ->all();
+
+        $allProducts = Produto::find()
+            ->select('produto.*')
+            ->all();
+
+
+        return $this->render('index', [
+            'allCategories' => $allCategories,
+            'allCategoryChilds' => $allCategoryChilds,
+            'allBrands' => $allBrands,
+            'allProducts' => $allProducts,
+        ]);
     }
-    public function actionSignup()
+
+
+    public function actionFilter($type, $params)
     {
-        return $this->render('signup');
+
     }
-    public function actionSignin()
-    {
-        return $this->render('signin');
-    }
-    public function actionRepair()
-    {
-        return $this->render('repair');
-    }
-    public function actionProduct()
-    {
-        return $this->render('product');
-    }
-    public function actionProductdetail()
-    {
-        return $this->render('product-detail');
-    }
-    public function actionCart()
-    {
-        return $this->render('cart');
-    }
+
+
+
     /**
      * Logs in a user.
      *
@@ -112,6 +137,12 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
+            $identity = User::findOne(['username' => $model->username]);
+            $user = Userdata::findOne(['user_id' => $identity->id]);
+            if ($user->userVisibilidade == '0'){
+                Yii::$app->user->logout();
+                return $this->render('disabled_error');
+            }
             return $this->goBack();
         } else {
             $model->password = '';
@@ -130,10 +161,8 @@ class SiteController extends Controller
     public function actionLogout()
     {
         Yii::$app->user->logout();
-
         return $this->goHome();
     }
-
     /**
      * Displays contact page.
      *
@@ -156,7 +185,6 @@ class SiteController extends Controller
             ]);
         }
     }
-
     /**
      * Displays about page.
      *
@@ -166,13 +194,12 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
-
     /**
      * Signs user up.
      *
      * @return mixed
      */
-    /*public function actionSignup()
+    public function actionSignup()
     {
         $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
@@ -186,7 +213,7 @@ class SiteController extends Controller
         return $this->render('signup', [
             'model' => $model,
         ]);
-    }*/
+    }
 
     /**
      * Requests password reset.
