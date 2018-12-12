@@ -7,7 +7,8 @@ use yii\helpers\Html;
 
 $this->title = 'Update Categoria: ' . $model->categoriaNome;
 $this->params['breadcrumbs'][] = ['label' => 'Categorias', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->categoriaNome, 'url' => ['view', 'id' => $model->idcategorias]];
+$safeCategoriyName = preg_replace('/\s+/', '_', $model->categoriaNome);
+$this->params['breadcrumbs'][] = ['label' => $model->categoriaNome, 'url' => ['categoria/index','#'=>$safeCategoriyName]];
 $this->params['breadcrumbs'][] = 'Update';
 ?>
 <div class="categoria-update">
