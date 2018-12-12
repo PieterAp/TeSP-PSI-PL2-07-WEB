@@ -19,7 +19,7 @@ use yii\helpers\Url;
         <div class="row">
             <div class="col-lg-2 col-md-2 col-xs-4 text-center">
                 <h2>Categories</h2>
-                <p><a style="width: 100%" class="btn btn-default" href="<?= Url::to(['categoria/index']); ?>">View all</a></p>
+                <p><a style="width: 100%" class="btn btn-default" href="<?= Url::to(['categoria/index']); ?>">Manage</a></p>
             </div>
             <div class="col-lg-2 col-md-2 col-xs-4 text-center">
                 <h2>Product</h2>
