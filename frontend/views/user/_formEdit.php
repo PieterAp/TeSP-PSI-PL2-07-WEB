@@ -15,13 +15,20 @@ DatePicker::widget([
 ]);
 ?>
 
-<div class="user-form">
+<div class="loginmodal-container">
 
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'username')->textInput(['readonly'=> true]) ?>
-    <?= $form->field($model, 'userNomeProprio')->textInput() ?>
-    <?= $form->field($model, 'userApelido')->textInput() ?>
+    <div class="row">
+        <div class="col-md-6">
+            <?= $form->field($model, 'userNomeProprio')->textInput() ?>
+        </div>
+        <div class="col-md-6">
+            <?= $form->field($model, 'userApelido')->textInput() ?>
+        </div>
+
+    </div>
     <?= $form->field($model, 'userMorada')->textInput() ?>
     <?= $form->field($model, 'userDataNasc')->widget(\yii\jui\DatePicker::class, [
         'dateFormat' => 'yyyy-MM-dd',

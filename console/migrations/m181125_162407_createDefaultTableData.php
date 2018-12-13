@@ -67,7 +67,6 @@ class m181125_162407_createDefaultTableData extends Migration
         $this->createUserData($user,'Pedro','Inácio','245875326','1997-09-08','Rua António Frade, Marinha Grande');
         $this->givePermission($user,'admin');
         //endregion
-
         //endregion
 
         //region Role:funcionarios
@@ -102,11 +101,11 @@ class m181125_162407_createDefaultTableData extends Migration
 
 
         //region table_campanha
-        //region Campanha: Christmas
+        //region Campanha: Saldos de natal
         $campanha = new Campanha();
-        $campanha->campanhaNome = 'Christmas';
+        $campanha->campanhaNome = 'Saldos de Natal';
         $campanha->campanhaDataInicio = '2018-12-01';
-        $campanha->campanhaDescricao = 'All the best for your family and friends for a pleasent holiday!';
+        $campanha->campanhaDescricao = 'Produtos em desconto durante a época de natal';
         $campanha->campanhaDataFim = '2018-12-25';
         $campanha->save();
         //endregion
