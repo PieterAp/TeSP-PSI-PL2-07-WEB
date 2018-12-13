@@ -7,11 +7,15 @@ use common\models\Produtocampanha;
 use Yii;
 use common\models\Produto;
 use app\models\ProdutoSearch;
+use yii\base\Exception;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
+use yii\helpers\FileHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
+use yii\helpers\Url;
 
 /**
  * ProdutoController implements the CRUD actions for Produto model.
@@ -28,7 +32,7 @@ class ProdutoController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['produtocampanha','index'],
+                        'actions' => ['produtocampanha','index','create','view','changeestado','stock'],
                         'allow' => true,
                         'roles' => ['admin', 'funcionario'],
                     ],
@@ -119,8 +123,40 @@ class ProdutoController extends Controller
     {
         $model = new Produto();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idprodutos]);
+        $model->produtoDataCriacao = date("Y-m-d H:i:s");
+
+        if ($model->load(Yii::$app->request->post())) {
+
+            $images = [];
+
+            for ($k=1; $k<5; $k++)
+            {
+                $images[] = UploadedFile::getInstance($model, ('produtoImagem'.$k));
+
+                if ($images[$k-1] != null)
+                {
+                    $model->{'produtoImagem'.$k} = $images[$k-1]->baseName.'.'.$images[$k-1]->extension;
+                }
+
+            }
+
+            if ($model->save())
+            {
+                $path = Url::to('@frontend/web/images/products/'.$model->idprodutos);
+
+                FileHelper::createDirectory($path);
+
+
+                for ($i=0; $i<count($images); $i++)
+                {
+                    if ($images[$i]!=null)
+                    {
+                        $images[$i]->saveAs($path.'/'.$model->{'produtoImagem'.($i+1)});
+                    }
+                }
+
+                return $this->redirect(['view', 'id' => $model->idprodutos]);
+            }
         }
 
         return $this->render('create', [
@@ -133,14 +169,48 @@ class ProdutoController extends Controller
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
+     * @throws Exception
      * @throws NotFoundHttpException if the model cannot be found
      */
     public function actionUpdate($id)
     {
+        $beforeUpdate = Produto::find()
+                        ->where(['idprodutos' => $id])
+                        ->one();
+
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idprodutos]);
+        if ($model->load(Yii::$app->request->post())) {
+
+            $images = [];
+
+            for ($k=1; $k<=4; $k++)
+            {
+                if (UploadedFile::getInstance($model, ('produtoImagem'.$k))!=null)
+                {
+                    $images[$k] = UploadedFile::getInstance($model, ('produtoImagem'.$k));
+                    $model->{'produtoImagem'.$k} = $images[$k]->baseName.'.'.$images[$k]->extension;
+                }
+                elseif (UploadedFile::getInstance($model, ('produtoImagem'.$k))==null)
+                {
+                    $model->{'produtoImagem'.$k} = $beforeUpdate->{'produtoImagem'.$k};
+                }
+            }
+
+            if ($model->save())
+            {
+                $path = Url::to('@frontend/web/images/products/'.$model->idprodutos);
+
+                FileHelper::createDirectory($path);
+
+                foreach ($images as $position=>$image)
+                {
+                    $images[$position]->saveAs($path.'/'.$model->{'produtoImagem'.($position)});
+
+                }
+
+                return $this->redirect(['view', 'id' => $model->idprodutos]);
+            }
         }
 
         return $this->render('update', [
@@ -154,6 +224,9 @@ class ProdutoController extends Controller
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
+     * @throws \Exception
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
      */
     public function actionDelete($id)
     {
@@ -161,6 +234,49 @@ class ProdutoController extends Controller
 
         return $this->redirect(['index']);
     }
+
+
+    /**
+     * @param $id
+     * @return \yii\web\Response
+     * @throws NotFoundHttpException
+     */
+    public function actionChangeestado($id)
+    {
+        $model = $this->findModel($id);
+
+        if ($model->produtoEstado==1)
+        {
+            $model->produtoEstado=0;
+        }
+        else
+        {
+            $model->produtoEstado=1;
+        }
+        $model->save();
+
+        return $this->redirect(['index']);
+    }
+
+
+    public function actionStock($id,$action)
+    {
+        $model = $this->findModel($id);
+
+        if($action=='add')
+        {
+            $model->produtoStock++;
+        }
+        elseif ($action=='remove')
+        {
+            $model->produtoStock--;
+        }
+
+        $model->save();
+        return $this->redirect(['index']);
+    }
+
+
 
     /**
      * Finds the Produto model based on its primary key value.
