@@ -9,111 +9,386 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
-use common\models\Categoria;
+use yii\helpers\Url;
+
 
 AppAsset::register($this);
 
 $categoriaNavbar = $this->params['categoriaNavbar'];
+$categoriaChildNavbar = $this->params['categoriaChildNavbar'];
+$sale = $this->params['sale'];
+$totalPrice = $this->params['totalPrice'];
+$cart = $this->params['cart'];
+$this->title = 'FixByte';
 ?>
 <?php $this->beginPage() ?>
-<!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
 <head>
-    <meta charset="<?= Yii::$app->charset ?>">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
+    <link rel="shortcut icon" type="image/png" href="<?php echo Url::to('@web/images/icons/logo_transparent.png')?>"/>
 </head>
-<body style="margin-top: 60px;">
-<?php $this->beginBody() ?>
+<body class="animsition" style="animation-duration: 1500ms; opacity: 1;">
+<header class="header1">
+    <div class="wrap_header fixed-header2 trans-0-4" style="opacity=none;">
+    <!-- Menu -->
+        <?php if ($categoriaNavbar!=null && $categoriaChildNavbar!=null) {
+        echo '<div class="wrap_menu">
+        <nav class="menu">
+            <ul class="main_menu">';
+                foreach ($categoriaNavbar as $keyMain => $valueMain){
+                    echo '<li><a href="'.$categoriaNavbar[$keyMain]['url'].'">'.$categoriaNavbar[$keyMain]['label'].'</a>';
+                    echo '<ul class="sub_menu">';
+                    foreach ($categoriaChildNavbar as $keyChild => $valueChild){
+                        if ($categoriaNavbar[$keyMain]['id'] == $categoriaChildNavbar[$keyChild]['id']){
+                            echo '<li><a href="'.$categoriaChildNavbar[$keyChild]['childurl'].'">'.$categoriaChildNavbar[$keyChild]['childnome'].'</a></li>';
+                        }
+                    }
+                    echo '</ul></li>';
+                }
+                echo '
+            </ul>
+        </nav>
+    </div>';}?>
+    <!-- Header Icon -->
+    <div class="header-icons">
+        <!--  -->
+        <?php if (Yii::$app->user->isGuest){
+            echo '<a href="'.Url::to(['site/login']).'" style="margin-right: 20px;">Sign in</a>
+                    <a href="'.Url::to(['site/signup']).'" >Sign up</a>';
+        }else{
+            echo '<div class="dropdown">
+            <a href="#" class="header-wrapicon1 dis-block icon-menu">
+                <img src="'.Url::to('@web/images/icons/icon-header-01.png').'" class="header-icon1" alt="ICON"">
+            </a>
+            <div class="dropdown-content">
+                <a href="'.Url::to(['user/update']).'">Minha conta</a>';
+                $ola = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
+                if (isset($ola['admin']) || isset($ola['funcionario'])){
+                    echo '<a href="'.Url::to(['user/backend']).'">Back office</a>';
 
-<div class="wrap">
-    <!-- Default navbar -->
-    <?php
-    NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-    ]);
-    $menuItems = [
-        ['label' => 'Home', 'url' => ['/site/index']],
-        ['label' => 'About', 'url' => ['/site/about']],
-        ['label' => 'Contact', 'url' => ['/site/contact']],
-    ];
-    if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-    } else {
-        $menuItems[] = '<li>'
-            . Html::beginForm(['/site/logout'], 'post')
-            . Html::submitButton(
-                'Logout (' . Yii::$app->user->identity->username . ')',
-                ['class' => 'btn btn-link logout']
-            )
-            . Html::endForm()
-            . '</li>';
-        $menuItems[] = ['label' => 'my acc', 'url' => ['/user/update']];
-        $menuItems[] = ['label' => 'All Purchase (to be removed)', 'url' => ['/compra/index']];
-        $menuItems[] = ['label' => 'Product', 'url' => ['/produto/index']];
-        $menuItems[] = ['label' => 'History', 'url' => ['/compra/historic']];
-        $menuItems[] = ['label' => 'Cart', 'url' => ['/compra/cart']];
-        
-    }
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => $menuItems,
-    ]);
-    NavBar::end();
-    ?>
+                }
+                echo '<a href="'.Url::to(['compra/historic']).'">Historic</a>';
+                echo '<a href="">Reparações</a>
+                <a href="'.Url::to(['site/logout']).'">Log out</a>
+            </div>
+        </div>
+        <span class="linedivide1"></span>
+        <div class="header-wrapicon2">
+            <img src="'.Url::to('@web/images/icons/icon-header-02.png').'" class="header-icon1 js-show-header-dropdown" alt="ICON">
+            <span class="header-icons-noti">'; echo count($cart); echo'</span>
 
-
-    <!-- Navbar displaying all the categories in the database -->
-    <?php
-    if ($categoriaNavbar!=null) {
-        NavBar::begin([
-            'brandUrl' => Yii::$app->homeUrl,
-            'options' => [
-                'class' => 'navbar-inverse navbar-fixed-top',
-                'style' => 'top:50px;',
-            ],
-            'innerContainerOptions' => [
-                'class' => 'container-fluid'
-            ],
-        ]);
-
-        echo Nav::widget([
-            'options' => [
-                'class' => 'navbar-nav navbar-middle',
-                'style' => 'float:unset; display: flex; justify-content: center;',
-            ],
-            'items' => $categoriaNavbar,
-        ]);
-        NavBar::end();
-    }
-    ?>
-
-    <div class="container">
-        <?= Breadcrumbs::widget([
-            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-        ]) ?>
-        <?= Alert::widget() ?>
-        <?= $content ?>
+            <!-- Header cart noti -->
+            <div class="header-cart header-dropdown" style="overflow-y: auto;max-height: 320px;">
+                <ul class="header-cart-wrapitem">';
+                if (isset($cart)){
+                    foreach ($cart as $key => $value){
+                        echo '<li class="header-cart-item values'.$key.'">';?>
+                            <?= Html::a('
+                             <div class="header-cart-item-img">
+                                <img href ="#" src="'.Url::to('@web/images/products/'.$cart[$key]['idprodutos'].'/'.$cart[$key]['produtoImagem4']).'" alt="IMG">
+                             </div>
+                            ',null,['onclick' => 'compraDeleteAJAX("'.Yii::$app->request->baseUrl.'","'.$key.'","'.Yii::$app->request->getCsrfToken().'")']);?>
+                                <?php echo '<div class="header-cart-item-txt">
+                                    <a href="#" class="header-cart-item-name">';
+                                        echo $cart[$key]['produtoNome'];
+                                    echo '</a>
+                                        <span class="header-cart-item-info">';
+                                            echo $cart[$key]['produto_preco'];
+                                    echo '</span>
+                                </div>
+                            </li>';
+                    }
+                };
+            echo'</ul>';
+                if(isset($totalPrice['compraValor'])){
+                    echo '<div class="header-cart-total total">';
+                    echo 'Total: ' . $totalPrice['compraValor'];
+                    echo '</div>';
+                }
+            echo '<div class="header-cart-buttons">
+                    <div class="header-cart-wrapbtn">
+                        <!-- Button -->
+                        <a href="'.Url::to(['/compra/cart']).'" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+                            CheckOut
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>';
+        }?>
     </div>
 </div>
+<!-- top noti -->
+<div class="flex-c-m size22 bg0 s-text21 pos-relative">
+    <?php if(isset($sale)){
+        echo 'Check our '.$sale['campanhaNome'].' sale, until '.$sale['campanhaDataFim'] ;
+    }?>
+    <a href="<?php echo Url::to(['/campanha/produtocampanha'])?>" class="s-text22 hov6 p-l-5">
+        See
+    </a>
+    <button class="flex-c-m pos2 size23 colorwhite eff3 trans-0-4 btn-romove-top-noti">
+        <i class="fa fa-remove fs-13" aria-hidden="true"></i>
+    </button>
+</div>
 
-<footer class="footer">
-    <div class="container">
-        <p class="pull-left">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
+<!-- Header -->
+<header class="header2">
+    <!-- Header desktop -->
+    <div class="container-menu-header-v2 p-t-24">
+        <div class="topbar2">
+            <!-- Logo2 -->
+            <a href="<?php echo Yii::$app->homeUrl?>" class="logot">
+                <b>
+                    <span class="md-red-500">
+                        Fix
+                    </span>
+                    <span class="md-blue-500">
+                     Byte
+                    </span>
+                </b>
+            </a>
+            <form style="width:100%;padding-right: 380px;">
+                <input type="text" name="search">
+            </form>
+            <div class="topbar-child2">
+            <?php if (Yii::$app->user->isGuest){
+                echo '<a href="'.Url::to(['site/login']).'" style="margin-right: 20px;">Sign in</a>
+                <a href="'.Url::to(['site/signup']).'" >Sign up</a>';
 
-        <p class="pull-right"><?= Yii::powered() ?></p>
+            }else{
+                echo'<div class="dropdown">
+                    <a href="#" class="header-wrapicon1 dis-block icon-menu">
+                        <img src="'.Url::to('@web/images/icons/icon-header-01.png'),'" class="header-icon1" alt="ICON"">
+                    </a>
+                    <div class="dropdown-content">
+                        <a href="'.Url::to(['user/update']).'">Minha conta</a>';
+                        $ola = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
+                        if (isset($ola['admin']) || isset($ola['funcionario'])){
+                            echo '<a href="'.Url::to(['user/backend']).'">Back office</a>';
+
+                        }
+                        echo '<a href="'.Url::to(['compra/historic']).'">Historic</a>';
+                        echo '<a href="<?php echo Url::to([\'/site/repair\'])?>">Reparações</a>
+                        <a href="'.Url::to(['site/logout']).'" data-method="post">Log out</a>
+                    </div>
+                </div>
+                <span class="linedivide1"></span>
+
+                <div class="header-wrapicon2 m-r-13">
+                    <img src="'.Url::to('@web/images/icons/icon-header-02.png').'" class="header-icon1 js-show-header-dropdown" alt="ICON">
+                    <span class="header-icons-noti">';echo count($cart); echo '</span>
+                    <!-- Header cart noti -->
+                    <div class="header-cart header-dropdown" style="overflow-y: auto;max-height: 320px;">
+                        <ul class="item">';
+                            if (isset($cart)){
+                                foreach ($cart as $key => $value){
+                                    echo '<li class="header-cart-item values'.$key.'">';?>
+                                    <?= Html::a('
+                                     <div class="header-cart-item-img">
+                                        <img href ="#" src="'.Url::to('@web/images/products/'.$cart[$key]['idprodutos'].'/'.$cart[$key]['produtoImagem4']).'" alt="IMG">
+                                     </div>
+                                    ',null,['onclick' => 'compraDeleteAJAX("'.Yii::$app->request->baseUrl.'","'.$key.'","'.Yii::$app->request->getCsrfToken().'")']);?>
+                                            <?php echo '<div class="header-cart-item-txt">
+                                            <a href="#" class="header-cart-item-name">';
+                                            echo $cart[$key]['produtoNome'];
+                                            echo '</a>
+                                                <span class="header-cart-item-info">';
+                                            echo $cart[$key]['produto_preco'];
+                                            echo '</span>
+                                        </div>
+                                    </li>';
+                                }
+                            };
+                        echo'</ul>';
+                            if(isset($totalPrice['compraValor'])){
+                                echo '<div class="header-cart-total total">';
+                                echo 'Total: ' . $totalPrice['compraValor'];
+                                echo '</div>';
+                            }
+                        echo '<div class="header-cart-buttons">
+                                <div class="header-cart-wrapbtn">
+                                    <!-- Button -->
+                                    <a href="'.Url::to(['/compra/cart']).'" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+                                        CheckOut
+                                    </a>
+                                </div>
+                            </div>
+                    </div>
+                </div>';
+            }?>
+
+            </div>
+        </div>
+        <?php if ($categoriaNavbar!=null && $categoriaChildNavbar!=null) {
+        echo '<div class="wrap_header">
+            <!-- Menu -->
+            <div class="wrap_menu">
+                <nav class="menu">
+                    <ul class="main_menu">';
+                        foreach ($categoriaNavbar as $keyMain => $valueMain){
+                            echo '<li><a href="'.$categoriaNavbar[$keyMain]['url'].'">'.$categoriaNavbar[$keyMain]['label'].'</a>';
+                            echo '<ul class="sub_menu">';
+                            foreach ($categoriaChildNavbar as $keyChild => $valueChild){
+                                if ($categoriaNavbar[$keyMain]['id'] == $categoriaChildNavbar[$keyChild]['id']){
+                                    echo '<li><a href="'.$categoriaChildNavbar[$keyChild]['childurl'].'">'.$categoriaChildNavbar[$keyChild]['childnome'].'</a></li>';
+
+                                }
+                            }
+                            echo '</ul></li>';
+                        }
+                        echo '
+                    </ul>
+                </nav>
+            </div>
+
+            <!-- Header Icon -->
+            <div class="header-icons">
+
+            </div>
+        </div>';
+       }?>
     </div>
-</footer>
+    <div class="wrap_header_mobile"     style="max-height: 0;">
+        <!-- Logo moblie -->
+        <a href="<?php echo Yii::$app->homeUrl?>" style="font-size: 25px">
+            <b>
+                    <span class="md-red-500">
+                        Fix
+                    </span>
+                    <span class="md-blue-500">
+                     Byte
+                    </span>
+            </b>
+        </a>
 
-<?php $this->endBody() ?>
-</body>
+        <!-- Button show menu -->
+        <div class="btn-show-menu">
+            <!-- Header Icon mobile -->
+            <div class="header-icons-mobile">
+                <?php if (Yii::$app->user->isGuest){
+                    echo '<a href="'.Url::to(['site/login']).'" style="margin-right: 20px;">Sign in</a>
+                    <a href="'.Url::to(['site/signup']).'" >Sign up</a>';
+                }else{
+                    echo '<div class="dropdown">
+                    <a href="#" class="header-wrapicon1 dis-block icon-menu">
+                        <img src="'.Url::to('@web/images/icons/icon-header-01.png').'" class="header-icon1" alt="ICON"">
+                    </a>
+                    <div class="dropdown-content">
+                        <a href="'.Url::to(['user/update']).'">Minha conta</a>
+                        '; $ola = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
+                             if (isset($ola['admin']) || isset($ola['funcionario'])){
+                                    echo '<a href="'.Url::to(['user/backend']).'">Back office</a>';
+
+                             }
+                        echo '<a href="'.Url::to(['compra/historic']).'">Historic</a>';
+                        echo '<a href="">Reparações</a>
+                        <a href="'.Url::to(['site/logout']).'">Log out</a>
+                    </div>
+                </div>';
+                echo '<span class="linedivide2"></span>';
+                echo '<div class="header-wrapicon2">
+                    <img src="'.Url::to('@web/images/icons/icon-header-02.png').'" class="header-icon1 js-show-header-dropdown" alt="ICON">
+                    <span class="header-icons-noti">';echo count($cart); echo '</span>
+
+                    <!-- Header cart noti -->
+                    <div class="header-cart header-dropdown" style="max-height: 320px;overflow-y: auto;">
+
+                        <ul class="header-cart-wrapitem" style="overflow: hidden;">';
+                            if (isset($cart)){
+                                foreach ($cart as $key => $value){
+                                    echo '<li class="header-cart-item values'.$key.'">';?>
+                                    <?= Html::a('
+                                     <div class="header-cart-item-img">
+                                        <img href ="#" src="'.Url::to('@web/images/products/'.$cart[$key]['idprodutos'].'/'.$cart[$key]['produtoImagem4']).'" alt="IMG">
+                                     </div>
+                                    ',null,['onclick' => 'compraDeleteAJAX("'.Yii::$app->request->baseUrl.'","'.$key.'","'.Yii::$app->request->getCsrfToken().'")']);?>
+                                            <?php echo '<div class="header-cart-item-txt">
+                                            <a href="#" class="header-cart-item-name">';
+                                            echo $cart[$key]['produtoNome'];
+                                            echo '</a>
+                                                <span class="header-cart-item-info">';
+                                            echo $cart[$key]['produto_preco'];
+                                            echo '</span>
+                                        </div>
+                                    </li>';
+                                }
+                            };
+                        echo '</ul>';
+                            if(isset($totalPrice['compraValor'])){
+                                echo '<div class="header-cart-total total">';
+                                echo 'Total: ' . $totalPrice['compraValor'];
+                                echo '</div>';
+                            }
+                        echo '<div class="header-cart-buttons">
+                                <div class="header-cart-wrapbtn">
+                                    <!-- Button -->
+                                    <a href="'.Url::to(['/compra/cart']).'" class="flex-c-m size1 bg1 bo-rad-20 hov1 s-text1 trans-0-4">
+                                        CheckOut
+                                    </a>
+                                </div>
+                            </div>
+                    </div>
+                </div>';
+                }?>
+            </div>
+            <div class="btn-show-menu-mobile hamburger">
+					<span class="hamburger-box">
+						<span class="hamburger-inner"></span>
+					</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Menu Mobile -->
+    <div class="wrap-side-menu" >
+        <nav class="side-menu">
+            <ul class="main-menu">
+                <form style="width:100%">
+                    <input type="text" name="search">
+                </form>
+                <?php if ($categoriaNavbar!=null && $categoriaChildNavbar!=null) {
+
+                    foreach ($categoriaNavbar as $keyMain => $valueMain){
+                        echo '<li class="item-menu-mobile">';
+                        echo '<a href="'.$categoriaNavbar[$keyMain]['url'].'">'.$categoriaNavbar[$keyMain]['label'].'</a>';
+                        echo '<ul class="sub-menu">';
+                        foreach ($categoriaChildNavbar as $keyChild => $valueChild){
+                            if ($categoriaNavbar[$keyMain]['id'] == $categoriaChildNavbar[$keyChild]['id']){
+                                echo '<li><a href="'.$categoriaChildNavbar[$keyChild]['childurl'].'">'.$categoriaChildNavbar[$keyChild]['childnome'].'</a></li>';
+                            }
+                        }
+                        echo '</ul>
+                            <i class="arrow-main-menu fa fa-angle-right" aria-hidden="true"></i>
+                            </li>';
+                    }
+                    echo '
+            </ul>
+        </nav>
+    </div>';
+
+    }?>
+
+</header>
+
+
+
+
+<!--===============================================================================================-->
+<script src="js/main.js"></script>
+
+<div class="container">
+    <?= Breadcrumbs::widget([
+        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+    ]) ?>
+    <?= Alert::widget() ?>
+    <?= $content ?>
+</div>
+    <?php $this->endBody() ?>
+    </body>
 </html>
 <?php $this->endPage() ?>

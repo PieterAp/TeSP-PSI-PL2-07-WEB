@@ -27,7 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <ul class="list-group"  style="margin-top: 50px;">
           <li class="list-group-item list-group-item-danger">No categories available!!</li>
         </ul>
-        
+
         ';
     }
     else
@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         echo '
             <div class="panel panel-info " style="margin-top: 50px; margin-bottom: 0px;" id="'.$safeCategoriyName.'">
-                <div class="panel-heading" style="padding-top: 0px; padding-bottom: 0px;">                  
+                <div class="panel-heading" style="padding-top: 0px; padding-bottom: 0px;">
                     <div class="row" style="display: flex; align-items: center;">
                         <div class="col-lg-10 col-md-10 col-xs-10">
                             <h3 class="panel-title"><strong>'.$eachCategory['categoriaNome'].'</strong><span style="color: #5e5e5e"> - <a href="'.Url::to(['categoria/indexproduto', 'idCategoria' => $eachCategory['idcategorias']]).'">'.$eachCategory['qntProdutos'].' products <span class="glyphicon glyphicon-share-alt"></span></a></span></h3>
@@ -71,8 +71,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         {
                             echo'<h4 class="text-left" style="color: #5e5e5e">No description available</h4>';
                         }
-                    echo'                            
-                        </div>                  
+                    echo'
+                        </div>
                          <div class="col-lg-3 col-md-4 col-xs-4" style="padding-left: 0px">
                             <ul class="nav navbar-nav navbar-right text-center pull-right">
                                 <li><a data-toggle="collapse" href="#collapse'.$safeCategoriyName.'" aria-expanded="false" aria-controls="collapse'.$safeCategoriyName.'"><span class="glyphicon glyphicon-th-list"></span><br>View sub</a></li>
@@ -167,13 +167,13 @@ $this->params['breadcrumbs'][] = $this->title;
                         }
                             echo'
                             <a class="collapsed" role="button" data-toggle="collapse" data-parent="#accordion'.$safeCategoriyName.'" href="#collapse'.$safeChildName.'" aria-expanded="false" aria-controls="collapse'.$safeChildName.'">
-                                <h3 class="panel-title"><strong>'.$eachCategoryChild['childNome'].'</strong></h3>    
+                                <h3 class="panel-title"><strong>'.$eachCategoryChild['childNome'].'</strong></h3>
                             </a>
                         </div>
                         <div class="col-lg-6 col-md-6 col-xs-10 text-right">
                             <span style="color: #5e5e5e"><a href="'.Url::to(['categoria-child/indexproduto', 'idCategoriaChild' => $eachCategoryChild['idchild']]).'">'.$eachCategoryChild['qntProdutos'].' products <span class="glyphicon glyphicon-share-alt"></span></a></span>
                         </div>
-                    </div>               
+                    </div>
                   </h4>
                 </div>
                 <div id="collapse'.$safeChildName.'" class="panel-collapse collapse';
@@ -194,11 +194,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         {
                             echo'<h4 class="text-left" style="color: #5e5e5e">No description available</h4>';
                         }
-                    echo'                            
-                        </div>                  
+                    echo'
+                        </div>
                          <div class="col-lg-3 col-md-4 col-xs-4" style="padding-left: 0px">
                             <ul class="nav navbar-nav navbar-right text-center pull-right">
-                            
+
                                     ';
                                     if ($eachCategoryChild['childEstado']==1)
                                     {
@@ -244,7 +244,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             </ul>
                         </div>
                     </div>
-  
+
                   </div>
                 </div>
               </div>';
@@ -260,5 +260,3 @@ $this->params['breadcrumbs'][] = $this->title;
     }
     ?>
 </div>
-
-

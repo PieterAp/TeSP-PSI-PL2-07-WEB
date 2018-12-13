@@ -9,5 +9,5 @@ use yii\grid\GridView;
 
 ?>
 <div class="alert alert-success">
-    <strong>Success!</strong> Indicates a successful or positive action.
+    <strong>Purchase completed successfully!</strong>
 </div>
