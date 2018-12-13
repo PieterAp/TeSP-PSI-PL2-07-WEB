@@ -117,6 +117,24 @@ class SiteController extends LayoutController
     }
 
 
+    public function actionSearch()
+    {
+        var_dump(Yii::$app->request->post('search'));
+
+        //todo: Get all categories
+
+
+        //todo: Get all products
+
+
+
+
+        return $this->render('login', [
+            'allProducts' => $allProducts,
+        ]);
+    }
+
+
     public function actionFilter($type, $params)
     {
 
