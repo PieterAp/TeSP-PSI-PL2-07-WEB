@@ -117,7 +117,7 @@ class SiteController extends LayoutController
     }
 
 
-    public function actionSearch()
+    public function actionFilter()
     {
         $array = Yii::$app->request->get('array');
         foreach ($array as $name){
@@ -131,7 +131,7 @@ class SiteController extends LayoutController
     }
 
 
-    public function actionFilter($type, $params)
+    public function actionSearch()
     {
 
     }

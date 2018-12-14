@@ -23,8 +23,105 @@ use yii\web\IdentityInterface;
  */
 class User extends ActiveRecord implements IdentityInterface
 {
+    public function rules()
+    {
+        return [
+            ['username', 'trim'],
+            ['username', 'required'],
+            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
+            ['username', 'string', 'min' => 2, 'max' => 255],
+        ];
+    }
     const STATUS_DELETED = 0;
     const STATUS_ACTIVE = 10;
+
+    /**
+     * @param array $dirtyAttributes
+     */
+    public function setDirtyAttributes($dirtyAttributes)
+    {
+        $this->dirtyAttributes = $dirtyAttributes;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * @param string $username
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+    }
+
+    /**
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * @param string $password_hash
+     */
+    public function setPasswordHash($password_hash)
+    {
+        $this->password_hash = $password_hash;
+    }
+
+    /**
+     * @param string $password_reset_token
+     */
+    public function setPasswordResetToken($password_reset_token)
+    {
+        $this->password_reset_token = $password_reset_token;
+    }
+
+    /**
+     * @param string $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+    }
+
+    /**
+     * @param string $auth_key
+     */
+    public function setAuthKey($auth_key)
+    {
+        $this->auth_key = $auth_key;
+    }
+
+    /**
+     * @param int $status
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    }
+
+    /**
+     * @param int $created_at
+     */
+    public function setCreatedAt($created_at)
+    {
+        $this->created_at = $created_at;
+    }
+
+    /**
+     * @param int $updated_at
+     */
+    public function setUpdatedAt($updated_at)
+    {
+        $this->updated_at = $updated_at;
+    }
 
     
     /**
@@ -42,17 +139,6 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             TimestampBehavior::className(),
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function rules()
-    {
-        return [
-            ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
         ];
     }
 
