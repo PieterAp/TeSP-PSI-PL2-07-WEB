@@ -54,6 +54,7 @@ class m181125_162407_createDefaultTableData extends Migration
     public function up()
     {
         //region table_user
+
         //region Role:admin
         //region Username:pieter Role:admin
         $user = $this->createUser('pieter','pieter@gmail.com','pieterpieter');
@@ -95,6 +96,7 @@ class m181125_162407_createDefaultTableData extends Migration
         $this->givePermission($user,'cliente');
         //endregion
         //endregion
+
         //endregion
 
 
