@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'produtoDataCriacao',
             'produtoStock',
             //'produtoPreco',
-            //'produtoMarca',
+            'produtoMarca',
             //'produtoDescricao1',
             //'produtoDescricao2',
             //'produtoDescricao3',
@@ -51,11 +51,56 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'header' => 'Action',
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{add} ',  // the default buttons + your custom button
+                'template' => '{add} {hideshow} {edit} {remove}',  // the default buttons + your custom button
                 'buttons' => [
                     'add' =>  function ($key, $model) {
                         return Html::a('', ['produto/produtocampanha', 'id' => $model->idprodutos], ['class' => 'glyphicon glyphicon-plus']);
+                    },
+                    'hideshow' => function ($key, $model)
+                    {
+                        if ($model->produtoEstado == 0)
+                        {
+                            return Html::a('', ['produto/changeestado', 'id' => $model->idprodutos], ['class' => 'glyphicon glyphicon-eye-open']);
+
+                        }
+                        elseif ($model->produtoEstado == 1)
+                        {
+                            return Html::a('', ['produto/changeestado', 'id' => $model->idprodutos], ['class' => 'glyphicon glyphicon-eye-close']);
+
+                        }
+                    },
+                    'edit' =>  function ($key, $model) {
+                        return Html::a('', ['produto/update', 'id' => $model->idprodutos], ['class' => 'glyphicon glyphicon-pencil']);
+                    },
+                    'remove' =>  function ($key, $model) {
+                        if (\Yii::$app->user->can('deleteProduto'))
+                        {
+                            return Html::a('<span class="glyphicon glyphicon-trash"></span>',['produto/delete', 'id' => $model->idprodutos],['data' => [
+                                'confirm' => 'Are you sure you want to delete this item?',
+                                'method' => 'post',
+                            ]]);
+                        }
                     }
+
+                ]
+            ],
+            [
+                'header' => 'Stock',
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{add} {remove}',  // the default buttons + your custom button
+                'buttons' => [
+                    'add' => function ($key, $model)
+                    {
+                        return Html::a('', ['produto/stock', 'id' => $model->idprodutos, 'action' => 'add'], ['class' => 'glyphicon glyphicon-arrow-up']);
+                    },
+                    'remove' => function ($key, $model)
+                    {
+                        if ($model->produtoStock > 0)
+                        {
+                            return Html::a('', ['produto/stock', 'id' => $model->idprodutos, 'action' => 'remove'], ['class' => 'glyphicon glyphicon-arrow-down']);
+
+                        }
+                    },
                 ]
             ]
         ],
