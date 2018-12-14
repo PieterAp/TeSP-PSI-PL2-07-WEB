@@ -4,4 +4,12 @@ bootstrap: false
 modules:
     enabled:
         - Yii2:
-            part: fixtures
+            part: [orm, email, fixtures]
+            cleanup: false
+
+        - Db:
+            dsn: 'mysql:host=localhost;dbname=tesp-psi-pl2-07-web'
+            user: 'root'
+            password: ''
+
+        - Asserts
