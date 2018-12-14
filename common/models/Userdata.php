@@ -31,6 +31,86 @@ class Userdata extends \yii\db\ActiveRecord
     {
         return 'userdata';
     }
+
+    /**
+     * @param string $userNomeProprio
+     */
+    public function setUserNomeProprio($userNomeProprio)
+    {
+        $this->userNomeProprio = $userNomeProprio;
+    }
+
+    /**
+     * @param string $userApelido
+     */
+    public function setUserApelido($userApelido)
+    {
+        $this->userApelido = $userApelido;
+    }
+
+    /**
+     * @param int $userNIF
+     */
+    public function setUserNIF($userNIF)
+    {
+        $this->userNIF = $userNIF;
+    }
+
+    /**
+     * @param string $userDataNasc
+     */
+    public function setUserDataNasc($userDataNasc)
+    {
+        $this->userDataNasc = $userDataNasc;
+    }
+
+    /**
+     * @param string $userEstado
+     */
+    public function setUserEstado($userEstado)
+    {
+        $this->userEstado = $userEstado;
+    }
+
+    /**
+     * @param string $userMorada
+     */
+    public function setUserMorada($userMorada)
+    {
+        $this->userMorada = $userMorada;
+    }
+
+    /**
+     * @param int $userVisibilidade
+     */
+    public function setUserVisibilidade($userVisibilidade)
+    {
+        $this->userVisibilidade = $userVisibilidade;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUserId()
+    {
+        return $this->user_id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getUserNIF()
+    {
+        return $this->userNIF;
+    }
+
+    /**
+     * @param int $user_id
+     */
+    public function setUserId($user_id)
+    {
+        $this->user_id = $user_id;
+    }
     /**
      * {@inheritdoc}
      */

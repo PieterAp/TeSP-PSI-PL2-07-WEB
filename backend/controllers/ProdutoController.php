@@ -7,6 +7,7 @@ use common\models\Produtocampanha;
 use Yii;
 use common\models\Produto;
 use app\models\ProdutoSearch;
+
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\web\Controller;
