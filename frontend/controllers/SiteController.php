@@ -119,17 +119,13 @@ class SiteController extends LayoutController
 
     public function actionSearch()
     {
-        var_dump(Yii::$app->request->post('search'));
-
-        //todo: Get all categories
-
-
-        //todo: Get all products
+        $array = Yii::$app->request->get('array');
+        foreach ($array as $name){
+            echo $name."<br />";
+        }
 
 
-
-
-        return $this->render('login', [
+        return $this->render('index', [
             'allProducts' => $allProducts,
         ]);
     }
