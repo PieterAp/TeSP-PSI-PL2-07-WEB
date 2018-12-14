@@ -117,9 +117,12 @@ class SiteController extends LayoutController
     }
 
 
-    public function actionFilter($type, $params)
+    public function actionFilter()
     {
-
+        $array = Yii::$app->request->get('array');
+        foreach ($array as $name){
+            echo $name."<br />";
+        }
     }
 
 

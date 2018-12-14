@@ -84,4 +84,68 @@ class Campanha extends \yii\db\ActiveRecord
         }
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function getCampanhaNome()
+    {
+        return $this->campanhaNome;
+    }
+
+    /**
+     * @param string $campanhaNome
+     */
+    public function setCampanhaNome($campanhaNome)
+    {
+        $this->campanhaNome = $campanhaNome;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCampanhaDataInicio()
+    {
+        return $this->campanhaDataInicio;
+    }
+
+    /**
+     * @param string $campanhaDataInicio
+     */
+    public function setCampanhaDataInicio($campanhaDataInicio)
+    {
+        $this->campanhaDataInicio = $campanhaDataInicio;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCampanhaDescricao()
+    {
+        return $this->campanhaDescricao;
+    }
+
+    /**
+     * @param string $campanhaDescricao
+     */
+    public function setCampanhaDescricao($campanhaDescricao)
+    {
+        $this->campanhaDescricao = $campanhaDescricao;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCampanhaDataFim()
+    {
+        return $this->campanhaDataFim;
+    }
+
+    /**
+     * @param string $campanhaDataFim
+     */
+    public function setCampanhaDataFim($campanhaDataFim)
+    {
+        $this->campanhaDataFim = $campanhaDataFim;
+    }
 }
