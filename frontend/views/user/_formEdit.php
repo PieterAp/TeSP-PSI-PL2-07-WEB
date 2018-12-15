@@ -17,7 +17,7 @@ DatePicker::widget([
 
 <div class="loginmodal-container">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['id' => 'form-edit']); ?>
 
     <?= $form->field($model, 'username')->textInput(['readonly'=> true]) ?>
     <div class="row">

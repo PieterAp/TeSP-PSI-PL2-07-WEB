@@ -66,15 +66,15 @@ $this->title = 'FixByte';
                 <img src="'.Url::to('@web/images/icons/icon-header-01.png').'" class="header-icon1" alt="ICON"">
             </a>
             <div class="dropdown-content">
-                <a href="'.Url::to(['user/update']).'">Minha conta</a>';
+                <a href="'.Url::to(['user/update']).'">My Account</a>';
                 $ola = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
                 if (isset($ola['admin']) || isset($ola['funcionario'])){
                     echo '<a href="'.Url::to(['user/backend']).'">Back office</a>';
 
                 }
                 echo '<a href="'.Url::to(['compra/historic']).'">Historic</a>';
-                echo '<a href="">Reparações</a>
-                <a href="'.Url::to(['site/logout']).'">Log out</a>
+                echo '<a href="">Repairs</a>
+                <a href="'.Url::to(['site/logout']).'" id="logout" data-method="post">Log out</a>
             </div>
         </div>
         <span class="linedivide1"></span>
@@ -166,15 +166,15 @@ $this->title = 'FixByte';
                         <img src="'.Url::to('@web/images/icons/icon-header-01.png'),'" class="header-icon1" alt="ICON"">
                     </a>
                     <div class="dropdown-content">
-                        <a href="'.Url::to(['user/update']).'">Minha conta</a>';
+                        <a href="'.Url::to(['user/update']).'">My Account</a>';
                         $ola = Yii::$app->authManager->getRolesByUser(Yii::$app->user->getId());
                         if (isset($ola['admin']) || isset($ola['funcionario'])){
                             echo '<a href="'.Url::to(['user/backend']).'">Back office</a>';
 
                         }
                         echo '<a href="'.Url::to(['compra/historic']).'">Historic</a>';
-                        echo '<a href="<?php echo Url::to([\'/site/repair\'])?>">Reparações</a>
-                        <a href="'.Url::to(['site/logout']).'" data-method="post">Log out</a>
+                        echo '<a href="<?php echo Url::to([\'/site/repair\'])?>">Repair</a>
+                        <a href="'.Url::to(['site/logout']).'" data-method="post" >Log out</a>
                     </div>
                 </div>
                 <span class="linedivide1"></span>
@@ -286,8 +286,8 @@ $this->title = 'FixByte';
 
                              }
                         echo '<a href="'.Url::to(['compra/historic']).'">Historic</a>';
-                        echo '<a href="">Reparações</a>
-                        <a href="'.Url::to(['site/logout']).'">Log out</a>
+                        echo '<a href="">Repair</a>
+                        <a href="'.Url::to(['site/logout']).'" data-method="post" >Log out</a>
                     </div>
                 </div>';
                 echo '<span class="linedivide2"></span>';
