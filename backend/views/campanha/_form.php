@@ -11,7 +11,7 @@ use yii\widgets\ActiveForm;
 
 <div class="campanha-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['id' => 'form-sales']); ?>
 
     <?= $form->field($model, 'campanhaNome')->textInput(['maxlength' => true]) ?>
 

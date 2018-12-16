@@ -90,10 +90,7 @@ class CampanhaController extends Controller
     {
         $model = new CampanhaSales();
 
-        /*$product = Produto::find()
-            ->orderBy('idprodutos')
-            ->all();
-        $produtos=ArrayHelper::map($product,'idprodutos','produtoNome');*/
+
         if ($model->load(Yii::$app->request->post())) {
             if ($data = $model->CampanhaValidate()) {
                 $sale = new Campanha();
@@ -102,25 +99,6 @@ class CampanhaController extends Controller
                 $sale->campanhaDataInicio = $data->campanhaDataInicio;
                 $sale->campanhaDataFim = $data->campanhaDataFim;
                 $sale->save();
-                /*if ($sale->save()){
-                    $productSale = new Produtocampanha();
-
-                    $newsale = Campanha::find()
-                        ->where(['campanhaNome' => $data->campanhaNome])
-                        ->where(['campanhaDataInicio' => $data->campanhaDataInicio])
-                        ->where(['campanhaDescricao' => $data->campanhaDescricao])
-                        ->where(['campanhaDataFim' => $data->campanhaDataFim])
-                        ->one();
-
-                    if (!isset($newsale) || !isset($product)){
-                        return $this->render('index');
-                    }
-                    $productSale->produtos_idprodutos = $postProduto['produtoNome'];
-                    $productSale->campanha_idCampanha = $newsale->idCampanha;
-                    $productSale->campanhaPercentagem = $data->campanhaPercentagem;
-
-                    $productSale->save(false);
-                }*/
             }
         }
 

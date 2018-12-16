@@ -34,7 +34,8 @@ class CampanhaSales extends Model
             ['campanhaPercentagem', 'trim'],
             ['campanhaPercentagem', 'string', 'min' => '1', 'max' => '2'],*/
 
-            ['campanhaDataInicio', 'compare', 'compareAttribute' => 'campanhaDataFim', 'operator' => '<', 'message' => 'Date End must be higher than Date Start'],
+            ['campanhaDataFim', 'compare', 'compareAttribute' => 'campanhaDataInicio', 'operator' => '>', 'message' => 'Date End must be higher than Date Start'],
+            ['campanhaDataInicio', 'validateDates'],
 
         ];
     }
@@ -59,5 +60,10 @@ class CampanhaSales extends Model
             return null;
         }
         return $this;
+    }
+    public function validateDates(){
+        if (date('Y-m-d') > $this->campanhaDataInicio){
+            $this->addError('campanhaDataInicio','Date Start must be higher than today date');
+        }
     }
 }

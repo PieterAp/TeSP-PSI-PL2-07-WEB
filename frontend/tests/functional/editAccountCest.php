@@ -12,7 +12,7 @@ class editAccountCest
         $I->amOnRoute('site/signup');
     }
 
-    public function signupSuccessfully(FunctionalTester $I)
+    public function everythingSuccessfully(FunctionalTester $I)
     {
         $I->submitForm($this->formId, [
             'SignupForm[username]' => 'cliente001',
