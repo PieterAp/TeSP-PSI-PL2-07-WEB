@@ -43,7 +43,8 @@ class Campanha extends \yii\db\ActiveRecord
 
 
 
-            ['campanhaDataInicio', 'compare', 'compareAttribute' => 'campanhaDataFim', 'operator' => '<', 'message' => 'Date End must be higher than Date Start'],
+            ['campanhaDataFim', 'compare', 'compareAttribute' => 'campanhaDataInicio', 'operator' => '>', 'message' => 'Date End must be higher than Date Start'],
+            ['campanhaDataInicio', 'validateDates'],
 
         ];
     }
@@ -147,5 +148,11 @@ class Campanha extends \yii\db\ActiveRecord
     public function setCampanhaDataFim($campanhaDataFim)
     {
         $this->campanhaDataFim = $campanhaDataFim;
+    }
+
+    public function validateDates(){
+        if (date('Y-m-d') > $this->campanhaDataInicio){
+            $this->addError('campanhaDataInicio','Date Start must be higher than today date');
+        }
     }
 }

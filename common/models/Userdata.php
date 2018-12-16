@@ -145,6 +145,7 @@ class Userdata extends \yii\db\ActiveRecord
             ['userDataNasc', 'trim'],
             ['userDataNasc', 'required'],
             ['userDataNasc', 'date', 'format' => 'php:Y-m-d'],
+            ['userDataNasc', 'validateDates'],
 
             ['userMorada', 'trim'],
             ['userMorada', 'required'],
@@ -192,5 +193,10 @@ class Userdata extends \yii\db\ActiveRecord
     public function getUser()
     {
         return $this->hasOne(User::className(), ['id' => 'user_id']);
+    }
+    public function validateDates(){
+        if ((date('Y-m-d') - $this->userDataNasc) < 12){
+            $this->addError('userDataNasc','Higher than 12 years old');
+        }
     }
 }
