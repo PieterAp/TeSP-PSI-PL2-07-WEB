@@ -1,0 +1,1 @@
+<iframe src="//coub.com/embed/1hzhqj?muted=false&autostart=false&originalSize=false&startWithHD=false" allowfullscreen frameborder="0" width="360" height="360" allow="autoplay"></iframe>
