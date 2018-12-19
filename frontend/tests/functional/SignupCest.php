@@ -8,7 +8,6 @@ class SignupCest
 {
     protected $formId = '#form-signup';
 
-
     public function _before(FunctionalTester $I)
     {
         $I->amOnRoute('site/signup');
@@ -16,10 +15,14 @@ class SignupCest
 
     public function signupWithEmptyFields(FunctionalTester $I)
     {
-        $I->see('Signup', 'h1');
-        $I->see('Please fill out the following fields to signup:');
+        $I->see('Sign up', 'h1');
         $I->submitForm($this->formId, []);
         $I->seeValidationError('Username cannot be blank.');
+        $I->seeValidationError('First name cannot be blank.');
+        $I->seeValidationError('Last name cannot be blank.');
+        $I->seeValidationError('NIF cannot be blank.');
+        $I->seeValidationError('Adress cannot be blank.');
+        $I->seeValidationError('Birthday cannot be blank.');
         $I->seeValidationError('Email cannot be blank.');
         $I->seeValidationError('Password cannot be blank.');
 
@@ -42,16 +45,21 @@ class SignupCest
     public function signupSuccessfully(FunctionalTester $I)
     {
         $I->submitForm($this->formId, [
-            'SignupForm[username]' => 'tester',
-            'SignupForm[email]' => 'tester.email@example.com',
-            'SignupForm[password]' => 'tester_password',
+            'SignupForm[username]' => 'cliente001',
+            'SignupForm[email]' => 'cliente001@example.com',
+            'SignupForm[password]' => '123123',
+            'SignupForm[userMorada]' => 'Leiriaaaa',
+            'SignupForm[userNomeProprio]' => 'randomguy',
+            'SignupForm[userApelido]' => 'rand',
+            'SignupForm[userNIF]' => '123111222',
+            'SignupForm[userDataNasc]' => '1997-11-02',
         ]);
 
         $I->seeRecord('common\models\User', [
-            'username' => 'tester',
-            'email' => 'tester.email@example.com',
+            'username' => 'cliente001',
+            'email' => 'cliente001@example.com',
         ]);
 
-        $I->see('Logout (tester)', 'form button[type=submit]');
+
     }
 }

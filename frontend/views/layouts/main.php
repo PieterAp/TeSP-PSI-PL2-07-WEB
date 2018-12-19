@@ -231,7 +231,7 @@ $this->title = 'FixByte';
                 <nav class="menu">
                     <ul class="main_menu">';
                         foreach ($categoriaNavbar as $keyMain => $valueMain){
-                            echo '<li><a href="'.$categoriaNavbar[$keyMain]['url'].'">'.$categoriaNavbar[$keyMain]['label'].'</a>';
+                            echo '<li><a id="ola" href="'.$categoriaNavbar[$keyMain]['url'].'">'.$categoriaNavbar[$keyMain]['label'].'</a>';
                             echo '<ul class="sub_menu">';
                             foreach ($categoriaChildNavbar as $keyChild => $valueChild){
                                 if ($categoriaNavbar[$keyMain]['id'] == $categoriaChildNavbar[$keyChild]['id']){

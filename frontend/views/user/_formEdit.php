@@ -35,7 +35,7 @@ DatePicker::widget([
     ])->textInput()?>
     <?= $form->field($model, 'password')->passwordInput() ?>
     <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        <?= Html::submitButton('Save', ['class' => 'btn btn-success', 'name' => 'save-button']) ?>
     </div>
     <?php ActiveForm::end(); ?>
 

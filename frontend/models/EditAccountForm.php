@@ -59,7 +59,7 @@ class EditAccountForm extends Model
             'userNIF' => 'NIF',
             'userDataNasc' => 'Birthday',
             'userEstado' => 'Estate',
-            'userMorada' => 'Adress',
+            'userMorada' => 'Address',
             'user_id' => 'USER_ID',
         ];
     }
@@ -78,7 +78,8 @@ class EditAccountForm extends Model
 
     }
     public function validateDates(){
-        if ((date('Y-m-d') - $this->userDataNasc) < 12){
+        $age = date("Y") - date("Y", strtotime($this->userDataNasc));
+        if ($age < 12){
             $this->addError('userDataNasc','Must be at least 12 years old');
         }
     }
