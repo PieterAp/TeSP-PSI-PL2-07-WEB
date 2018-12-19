@@ -64,7 +64,19 @@ class SignupForm extends Model
             ['password', 'string', 'min' => 6],
         ];
     }
-
+    public function attributeLabels()
+    {
+        return [
+            'iduser' => 'ID',
+            'userNomeProprio' => 'First name',
+            'userApelido' => 'Last name',
+            'userNIF' => 'NIF',
+            'userDataNasc' => 'Birthday',
+            'userEstado' => 'Estate',
+            'userMorada' => 'Address',
+            'user_id' => 'USER_ID',
+        ];
+    }
     /**
      * Signs user up.
      *
@@ -101,7 +113,8 @@ class SignupForm extends Model
 
     }
     public function validateDates(){
-        if ((date('Y-m-d') - $this->userDataNasc) < 12){
+        $age = date("Y") - date("Y", strtotime($this->userDataNasc));
+        if ($age < 12){
             $this->addError('userDataNasc','Must be at least 12 years old');
         }
     }
