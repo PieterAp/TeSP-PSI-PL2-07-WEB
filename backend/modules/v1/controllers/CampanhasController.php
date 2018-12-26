@@ -56,8 +56,8 @@ class CampanhasController extends ActiveController
             ->where(['>=','campanhaDataFim', date('Y-m-d')])
             ->andWhere(['<=','campanhaDataInicio', date('Y-m-d')])
             ->andWhere(['produto.produtoEstado'=>1])
+            ->groupBy('`campanha`.`idCampanha`')
             ->all();
-
         return $allCampanhas;
     }
 
