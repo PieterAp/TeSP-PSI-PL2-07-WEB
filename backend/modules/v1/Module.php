@@ -2,6 +2,10 @@
 
 namespace app\modules\v1;
 
+use common\models\User;
+use Yii;
+use yii\filters\auth\QueryParamAuth;
+
 /**
  * v1 module definition class
  */
@@ -19,5 +23,14 @@ class Module extends \yii\base\Module
     {
         parent::init();
         \Yii::$app->user->enableSession = false;
+    }
+
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+        $behaviors['authenticator'] = [
+            'class' => QueryParamAuth::className()
+        ];
+        return $behaviors;
     }
 }
