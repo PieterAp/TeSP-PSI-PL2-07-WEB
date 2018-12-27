@@ -30,9 +30,15 @@ class Categoria extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['categoriaNome'], 'required'],
-            [['categoriaEstado'], 'integer'],
-            [['categoriaNome', 'categoriaDescricao'], 'string', 'max' => 255],
+            ['categoriaNome', 'required'],
+            ['categoriaNome', 'trim'],
+            ['categoriaNome', 'string', 'min' => 2, 'max' => 25],
+
+            ['categoriaEstado', 'integer'],
+            ['categoriaEstado', 'default', 'value' => 0],
+
+            ['categoriaDescricao', 'trim'],
+            ['categoriaDescricao', 'string', 'max' => 128],
         ];
     }
 
@@ -42,10 +48,10 @@ class Categoria extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idcategorias' => 'Idcategorias',
-            'categoriaNome' => 'Categoria Nome',
-            'categoriaDescricao' => 'Categoria Descricao',
-            'categoriaEstado' => 'Categoria Estado',
+            'idcategorias' => 'ID',
+            'categoriaNome' => 'Name',
+            'categoriaDescricao' => 'Description',
+            'categoriaEstado' => 'Status',
         ];
     }
 
@@ -56,4 +62,56 @@ class Categoria extends \yii\db\ActiveRecord
     {
         return $this->hasMany(CategoriaChild::className(), ['categoria_idcategorias' => 'idcategorias']);
     }
+
+    /**
+     * @return string
+     */
+    public function getCategoriaNome()
+    {
+        return $this->categoriaNome;
+    }
+
+    /**
+     * @param string $categoriaNome
+     */
+    public function setCategoriaNome($categoriaNome)
+    {
+        $this->categoriaNome = $categoriaNome;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCategoriaDescricao()
+    {
+        return $this->categoriaDescricao;
+    }
+
+    /**
+     * @param string $categoriaDescricao
+     */
+    public function setCategoriaDescricao($categoriaDescricao)
+    {
+        $this->categoriaDescricao = $categoriaDescricao;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCategoriaEstado()
+    {
+        return $this->categoriaEstado;
+    }
+
+    /**
+     * @param int $categoriaEstado
+     */
+    public function setCategoriaEstado($categoriaEstado)
+    {
+        $this->categoriaEstado = $categoriaEstado;
+    }
+
+
+
+
 }
