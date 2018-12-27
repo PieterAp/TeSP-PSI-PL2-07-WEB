@@ -117,4 +117,358 @@ class Produto extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Produtocampanha::className(), ['produtos_idprodutos' => 'idprodutos']);
     }
+
+    /**
+     * @return string
+     */
+    public function getProdutoNome()
+    {
+        return $this->produtoNome;
+    }
+
+    /**
+     * @param string $produtoNome
+     */
+    public function setProdutoNome($produtoNome)
+    {
+        $this->produtoNome = $produtoNome;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProdutoCodigo()
+    {
+        return $this->produtoCodigo;
+    }
+
+    /**
+     * @param string $produtoCodigo
+     */
+    public function setProdutoCodigo($produtoCodigo)
+    {
+        $this->produtoCodigo = $produtoCodigo;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProdutoDataCriacao()
+    {
+        return $this->produtoDataCriacao;
+    }
+
+    /**
+     * @param string $produtoDataCriacao
+     */
+    public function setProdutoDataCriacao($produtoDataCriacao)
+    {
+        $this->produtoDataCriacao = $produtoDataCriacao;
+    }
+
+    /**
+     * @return int
+     */
+    public function getProdutoStock()
+    {
+        return $this->produtoStock;
+    }
+
+    /**
+     * @param int $produtoStock
+     */
+    public function setProdutoStock($produtoStock)
+    {
+        $this->produtoStock = $produtoStock;
+    }
+
+    /**
+     * @return float
+     */
+    public function getProdutoPreco()
+    {
+        return $this->produtoPreco;
+    }
+
+    /**
+     * @param float $produtoPreco
+     */
+    public function setProdutoPreco($produtoPreco)
+    {
+        $this->produtoPreco = $produtoPreco;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProdutoMarca()
+    {
+        return $this->produtoMarca;
+    }
+
+    /**
+     * @param string $produtoMarca
+     */
+    public function setProdutoMarca($produtoMarca)
+    {
+        $this->produtoMarca = $produtoMarca;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProdutoDescricao1()
+    {
+        return $this->produtoDescricao1;
+    }
+
+    /**
+     * @param string $produtoDescricao1
+     */
+    public function setProdutoDescricao1($produtoDescricao1)
+    {
+        $this->produtoDescricao1 = $produtoDescricao1;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProdutoDescricao2()
+    {
+        return $this->produtoDescricao2;
+    }
+
+    /**
+     * @param string $produtoDescricao2
+     */
+    public function setProdutoDescricao2($produtoDescricao2)
+    {
+        $this->produtoDescricao2 = $produtoDescricao2;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProdutoDescricao3()
+    {
+        return $this->produtoDescricao3;
+    }
+
+    /**
+     * @param string $produtoDescricao3
+     */
+    public function setProdutoDescricao3($produtoDescricao3)
+    {
+        $this->produtoDescricao3 = $produtoDescricao3;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProdutoDescricao4()
+    {
+        return $this->produtoDescricao4;
+    }
+
+    /**
+     * @param string $produtoDescricao4
+     */
+    public function setProdutoDescricao4($produtoDescricao4)
+    {
+        $this->produtoDescricao4 = $produtoDescricao4;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProdutoDescricao5()
+    {
+        return $this->produtoDescricao5;
+    }
+
+    /**
+     * @param string $produtoDescricao5
+     */
+    public function setProdutoDescricao5($produtoDescricao5)
+    {
+        $this->produtoDescricao5 = $produtoDescricao5;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProdutoDescricao6()
+    {
+        return $this->produtoDescricao6;
+    }
+
+    /**
+     * @param string $produtoDescricao6
+     */
+    public function setProdutoDescricao6($produtoDescricao6)
+    {
+        $this->produtoDescricao6 = $produtoDescricao6;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProdutoDescricao7()
+    {
+        return $this->produtoDescricao7;
+    }
+
+    /**
+     * @param string $produtoDescricao7
+     */
+    public function setProdutoDescricao7($produtoDescricao7)
+    {
+        $this->produtoDescricao7 = $produtoDescricao7;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProdutoDescricao8()
+    {
+        return $this->produtoDescricao8;
+    }
+
+    /**
+     * @param string $produtoDescricao8
+     */
+    public function setProdutoDescricao8($produtoDescricao8)
+    {
+        $this->produtoDescricao8 = $produtoDescricao8;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProdutoDescricao9()
+    {
+        return $this->produtoDescricao9;
+    }
+
+    /**
+     * @param string $produtoDescricao9
+     */
+    public function setProdutoDescricao9($produtoDescricao9)
+    {
+        $this->produtoDescricao9 = $produtoDescricao9;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProdutoDescricao10()
+    {
+        return $this->produtoDescricao10;
+    }
+
+    /**
+     * @param string $produtoDescricao10
+     */
+    public function setProdutoDescricao10($produtoDescricao10)
+    {
+        $this->produtoDescricao10 = $produtoDescricao10;
+    }
+
+    /**
+     * @return int
+     */
+    public function getCategoriaChildId()
+    {
+        return $this->categoria_child_id;
+    }
+
+    /**
+     * @param int $categoria_child_id
+     */
+    public function setCategoriaChildId($categoria_child_id)
+    {
+        $this->categoria_child_id = $categoria_child_id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProdutoImagem1()
+    {
+        return $this->produtoImagem1;
+    }
+
+    /**
+     * @param string $produtoImagem1
+     */
+    public function setProdutoImagem1($produtoImagem1)
+    {
+        $this->produtoImagem1 = $produtoImagem1;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProdutoImagem2()
+    {
+        return $this->produtoImagem2;
+    }
+
+    /**
+     * @param string $produtoImagem2
+     */
+    public function setProdutoImagem2($produtoImagem2)
+    {
+        $this->produtoImagem2 = $produtoImagem2;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProdutoImagem3()
+    {
+        return $this->produtoImagem3;
+    }
+
+    /**
+     * @param string $produtoImagem3
+     */
+    public function setProdutoImagem3($produtoImagem3)
+    {
+        $this->produtoImagem3 = $produtoImagem3;
+    }
+
+    /**
+     * @return string
+     */
+    public function getProdutoImagem4()
+    {
+        return $this->produtoImagem4;
+    }
+
+    /**
+     * @param string $produtoImagem4
+     */
+    public function setProdutoImagem4($produtoImagem4)
+    {
+        $this->produtoImagem4 = $produtoImagem4;
+    }
+
+    /**
+     * @return int
+     */
+    public function getProdutoEstado()
+    {
+        return $this->produtoEstado;
+    }
+
+    /**
+     * @param int $produtoEstado
+     */
+    public function setProdutoEstado($produtoEstado)
+    {
+        $this->produtoEstado = $produtoEstado;
+    }
+
+
 }
