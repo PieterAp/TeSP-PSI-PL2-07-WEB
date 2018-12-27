@@ -1,6 +1,7 @@
 <?php namespace common\tests;
 
 use common\models\Categoria;
+use yii\db\StaleObjectException;
 
 class categoriaTest extends \Codeception\Test\Unit
 {
@@ -39,70 +40,98 @@ class categoriaTest extends \Codeception\Test\Unit
         $this->tester->assertTrue($categoria->validate('categoriaNome'));
 
 
+        $categoria->setCategoriaDescricao(null);
+        $this->tester->assertTrue($categoria->validate('categoriaDescricao'));
+
         $categoria->setCategoriaDescricao('ABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZ');
         $this->tester->assertFalse($categoria->validate('categoriaDescricao'));
 
-        $categoria->setCategoriaDescricao('Gaming');
+        $categoria->setCategoriaDescricao('All products gamers want');
         $this->tester->assertTrue($categoria->validate('categoriaDescricao'));
     }
 
     /**
-     * Tests save function in CATEGORIA model with correct data
+     * Creates new CATEGORIA with valid data and saves it
      */
     function testSaveCategoria()
     {
         $categoria = new Categoria();
         $categoria->setCategoriaNome('Gaming');
-        $categoria->setCategoriaDescricao('Category that manages gaming articles');
-        $categoria->save();
+        $categoria->setCategoriaDescricao('All products gamers want');
+        $this->tester->assertTrue($categoria->save());
 
         $this->assertEquals('Gaming', $categoria->getCategoriaNome());
+        $this->assertEquals(0, $categoria->getCategoriaEstado());
     }
 
     /**
-     * Tests model to see if previously created CATEGORIA is present
+     * Confirms existence of previously created CATEGORIA
      */
     function testViewSavedCategoria()
     {
-        $this->tester->seeRecord('common\models\Categoria',['categoriaNome' => 'Gaming', 'categoriaDescricao' => 'Category that manages gaming articles']);
+        $this->tester->seeRecord('common\models\Categoria',['categoriaNome' => 'Gaming', 'categoriaDescricao' => 'All products gamers want', 'categoriaEstado' => 0]);
     }
 
     /**
-     * Tests update function in CATEGORIA model with correct data
+     * Updates previously created CATEGORIA with valid data
      */
     function testUpdateCategoria()
     {
-        $id = $this->tester->grabRecord('common\models\Categoria',['categoriaNome' => 'Gaming', 'categoriaDescricao' => 'Category that manages gaming articles']);
+        $categoriaGrab = $this->tester->grabRecord('common\models\Categoria',['categoriaNome' => 'Gaming', 'categoriaDescricao' => 'All products gamers want', 'categoriaEstado' => 0]);
 
-        $categoria = Categoria::findOne($id);
-        $categoria -> CategoriaDescricao = "Gaming stuff";
-        $categoria->update();
+        $categoria = Categoria::findone(['idcategorias' => $categoriaGrab->idcategorias]);
+        $categoria -> categoriaDescricao = "Gaming stuff";
+        $categoria -> categoriaEstado = 1;
+        $this->assertEquals(1, $categoria->update());
+        //$categoria->update();
     }
 
     /**
-     * Tests model to see if previously updated CATEGORIA has been changed
+     * Confirms fields were updated
      */
     function testViewUpdatedCategoria()
     {
-        $this->tester->seeRecord('common\models\Categoria',['categoriaNome' => 'Gaming', 'categoriaDescricao' => 'Gaming stuff']);
+        $this->tester->seeRecord('common\models\Categoria',['categoriaNome' => 'Gaming', 'categoriaDescricao' => 'Gaming stuff', 'categoriaEstado' => 1]);
     }
 
     /**
-     * Tests delete function in CATEGORIA model
+     * Changes status of CATEGORIA
+     */
+    function testStatusChangeCategoria()
+    {
+        $categoriaGrab = $this->tester->grabRecord('common\models\Categoria',['categoriaNome' => 'Gaming', 'categoriaDescricao' => 'Gaming stuff', 'categoriaEstado' => 1]);
+
+        $categoria = Categoria::findone(['idcategorias' => $categoriaGrab->idcategorias]);
+        $categoria -> categoriaEstado = 0;
+        $this->assertEquals(1, $categoria->update());
+        //$categoria->update();
+    }
+
+    /**
+     * Confirms status change
+     */
+    function viewStatusChangeCategoria()
+    {
+        $this->tester->seeRecord('common\models\Categoria',['categoriaNome' => 'Gaming', 'categoriaDescricao' => 'Gaming stuff', 'categoriaEstado' => 0]);
+    }
+
+    /**
+     * Deletes whole CATEGORIA
      */
     function testDeleteCategoria()
     {
-        $id = $this->tester->grabRecord('common\models\Categoria',['categoriaNome' => 'Gaming', 'categoriaDescricao' => 'Gaming stuff']);
+        $categoriaGrab = $this->tester->grabRecord('common\models\Categoria',['categoriaNome' => 'Gaming', 'categoriaDescricao' => 'Gaming stuff', 'categoriaEstado' => 0]);
 
-        $categoria = Categoria::findOne($id);
-        $categoria->delete();
+        $categoria = Categoria::findone(['idcategorias' => $categoriaGrab->idcategorias]);
+        $this->assertEquals(1, $categoria->delete());
+        //$this->tester->assertTrue($categoria->delete());
     }
 
     /**
-     * Tests model to see if previously deleted CATEGORIA does not exist
+     * Confirms that previously deleted CATEGORIA is no longer available
      */
     function testNotSeeCategoria()
     {
-        $this->tester->dontSeeRecord('common\models\Categoria',['categoriaNome' => 'Gaming', 'categoriaDescricao' => 'Gaming stuff']);
+        $this->tester->dontSeeRecord('common\models\Categoria',['categoriaNome' => 'Gaming', 'categoriaDescricao' => 'Gaming stuff', 'categoriaEstado' => 1]);
     }
 }
