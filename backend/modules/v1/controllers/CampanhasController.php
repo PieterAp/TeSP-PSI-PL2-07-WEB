@@ -3,9 +3,11 @@
 namespace app\modules\v1\controllers;
 
 use DateTime;
+use Yii;
 use yii\db\Query;
 use yii\rest\ActiveController;
 use yii\web\Controller;
+use yii\web\Response;
 
 /**
  * Campanhas controller for the `v1` module
@@ -13,6 +15,13 @@ use yii\web\Controller;
 class CampanhasController extends ActiveController
 {
     public $modelClass = 'common\models\Campanha';
+
+    public function beforeAction($action)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        return parent::beforeAction($action);
+    }
 
     /**
      * Defines actions which are not allowed
@@ -69,7 +78,7 @@ class CampanhasController extends ActiveController
     public function actionProdutos($id)
     {
         $allCampanhas = (new Query())
-            ->select('produto.*')
+            ->select('produto.*,produtocampanha.campanhaPercentagem, produtoPreco-(produtoPreco*(campanhaPercentagem / 100)) AS "precoDpsDesconto"')
             ->from('campanha')
             ->innerJoin('produtocampanha', '`campanha`.`idCampanha` = `produtocampanha`.`campanha_idCampanha`')
             ->innerJoin('produto', '`produtocampanha`.`produtos_idprodutos` = `produto`.`idprodutos`')
