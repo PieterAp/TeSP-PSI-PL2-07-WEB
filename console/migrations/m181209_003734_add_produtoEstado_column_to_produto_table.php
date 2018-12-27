@@ -12,7 +12,7 @@ class m181209_003734_add_produtoEstado_column_to_produto_table extends Migration
      */
     public function safeUp()
     {
-        $this->addColumn('produto', 'produtoEstado', $this->tinyInteger()->defaultValue('1'));
+        $this->addColumn('produto', 'produtoEstado', $this->tinyInteger()->defaultValue(1));
     }
 
     /**

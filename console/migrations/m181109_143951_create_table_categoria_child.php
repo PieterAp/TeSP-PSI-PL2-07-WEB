@@ -13,10 +13,10 @@ class m181109_143951_create_table_categoria_child extends Migration
 
         $this->createTable('{{%categoria_child}}', [
             'idchild' => $this->primaryKey(),
-            'childNome' => $this->string()->notNull(),
-            'childDescricao' => $this->string(),
+            'childNome' => $this->string(25)->notNull(),
+            'childDescricao' => $this->string(128),
             'categoria_idcategorias' => $this->integer()->notNull(),
-            'childEstado' => $this->tinyInteger()->defaultValue('1')
+            'childEstado' => $this->tinyInteger()->defaultValue(0)
         ], $tableOptions);
 
         $this->createIndex('fk_categoria_child_categoria1_idx', '{{%categoria_child}}', 'categoria_idcategorias');
