@@ -32,9 +32,19 @@ class CategoriaChild extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['childNome', 'categoria_idcategorias'], 'required'],
-            [['categoria_idcategorias', 'childEstado'], 'integer'],
-            [['childNome', 'childDescricao'], 'string', 'max' => 255],
+            ['childNome', 'required'],
+            ['childNome', 'trim'],
+            ['childNome', 'string', 'min' => 2, 'max' => 25],
+
+            ['childDescricao', 'trim'],
+            ['childDescricao', 'string', 'max' => 128],
+
+            ['categoria_idcategorias', 'required'],
+            ['categoria_idcategorias', 'integer'],
+
+            ['childEstado', 'integer'],
+            ['childEstado', 'default', 'value' => 0],
+
             [['categoria_idcategorias'], 'exist', 'skipOnError' => true, 'targetClass' => Categoria::className(), 'targetAttribute' => ['categoria_idcategorias' => 'idcategorias']],
         ];
     }
@@ -45,11 +55,11 @@ class CategoriaChild extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idchild' => 'Idchild',
-            'childNome' => 'Child Nome',
-            'childDescricao' => 'Child Descricao',
+            'idchild' => 'Sub-category ID',
+            'childNome' => 'Sub-category Name',
+            'childDescricao' => 'Sub-category Description',
             'categoria_idcategorias' => 'Categoria Idcategorias',
-            'childEstado' => 'Child Estado',
+            'childEstado' => 'Status',
         ];
     }
 
@@ -68,4 +78,61 @@ class CategoriaChild extends \yii\db\ActiveRecord
     {
         return $this->hasMany(Produto::className(), ['categoria_child_id' => 'idchild']);
     }
+
+    /**
+     * @return string
+     */
+    public function getChildNome()
+    {
+        return $this->childNome;
+    }
+
+    /**
+     * @param string $childNome
+     */
+    public function setChildNome($childNome)
+    {
+        $this->childNome = $childNome;
+    }
+
+    /**
+     * @return string
+     */
+    public function getChildDescricao()
+    {
+        return $this->childDescricao;
+    }
+
+    /**
+     * @param string $childDescricao
+     */
+    public function setChildDescricao($childDescricao)
+    {
+        $this->childDescricao = $childDescricao;
+    }
+
+    /**
+     * @return int
+     */
+    public function getChildEstado()
+    {
+        return $this->childEstado;
+    }
+
+    /**
+     * @param int $childEstado
+     */
+    public function setChildEstado($childEstado)
+    {
+        $this->childEstado = $childEstado;
+    }
+
+    /**
+     * @param int $categoria_idcategorias
+     */
+    public function setCategoriaIdcategorias($categoria_idcategorias)
+    {
+        $this->categoria_idcategorias = $categoria_idcategorias;
+    }
+
 }
