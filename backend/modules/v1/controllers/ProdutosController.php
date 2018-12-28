@@ -3,10 +3,8 @@
 namespace app\modules\v1\controllers;
 
 use DateTime;
-use Yii;
 use yii\rest\ActiveController;
 use yii\web\Controller;
-use yii\web\Response;
 
 /**
  * Default controller for the `v1` module
@@ -15,12 +13,6 @@ class ProdutosController extends ActiveController
 {
     public $modelClass = 'common\models\Produto';
 
-    public function beforeAction($action)
-    {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-
-        return parent::beforeAction($action);
-    }
 
     /**
      * Defines actions which are not allowed

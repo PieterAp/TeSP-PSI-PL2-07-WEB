@@ -15,6 +15,21 @@ class CategoriasController extends ActiveController
     public $modelClass = 'common\models\Categoria';
 
     /**
+     * Just to reinforce JSON format, as in some applications the format showed as XML, no good!
+     */
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => \yii\filters\ContentNegotiator::className(),
+                'formats' => [
+                    'application/json' => \yii\web\Response::FORMAT_JSON,
+                ],
+            ],
+        ];
+    }
+
+    /**
      * Defines actions which are not allowed
      * @return array
      */
@@ -24,6 +39,7 @@ class CategoriasController extends ActiveController
         unset($actions['create'],//POST
               $actions['update'],//PUT & PATCH {id}
               $actions['delete']);//DELETE {id}
+
         return $actions;
     }
 
@@ -39,6 +55,7 @@ class CategoriasController extends ActiveController
         $get['routes'][] = array('todas as categorias disponiveis' => 'categorias',
                                  'produtos dentro de categoria' => 'categorias/{id}/produtos');
         $help[] = $get;
+
         return array($help);
     }
 
