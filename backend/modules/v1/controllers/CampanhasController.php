@@ -16,11 +16,19 @@ class CampanhasController extends ActiveController
 {
     public $modelClass = 'common\models\Campanha';
 
-    public function beforeAction($action)
+    /**
+     * Just to reinforce JSON format, as in some applications the format showed as XML, no good!
+     */
+    public function behaviors()
     {
-        Yii::$app->response->format = Response::FORMAT_JSON;
-
-        return parent::beforeAction($action);
+        return [
+            [
+                'class' => \yii\filters\ContentNegotiator::className(),
+                'formats' => [
+                    'application/json' => \yii\web\Response::FORMAT_JSON,
+                ],
+            ],
+        ];
     }
 
     /**
@@ -48,6 +56,7 @@ class CampanhasController extends ActiveController
         $get['routes'][] = array('todas as campanhas disponiveis' => 'campanhas',
                                  'produtos dentro de campanha' => 'campanhas/{id}/produtos');
         $help[] = $get;
+
         return array($help);
     }
 
@@ -67,6 +76,7 @@ class CampanhasController extends ActiveController
             ->andWhere(['produto.produtoEstado'=>1])
             ->groupBy('`campanha`.`idCampanha`')
             ->all();
+
         return $allCampanhas;
     }
 

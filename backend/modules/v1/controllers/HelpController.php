@@ -14,6 +14,21 @@ class HelpController extends \yii\rest\Controller
     //no modelClass!! Because one isn't needed.
 
     /**
+     * Just to reinforce JSON format, as in some applications the format showed as XML, no good!
+     */
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => \yii\filters\ContentNegotiator::className(),
+                'formats' => [
+                    'application/json' => \yii\web\Response::FORMAT_JSON,
+                ],
+            ],
+        ];
+    }
+
+    /**
      * Defines actions which are not allowed
      * @return array
      */
