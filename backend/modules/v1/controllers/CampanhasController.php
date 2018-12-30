@@ -95,4 +95,20 @@ class CampanhasController extends ActiveController
 
         return $allCampanhas;
     }
+
+    /**
+     * Shows all Produtos inside of the given $id of Campanha
+     * @param $id
+     * @return array
+     */
+    public function actionDetail($id)
+    {
+        $allCampanhas = (new Query())
+            ->select(['campanha.*'])
+            ->from('campanha')
+            ->where(['idCampanha' => $id])
+            ->all();
+
+        return $allCampanhas;
+    }
 }
