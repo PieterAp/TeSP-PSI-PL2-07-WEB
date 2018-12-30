@@ -2,9 +2,7 @@
 
 namespace app\modules\v1\controllers;
 
-use DateTime;
 use yii\rest\ActiveController;
-use yii\web\Controller;
 
 /**
  * Default controller for the `v1` module
@@ -13,6 +11,21 @@ class ProdutosController extends ActiveController
 {
     public $modelClass = 'common\models\Produto';
 
+    /**
+     * Behaviors defined for this controller
+     *
+     * In this particular case, without this function the JSON format
+     * in Module.php would not work, which means that \yii\base\Behavior
+     * is not actually needed, but also does no harm.
+     *
+     * @return array
+     */
+    public function behaviors()
+    {
+        return [
+            'class' => \yii\base\Behavior::className(),
+        ];
+    }
 
     /**
      * Defines actions which are not allowed

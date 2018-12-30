@@ -8,9 +8,9 @@ use yii\rest\ActiveController;
 /**
  * Compraprodutos controller for the `v1` module
  */
-class CompraprodutosController extends ActiveController
+class UsersController extends ActiveController
 {
-    public $modelClass = 'common\models\Compraproduto';
+    public $modelClass = 'common\models\User';
 
     /**
      * API Authorization - Query Parameter Authentication
@@ -62,10 +62,10 @@ class CompraprodutosController extends ActiveController
         $help[] = array( 'allowed actions' => 'get,post,put');
 
         $get = array( 'action' => 'get' , 'routes' => array() );
-        $get['routes'][] = array('todas as compras executadas pelo utilizador $id' => 'compras');
+        $post['options'][] = array('label'=>['Label'],'value'=>['value']);
         $help[] = $get;
 
-        /*
+
         $post = array( 'request' => 'post' , 'options' => array() );
         $post['options'][] = array('label'=>['Label'],'value'=>['value']);
         $help[] = $post;
@@ -73,7 +73,7 @@ class CompraprodutosController extends ActiveController
         $put = array( 'request' => 'put' , 'options' => array() );
         $put['options'][] = array('label'=>['Label'],'value'=>['value']);
         $help[] = $put;
-        */
+
 
         return array($help);
     }
