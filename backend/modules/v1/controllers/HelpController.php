@@ -2,10 +2,6 @@
 
 namespace app\modules\v1\controllers;
 
-use DateTime;
-use yii\rest\ActiveController;
-use yii\web\Controller;
-
 /**
  * Help controller for the `v1` module
  */
@@ -14,17 +10,18 @@ class HelpController extends \yii\rest\Controller
     //no modelClass!! Because one isn't needed.
 
     /**
-     * Just to reinforce JSON format, as in some applications the format showed as XML, no good!
+     * Behaviors defined for this controller
+     *
+     * In this particular case, without this function the JSON format
+     * in Module.php would not work, which means that \yii\base\Behavior
+     * is not actually needed, but also does no harm.
+     *
+     * @return array
      */
     public function behaviors()
     {
         return [
-            [
-                'class' => \yii\filters\ContentNegotiator::className(),
-                'formats' => [
-                    'application/json' => \yii\web\Response::FORMAT_JSON,
-                ],
-            ],
+            'class' => \yii\base\Behavior::className(),
         ];
     }
 
@@ -47,23 +44,23 @@ class HelpController extends \yii\rest\Controller
      */
     public function actionHelp()
     {
-        $campanhas = array( 'controller name' => 'campanhas' ,'allowed actions' => 'get' , 'routes' => array() );
+        $campanhas = array( 'controller name' => 'campanhas' ,'allowed actions' => 'get', 'access' => 'open' , 'routes' => array() );
         $campanhas['routes'] = array('todas as campanhas disponiveis' => 'campanhas',
                                        'produtos dentro de campanha' => 'campanhas/{id}/produtos');
         $help[] = $campanhas;
 
-        $categoriasChild = array( 'controller name' => 'categoriaschild' ,'allowed actions' => 'get' , 'routes' => array() );
+        $categoriasChild = array( 'controller name' => 'categoriaschild' ,'allowed actions' => 'get', 'access' => 'open' , 'routes' => array() );
         $categoriasChild['routes'] = array('todas as categoriaschild disponiveis' => 'categoriaschild',
                                            'categoria pertencente à categoriaschild' => 'categoriaschild/{id}/categoria',
                                            'produtos dentro de categoriaschild' => 'categoriaschild/{id}/produtos');
         $help[] = $categoriasChild;
 
-        $categorias = array( 'controller name' => 'categorias' ,'allowed actions' => 'get' , 'routes' => array() );
+        $categorias = array( 'controller name' => 'categorias' ,'allowed actions' => 'get', 'access' => 'open' , 'routes' => array() );
         $categorias['routes'] = array('todas as categorias disponiveis' => 'categorias',
                                       'produtos dentro de categoria' => 'categorias/{id}/produtos');
         $help[] = $categorias;
 
-        $categorias = array( 'controller name' => 'categorias' ,'allowed actions' => 'get, post, put' , 'routes' => array() );
+        $categorias = array( 'controller name' => 'compras' ,'allowed actions' => 'get, post, put', 'access' => 'restricted' , 'routes' => array() );
         $categorias['routes'][] = array('action' => 'get',
                                         'todas as categorias disponiveis' => 'categorias',
                                         'produtos dentro de categoria' => 'categorias/{id}/produtos');
@@ -71,6 +68,9 @@ class HelpController extends \yii\rest\Controller
                                         'todas as categorias disponiveis' => 'categorias',
                                         'produtos dentro de categoria' => 'categorias/{id}/produtos');
         $categorias['routes'][] = array('action' => 'put',
+                                        'todas as categorias disponiveis' => 'categorias',
+                                        'produtos dentro de categoria' => 'categorias/{id}/produtos');
+        $categorias['routes'][] = array('action' => 'delete',
                                         'todas as categorias disponiveis' => 'categorias',
                                         'produtos dentro de categoria' => 'categorias/{id}/produtos');
         $help[] = $categorias;

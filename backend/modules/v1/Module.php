@@ -25,12 +25,18 @@ class Module extends \yii\base\Module
         \Yii::$app->user->enableSession = false;
     }
 
+    /**
+     * Just to reinforce JSON format, as in some applications the format showed as XML, no good!
+     */
     public function behaviors()
     {
-        $behaviors = parent::behaviors();
-        $behaviors['authenticator'] = [
-            'class' => QueryParamAuth::className()
+        return [
+            [
+                'class' => \yii\filters\ContentNegotiator::className(),
+                'formats' => [
+                    'application/json' => \yii\web\Response::FORMAT_JSON,
+                ],
+            ],
         ];
-        return $behaviors;
     }
 }
