@@ -32,14 +32,12 @@ class categoriachildTest extends \Codeception\Test\Unit
         $categoriaChild->setChildNome(null);
         $this->tester->assertFalse($categoriaChild->validate('childNome'));
 
-        $categoriaChild->setChildNome('A');
-        $this->tester->assertFalse($categoriaChild->validate('childNome'));
-
         $categoriaChild->setChildNome('ABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZ');
         $this->tester->assertFalse($categoriaChild->validate('childNome'));
 
         $categoriaChild->setChildNome('Single-Board Computers');
         $this->tester->assertTrue($categoriaChild->validate('childNome'));
+
 
 
         $categoriaChild->setChildDescricao('ABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZ');
@@ -49,12 +47,21 @@ class categoriachildTest extends \Codeception\Test\Unit
         $this->tester->assertTrue($categoriaChild->validate('childDescricao'));
 
 
+
         $categoriaChild->setCategoriaIdcategorias(null);
         $this->tester->assertFalse($categoriaChild->validate('categoria_idcategorias'));
 
         $categoriaGrab = $this->tester->grabRecord('common\models\Categoria',['categoriaNome' => 'DIY', 'categoriaDescricao' => 'Do It Yourself']);
         $categoriaChild->setCategoriaIdcategorias($categoriaGrab->idcategorias);
         $this->tester->assertTrue($categoriaChild->validate('categoria_idcategorias'));
+
+
+
+        $categoriaChild->setChildEstado('Smth');
+        $this->tester->assertFalse($categoriaChild->validate('childEstado'));
+
+        $categoriaChild->setChildEstado(1);
+        $this->tester->assertTrue($categoriaChild->validate('childEstado'));
     }
 
 
@@ -134,6 +141,8 @@ class categoriachildTest extends \Codeception\Test\Unit
 
         $categoriaChild = CategoriaChild::findone(['idchild' => $categoriaChildGrab->idchild]);
         $this->assertEquals(1, $categoriaChild->delete());
+
+        $this->deleteCategoria();
     }
 
     /**
@@ -142,7 +151,6 @@ class categoriachildTest extends \Codeception\Test\Unit
     function testNotSeeCategoriaChild()
     {
         $this->tester->dontSeeRecord('common\models\CategoriaChild',['childNome' => 'DIY Components', 'childDescricao' => 'Components for doing it yourself', 'childEstado' => 0]);
-        $this->deleteCategoria();
     }
 
 

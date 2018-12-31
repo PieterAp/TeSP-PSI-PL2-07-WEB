@@ -30,14 +30,20 @@ class categoriaTest extends \Codeception\Test\Unit
         $categoria->setCategoriaNome(null);
         $this->tester->assertFalse($categoria->validate('categoriaNome'));
 
-        $categoria->setCategoriaNome('A');
-        $this->tester->assertFalse($categoria->validate('categoriaNome'));
-
         $categoria->setCategoriaNome('ABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZ');
         $this->tester->assertFalse($categoria->validate('categoriaNome'));
 
         $categoria->setCategoriaNome('Gaming');
         $this->tester->assertTrue($categoria->validate('categoriaNome'));
+
+
+
+        $categoria->setCategoriaEstado('Smth');
+        $this->tester->assertFalse($categoria->validate('categoriaEstado'));
+
+        $categoria->setCategoriaEstado(1);
+        $this->tester->assertTrue($categoria->validate('categoriaEstado'));
+
 
 
         $categoria->setCategoriaDescricao(null);
