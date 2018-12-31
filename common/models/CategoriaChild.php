@@ -34,7 +34,7 @@ class CategoriaChild extends \yii\db\ActiveRecord
         return [
             ['childNome', 'required'],
             ['childNome', 'trim'],
-            ['childNome', 'string', 'min' => 2, 'max' => 25],
+            ['childNome', 'string', 'max' => 25],
 
             ['childDescricao', 'trim'],
             ['childDescricao', 'string', 'max' => 128],
