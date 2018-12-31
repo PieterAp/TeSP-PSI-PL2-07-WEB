@@ -2,6 +2,7 @@
 
 namespace app\modules\v1\controllers;
 
+use common\models\Campanha;
 use yii\db\Query;
 use yii\rest\ActiveController;
 
@@ -97,17 +98,13 @@ class CampanhasController extends ActiveController
     }
 
     /**
-     * Shows all Produtos inside of the given $id of Campanha
+     * Shows specific information about one given CAMPANHA
      * @param $id
      * @return array
      */
     public function actionDetail($id)
     {
-        $allCampanhas = (new Query())
-            ->select(['campanha.*'])
-            ->from('campanha')
-            ->where(['idCampanha' => $id])
-            ->all();
+        $allCampanhas = Campanha::find()->where(['idCampanha' => $id])->all();
 
         return $allCampanhas;
     }
