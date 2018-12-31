@@ -51,14 +51,39 @@ class Produto extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['produtoNome', 'produtoCodigo', 'produtoDataCriacao', 'produtoStock', 'produtoPreco', 'produtoMarca', 'categoria_child_id'], 'required'],
-            [['produtoImagem1'], 'required', 'on'=>'create'],
-            [['produtoDataCriacao'], 'safe'],
-            [['produtoStock', 'categoria_child_id', 'produtoEstado'], 'integer'],
-            [['produtoPreco'], 'number'],
-            [['produtoNome', 'produtoCodigo', 'produtoMarca', 'produtoDescricao1', 'produtoDescricao2', 'produtoDescricao3', 'produtoDescricao4', 'produtoDescricao5', 'produtoDescricao6', 'produtoDescricao7', 'produtoDescricao8', 'produtoDescricao9', 'produtoDescricao10', 'produtoImagem1', 'produtoImagem2', 'produtoImagem3', 'produtoImagem4'], 'string', 'max' => 255],
-            [['categoria_child_id'], 'exist', 'skipOnError' => true, 'targetClass' => CategoriaChild::className(), 'targetAttribute' => ['categoria_child_id' => 'idchild']],
-            [['produtoImagem1', 'produtoImagem2', 'produtoImagem3', 'produtoImagem4'], 'file', 'extensions' => 'png, jpg, gif', 'maxSize' => 2097152],
+            ['produtoNome', 'required'],
+            ['produtoNome', 'trim'],
+            ['produtoNome', 'string', 'max' => 45],
+
+            ['produtoCodigo', 'required'],
+            ['produtoCodigo', 'trim'],
+            ['produtoCodigo', 'string', 'max' => 20],
+
+            ['produtoDataCriacao', 'required'],
+            ['produtoDataCriacao', 'safe'],
+            ['produtoDataCriacao', 'datetime', 'format' => 'php:Y-m-d H:i:s'],
+
+            ['produtoStock', 'required'],
+            ['produtoStock', 'integer'],
+
+            ['produtoPreco', 'required'],
+            ['produtoPreco', 'number'],
+
+            ['produtoMarca', 'required'],
+            ['produtoMarca', 'trim'],
+            ['produtoMarca', 'string', 'max' => 45],
+
+            [['produtoDescricao1', 'produtoDescricao2', 'produtoDescricao3', 'produtoDescricao4', 'produtoDescricao5', 'produtoDescricao6', 'produtoDescricao7', 'produtoDescricao8', 'produtoDescricao9', 'produtoDescricao10'], 'string', 'max' => 128],
+
+            ['categoria_child_id', 'required'],
+            ['categoria_child_id', 'integer'],
+            ['categoria_child_id', 'exist', 'skipOnError' => true, 'targetClass' => CategoriaChild::className(), 'targetAttribute' => ['categoria_child_id' => 'idchild']],
+
+            ['produtoImagem1', 'required', 'on' => 'create'],
+            [['produtoImagem1', 'produtoImagem2', 'produtoImagem3', 'produtoImagem4'], 'file', 'extensions' => 'png, jpg, gif, jpeg', 'maxSize' => 2097152],
+
+            ['produtoEstado', 'integer'],
+            ['produtoEstado', 'default', 'value' => 1],
         ];
     }
 
@@ -469,6 +494,4 @@ class Produto extends \yii\db\ActiveRecord
     {
         $this->produtoEstado = $produtoEstado;
     }
-
-
 }
