@@ -120,12 +120,9 @@ use yii\widgets\ActiveForm;
         </div>
     </div>
 
-
-
     <div class="form-group" style="padding-top: 20px">
         <div style="float: left;">
             <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
-
         </div>
         <div style="float: left;">
             <?php
@@ -143,10 +140,8 @@ use yii\widgets\ActiveForm;
                 'labelOptions'=>array('style'=>'padding:5px;'),
             ))
                 ->label(''); ?>
-
         </div>
     </div>
 
     <?php ActiveForm::end(); ?>
-
 </div>

@@ -101,13 +101,31 @@ class m181125_162407_createDefaultTableData extends Migration
 
 
         //region table_campanha
-        //region Campanha: Saldos de natal
+        //region Campanha: Christmas Sales
         $campanha = new Campanha();
-        $campanha->campanhaNome = 'Saldos de Natal';
+        $campanha->campanhaNome = 'Christmas Sales';
         $campanha->campanhaDataInicio = '2018-12-01';
-        $campanha->campanhaDescricao = 'Produtos em desconto durante a época de natal';
+        $campanha->campanhaDescricao = 'Products with discount during the Christmas season';
         $campanha->campanhaDataFim = '2018-12-25';
-        $campanha->save();
+        $campanha->save(false);
+        //endregion
+
+        //region Campanha: New Year Sale
+        $campanha = new Campanha();
+        $campanha->campanhaNome = 'New Year Sale';
+        $campanha->campanhaDataInicio = '2018-12-31';
+        $campanha->campanhaDescricao = 'The stuff you must have during the new year season!';
+        $campanha->campanhaDataFim = '2019-01-10';
+        $campanha->save(false);
+        //endregion
+
+        //region Campanha: New year new stuff
+        $campanha = new Campanha();
+        $campanha->campanhaNome = 'New year new stuff';
+        $campanha->campanhaDataInicio = '2019-01-01';
+        $campanha->campanhaDescricao = 'New year new opportunities, get them now!';
+        $campanha->campanhaDataFim = '2019-01-30';
+        $campanha->save(false);
         //endregion
 
         //region Campanha: Black Weekend
@@ -116,7 +134,7 @@ class m181125_162407_createDefaultTableData extends Migration
         $campanha->campanhaDataInicio = '2018-12-15';
         $campanha->campanhaDescricao = 'Get the stuff you always wantd for the lowest price!';
         $campanha->campanhaDataFim = '2018-12-16';
-        $campanha->save();
+        $campanha->save(false);
         //endregion
 
         //region Campanha: Anniversary of FixByte
@@ -125,7 +143,7 @@ class m181125_162407_createDefaultTableData extends Migration
         $campanha->campanhaDataInicio = '2018-12-01';
         $campanha->campanhaDescricao = 'To celebrate the birth of FixByte!';
         $campanha->campanhaDataFim = '2018-12-31';
-        $campanha->save();
+        $campanha->save(false);
         //endregion
         //endregion
 

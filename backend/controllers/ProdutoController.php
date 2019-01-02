@@ -137,7 +137,6 @@ class ProdutoController extends Controller
                 {
                     $model->{'produtoImagem'.$k} = $images[$k-1]->baseName.'.'.$images[$k-1]->extension;
                 }
-
             }
 
             if ($model->save())
@@ -145,7 +144,6 @@ class ProdutoController extends Controller
                 $path = Url::to('@frontend/web/images/products/'.$model->idprodutos);
 
                 FileHelper::createDirectory($path);
-
 
                 for ($i=0; $i<count($images); $i++)
                 {
@@ -174,6 +172,11 @@ class ProdutoController extends Controller
      */
     public function actionUpdate($id)
     {
+        //todo:
+        /*
+        FileHelper::unlink();
+        */
+
         $beforeUpdate = Produto::find()
                         ->where(['idprodutos' => $id])
                         ->one();
@@ -230,6 +233,11 @@ class ProdutoController extends Controller
      */
     public function actionDelete($id)
     {
+        //todo:
+        /*
+        FileHelper::unlink();
+        */
+
         $this->findModel($id)->delete();
 
         return $this->redirect(['index']);
