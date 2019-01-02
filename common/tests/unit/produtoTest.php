@@ -104,25 +104,14 @@ class produtoTest extends \Codeception\Test\Unit
 
 
 
-        $produto->setProdutoDescricao1('ABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZ');
-        $this->tester->assertFalse($produto->validate('produtoDescricao1'));
+        for($i=1; $i<=10; $i++)
+        {
+            $produto->{'setProdutoDescricao'.$i}('ABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZ');
+            $this->tester->assertFalse($produto->validate('produtoDescricao'.$i));
 
-        $produto->setProdutoDescricao1('RAM: 1GB RAM');
-        $this->tester->assertTrue($produto->validate('produtoDescricao1'));
-
-
-        $produto->setProdutoDescricao2('ABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZABCDEFGHIJLMNOPQRSTUVXZ');
-        $this->tester->assertFalse($produto->validate('produtoDescricao2'));
-
-        $produto->setProdutoDescricao2('USB: 4x USB2 ports');
-        $this->tester->assertTrue($produto->validate('produtoDescricao2'));
-
-
-        /*
-        $categoriaGrab = $this->tester->grabRecord('common\models\Categoria',['categoriaNome' => 'DIY', 'categoriaDescricao' => 'Do It Yourself']);
-        $categoriaChild->setCategoriaIdcategorias($categoriaGrab->idcategorias);
-        $this->tester->assertTrue($categoriaChild->validate('categoria_idcategorias'));
-        */
+            $produto->{'setProdutoDescricao'.$i}('RAM: 1GB RAM');
+            $this->tester->assertTrue($produto->validate('produtoDescricao'.$i));
+        }
     }
 
     /**
