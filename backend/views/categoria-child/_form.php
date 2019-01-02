@@ -21,19 +21,31 @@ use common\models\Categoria;
     }
     ?>
 
-    <?= $form->field($model, 'childNome')->textInput(['maxlength' => true])->label('Name') ?>
+    <?= $form->field($model, 'childNome')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'childDescricao')->textInput(['maxlength' => true])->label('Description') ?>
-
-    <!-- $form->field($model, 'categoria_idcategorias')->textInput() -->
+    <?= $form->field($model, 'childDescricao')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'categoria_idcategorias')->dropDownList(
         ArrayHelper::map(Categoria::find()->all(),'idcategorias','categoriaNome'),
         ['promt'=>'Select category'])->label('Belonging to category:') ?>
 
-    <div class="form-group">
-        <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+    <div class="form-group" style="padding-top: 20px">
+        <div style="float: left;">
+            <?= Html::submitButton('Save', ['class' => 'btn btn-success']) ?>
+        </div>
+        <div style="float: left;">
+            <?= $form->field($model, 'childEstado')->checkbox(array(
+                'label'=>'Category visibility',
+                'labelOptions'=>array('style'=>'padding:5px;'),
+            ))
+                ->label(''); ?>
+        </div>
     </div>
+
+
+
+
+
 
     <?php ActiveForm::end(); ?>
 

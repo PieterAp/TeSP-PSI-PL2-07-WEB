@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div class="col-lg-2 col-md-2 col-xs-2 text-right">
                             <ul class="nav navbar-nav navbar-right text-center pull-right">
                                 <li>
-                                    <a href="'.Url::to(['categoria/changeestado', 'id' => $eachCategory['idcategorias']]).'">';
+                                    <a href="'.Url::to(['categoria/changeestado', 'id' => $eachCategory['idcategorias']]).'" id="hide'.$safeCategoriyName.'">';
                                     if ($eachCategory['categoriaEstado']==1)
                                     {
                                         echo '<span class="glyphicon glyphicon-eye-close"></span> Hide Cat</a></li>';
@@ -76,10 +76,10 @@ $this->params['breadcrumbs'][] = $this->title;
                          <div class="col-lg-3 col-md-4 col-xs-4" style="padding-left: 0px">
                             <ul class="nav navbar-nav navbar-right text-center pull-right">
                                 <li><a data-toggle="collapse" href="#collapse'.$safeCategoriyName.'" aria-expanded="false" aria-controls="collapse'.$safeCategoriyName.'"><span class="glyphicon glyphicon-th-list"></span><br>View sub</a></li>
-                                <li><a href="'.Url::to(['categoria/update', 'id' => $eachCategory['idcategorias']]).'"><span class="glyphicon glyphicon-pencil"></span><br>Edit</a></li>';
+                                <li><a href="'.Url::to(['categoria/update', 'id' => $eachCategory['idcategorias']]).'" id="edit'.$safeCategoriyName.'"><span class="glyphicon glyphicon-pencil"></span><br>Edit</a></li>';
                                 if ((\Yii::$app->user->can('deleteCategoria')) && ($eachCategory['qntProdutos']==0) && ($eachCategory['qntCategoriasChild']==0))
                                 {
-                                    echo '<li>'.Html::a('<span class="glyphicon glyphicon-trash"></span><br>Delete',['categoria/delete','id'=>$eachCategory['idcategorias']],['data' => [
+                                    echo '<li>'.Html::a('<span class="glyphicon glyphicon-trash"></span><br>Delete',['categoria/delete','id'=>$eachCategory['idcategorias']],['id' => 'delete'.$safeCategoriyName, 'data' => [
                                     'confirm' => 'Are you sure you want to delete this item?',
                                     'method' => 'post',
                                 ]]).'</li>';
