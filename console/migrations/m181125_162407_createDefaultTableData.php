@@ -145,6 +145,18 @@ class m181125_162407_createDefaultTableData extends Migration
         $campanha->campanhaDataFim = '2018-12-31';
         $campanha->save(false);
         //endregion
+        $campanha = new Campanha();
+        $campanha->campanhaNome = 'Saldos de Natal 2019';
+        $campanha->campanhaDataInicio = '2019-12-01';
+        $campanha->campanhaDescricao = 'Produtos em desconto durante a época de natal';
+        $campanha->campanhaDataFim = '2019-12-25';
+        $campanha->save();
+        $campanha = new Campanha();
+        $campanha->campanhaNome = 'Ano novo, preços novos';
+        $campanha->campanhaDataInicio = '2019-01-01';
+        $campanha->campanhaDescricao = 'Ano novo campanha';
+        $campanha->campanhaDataFim = '2019-01-15';
+        $campanha->save();
         //endregion
 
 
