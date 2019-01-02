@@ -55,7 +55,12 @@ class Categoria extends \yii\db\ActiveRecord
         ];
     }
 
-/*
+    /**
+     * Function will come in action after model gets saved
+     * @param bool $insert
+     * @param array $changedAttributes
+     */
+    /*
     public function afterSave($insert, $changedAttributes)
     {
         parent::afterSave($insert, $changedAttributes);
@@ -82,19 +87,28 @@ class Categoria extends \yii\db\ActiveRecord
             $this->FazPublish('UPDATE',$myJSON);
         }
     }
+    */
 
+    /**
+     * Function will come in action after model gets deleted
+     */
+    /*
     public function afterDelete()
     {
         parent::afterDelete();
 
-        $cat_id = $this->id;
+        $cat_id = $this->idcategorias;
         $myObj = new \stdClass();
         $myObj->id = $cat_id;
         $myJSON = json_encode($myObj);
 
         $this->FazPublish('DELETE', $myJSON);
     }
-
+*/
+    /**
+     * Function will publish a message to a broker channel of Mosquitto MQTT
+     */
+    /*
     public function FazPublish($canal, $msg)
     {
         require("../../mosquitto/phpMQTT.php");
@@ -106,9 +120,6 @@ class Categoria extends \yii\db\ActiveRecord
         $client_id = "phpMQTT-publisher";
         $mqtt = new \app\mosquitto\phpMQTT($server, $port, $client_id);
 
-
-        //$mqtt = new \app\mosquitto\phpMQTT($server, $port, $client_id);
-
         if ($mqtt->connect(true, NULL, $username, $password))
         {
             $mqtt->publish($canal, $msg, 0);
@@ -119,8 +130,7 @@ class Categoria extends \yii\db\ActiveRecord
             file_put_contents("debug.output","Time out!");
         }
     }
-*/
-
+    */
 
     /**
      * @return \yii\db\ActiveQuery
