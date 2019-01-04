@@ -153,9 +153,30 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * {@inheritdoc}
      */
-    public static function findIdentityByAccessToken($token, $type = null)
+    public static function findIdentityByAccessToken($token, $type = NULL)
     {
-        return static::findOne(['auth_key' => $token]);
+
+        // find user with token
+        if ($user = static::findOne(['access_token' => $token])) {
+            if ($user->timestamp()){
+                return $user;
+            }
+        }
+        return null;
+    }
+
+    public function generateAccessToken()
+    {
+        $this->access_token = Yii::$app->security->generateRandomString() . '_' . time();
+        $this->access_token_timestamp = ((int)Yii::$app->formatter->asTimestamp(date('Y-m-d h:i:s')) + 250000);
+    }
+
+    public function timestamp()
+    {
+        if (!empty($this->access_token_timestamp > (int)Yii::$app->formatter->asTimestamp(date('Y-m-d h:i:s')))) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -198,7 +219,6 @@ class User extends ActiveRecord implements IdentityInterface
         if (empty($token)) {
             return false;
         }
-
         $timestamp = (int) substr($token, strrpos($token, '_') + 1);
         $expire = Yii::$app->params['user.passwordResetTokenExpire'];
         return $timestamp + $expire >= time();
