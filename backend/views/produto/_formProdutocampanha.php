@@ -7,22 +7,15 @@ use yii\widgets\ActiveForm;
 /* @var $model common\models\Produto */
 /* @var $form yii\widgets\ActiveForm */
 ?>
-
 <div class="produto-form">
-
-    <?php $form = ActiveForm::begin(); ?>
-    
-    <?= $form->field($productsale, 'campanhaPercentagem')->textInput(['maxlength' => 2]) ?>
-
-
     <?php if (isset($sales[0])){
-    echo $form->field($sales[0], 'campanhaNome')
+     $form = ActiveForm::begin(); ?>
+    <?= $form->field($productsale, 'campanhaPercentagem')->textInput(['maxlength' => 2]) ?>
+    <?php echo $form->field($sales[0], 'campanhaNome')
     ->dropDownList
     ($sale, ['prompt'=>'Choose...']);
     }else{
-    Yii::$app->response->redirect(['produto/index']);
-    var_dump('SALES NOT FOUND!');
-    DIE();
+    echo '<div class="alert alert-danger">Sales not found</div>';
 
     } ?>
     <div class="form-group">
