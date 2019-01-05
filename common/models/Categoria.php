@@ -60,7 +60,7 @@ class Categoria extends \yii\db\ActiveRecord
      * @param bool $insert
      * @param array $changedAttributes
      */
-    /*
+
     public function afterSave($insert, $changedAttributes)
     {
         parent::afterSave($insert, $changedAttributes);
@@ -76,6 +76,8 @@ class Categoria extends \yii\db\ActiveRecord
         $myObj->descricao = $descricao;
         $myObj->estado = $estado;
 
+        $myObj->controller = 'categorias';
+
         $myJSON = json_encode($myObj);
 
         if($insert)
@@ -87,12 +89,11 @@ class Categoria extends \yii\db\ActiveRecord
             $this->FazPublish('UPDATE',$myJSON);
         }
     }
-    */
+
 
     /**
      * Function will come in action after model gets deleted
      */
-    /*
     public function afterDelete()
     {
         parent::afterDelete();
@@ -104,21 +105,19 @@ class Categoria extends \yii\db\ActiveRecord
 
         $this->FazPublish('DELETE', $myJSON);
     }
-*/
+
     /**
      * Function will publish a message to a broker channel of Mosquitto MQTT
      */
-    /*
+
     public function FazPublish($canal, $msg)
     {
-        require("../../mosquitto/phpMQTT.php");
-
         $server = "127.0.0.1";
         $port = 1883;
         $username = "";
         $password = "";
         $client_id = "phpMQTT-publisher";
-        $mqtt = new \app\mosquitto\phpMQTT($server, $port, $client_id);
+        $mqtt = new \backend\mosquitto\phpMQTT($server, $port, $client_id);
 
         if ($mqtt->connect(true, NULL, $username, $password))
         {
@@ -130,7 +129,6 @@ class Categoria extends \yii\db\ActiveRecord
             file_put_contents("debug.output","Time out!");
         }
     }
-    */
 
     /**
      * @return \yii\db\ActiveQuery
