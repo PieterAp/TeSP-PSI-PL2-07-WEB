@@ -75,6 +75,15 @@ class CampanhasController extends ActiveController
             ->groupBy('`campanha`.`idCampanha`')
             ->all();
 
+        foreach($allCampanhas as $oneCampanha=>$key)
+        {
+            $oneCampanha['idCampanha'] = (int) $oneCampanha['idCampanha'];
+            $allCampanhas[$key]['idCampanha'] = $oneCampanha;
+        }
+
+        var_dump($allCampanhas[0]['idCampanha']);
+
+        die();
         return $allCampanhas;
     }
 
