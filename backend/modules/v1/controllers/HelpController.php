@@ -10,22 +10,6 @@ class HelpController extends \yii\rest\Controller
     //no modelClass!! Because one isn't needed.
 
     /**
-     * Behaviors defined for this controller
-     *
-     * In this particular case, without this function the JSON format
-     * in Module.php would not work, which means that \yii\base\Behavior
-     * is not actually needed, but also does no harm.
-     *
-     * @return array
-     */
-    public function behaviors()
-    {
-        return [
-            'class' => \yii\base\Behavior::className(),
-        ];
-    }
-
-    /**
      * Defines actions which are not allowed
      * @return array
      */
