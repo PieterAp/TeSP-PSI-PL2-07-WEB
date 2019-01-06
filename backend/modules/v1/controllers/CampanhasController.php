@@ -14,22 +14,6 @@ class CampanhasController extends ActiveController
     public $modelClass = 'common\models\Campanha';
 
     /**
-     * Behaviors defined for this controller
-     *
-     * In this particular case, without this function the JSON format
-     * in Module.php would not work, which means that \yii\base\Behavior
-     * is not actually needed, but also does no harm.
-     *
-     * @return array
-     */
-    public function behaviors()
-    {
-        return [
-            'class' => \yii\base\Behavior::className(),
-        ];
-    }
-
-    /**
      * Defines actions which are not allowed
      * @return array
      */
@@ -59,7 +43,7 @@ class CampanhasController extends ActiveController
     }
 
     /**
-     * Shows all Campanhas which are visible, in this case by comparing dates
+     * Shows all Campanhas which are visible and which have a valid date (date must be within the limits)
      * @return array
      */
     public function actionAvailable()
@@ -75,6 +59,14 @@ class CampanhasController extends ActiveController
             ->groupBy('`campanha`.`idCampanha`')
             ->all();
 
+        foreach($allCampanhas as $key=>$oneCampanha)
+        {
+            $oneCampanha['idCampanha'] = (int) $oneCampanha['idCampanha'];
+            $oneCampanha['qntProdutos'] = (int) $oneCampanha['qntProdutos'];
+
+            $allCampanhas[$key] = $oneCampanha;
+        }
+
         return $allCampanhas;
     }
 
@@ -85,7 +77,7 @@ class CampanhasController extends ActiveController
      */
     public function actionProdutos($id)
     {
-        $allCampanhas = (new Query())
+        $allProdutos = (new Query())
             ->select('produto.*,produtocampanha.campanhaPercentagem, produtoPreco-(produtoPreco*(campanhaPercentagem / 100)) AS "precoDpsDesconto"')
             ->from('campanha')
             ->innerJoin('produtocampanha', '`campanha`.`idCampanha` = `produtocampanha`.`campanha_idCampanha`')
@@ -94,7 +86,20 @@ class CampanhasController extends ActiveController
             ->andWhere(['produto.produtoEstado'=>1])
             ->all();
 
-        return $allCampanhas;
+        foreach($allProdutos as $key=>$oneProduto)
+        {
+            $oneProduto['idprodutos'] = (int) $oneProduto['idprodutos'];
+            $oneProduto['produtoStock'] = (int) $oneProduto['produtoStock'];
+            $oneProduto['produtoPreco'] = (float) $oneProduto['produtoPreco'];
+            $oneProduto['categoria_child_id'] = (int) $oneProduto['categoria_child_id'];
+            $oneProduto['produtoEstado'] = (int) $oneProduto['produtoEstado'];
+            $oneProduto['campanhaPercentagem'] = (int) $oneProduto['campanhaPercentagem'];
+            $oneProduto['precoDpsDesconto'] = (float) $oneProduto['precoDpsDesconto'];
+
+            $allProdutos[$key] = $oneProduto;
+        }
+
+        return $allProdutos;
     }
 
     /**
