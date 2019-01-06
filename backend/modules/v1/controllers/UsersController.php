@@ -2,6 +2,7 @@
 
 namespace app\modules\v1\controllers;
 
+use common\models\User;
 use yii\filters\auth\QueryParamAuth;
 use yii\rest\ActiveController;
 
@@ -11,47 +12,6 @@ use yii\rest\ActiveController;
 class UsersController extends ActiveController
 {
     public $modelClass = 'common\models\User';
-
-    /**
-     * API Authorization - Query Parameter Authentication
-     */
-    public function behaviors()
-    {
-        $behaviors['authenticator'] = [
-            'class' => QueryParamAuth::className(),
-            'except' => ['help'],
-        ];
-        return $behaviors;
-    }
-
-    /**
-     * Checks request autorization/access
-     * @throws \yii\web\ForbiddenHttpException
-     */
-    public function checkAccess($action, $model = null, $params = [])
-    {
-        if ($action === 'create' or $action === 'update' or $action === 'delete')
-        {
-            if (\Yii::$app->user->isGuest)
-            {
-                throw new \yii\web\ForbiddenHttpException($action .' - Action only available to registered users!');
-            }
-        }
-    }
-
-
-    /**
-     * @param $action
-     * @return bool
-     * @throws \yii\web\BadRequestHttpException
-     * @throws \yii\web\ForbiddenHttpException
-     */
-    public function beforeAction($action)
-    {
-        $this->checkAccess($action);
-
-        return parent::beforeAction($action);
-    }
 
     /**
      * Shows the user which actions and routes are available to use
@@ -78,15 +38,28 @@ class UsersController extends ActiveController
         return array($help);
     }
 
-    /**
-     * @return mixed
-     */
-    public function actionAvailable()
-    {
-        $model = new $this->modelClass;
-        $allCompras = $model::find()->all();
 
-        return $allCompras;
+    /**
+     * Allows user to log into their accounts
+     */
+    public function actionLogin()
+    {
+
     }
 
+    /**
+     * Allows user to create a new account
+     */
+    public function actionRegisto()
+    {
+        $username = \Yii::$app->request->post('username');
+        $password = \Yii::$app->request->post('password');
+
+        $user = new User();
+        $user->username = $username;
+        $user->password = $password;
+
+        $ret = $user->save();
+        return ['SaveError' => $ret];
+    }
 }

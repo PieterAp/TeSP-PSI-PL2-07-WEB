@@ -61,7 +61,7 @@ return [
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => ['v1/campanhas','v1/categorias','v1/categoriaschild','v1/compraprodutos','v1/compras','v1/produtos','v1/users'],
+                    'controller' => ['v1/campanhas','v1/categorias','v1/categoriaschild','v1/compraprodutos','v1/compras','v1/produtos'],
                     'pluralize' => false,
                     'extraPatterns' => [
                         'GET' => 'available',
@@ -79,6 +79,15 @@ return [
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',
+                    'controller' => 'v1/categorias',
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'GET {id}/child' => 'child',
+                        'GET {id}/produtos' => 'produtos',
+                    ]
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
                     'controller' => 'v1/categoriaschild',
                     'pluralize' => false,
                     'extraPatterns' => [
@@ -88,11 +97,11 @@ return [
                 ],
                 [
                     'class' => 'yii\rest\UrlRule',
-                    'controller' => 'v1/categorias',
+                    'controller' => 'v1/users',
                     'pluralize' => false,
                     'extraPatterns' => [
-                        'GET {id}/child' => 'child',
-                        'GET {id}/produtos' => 'produtos',
+                        'POST login' => 'login',
+                        'POST registo' => 'registo',
                     ]
                 ],
             ],
