@@ -20,6 +20,6 @@ class m190104_145850_add_accesstokentimestamp_column_to_User_table extends Migra
      */
     public function safeDown()
     {
-        $this->dropColumn('User', 'access_token');
+        $this->dropColumn('User', 'access_token_timestamp');
     }
 }

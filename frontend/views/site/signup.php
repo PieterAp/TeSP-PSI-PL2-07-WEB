@@ -22,18 +22,18 @@ $this->title = 'Sign up';
         <?= $form->field($model, 'username')->textInput() ?>
         <div class="row">
             <div class="col-md-6">
-                <?= $form->field($model, 'userNomeProprio')->textInput()->label('First name')  ?>
+                <?= $form->field($model, 'userNomeProprio')->textInput()  ?>
             </div>
             <div class="col-md-6">
-                <?= $form->field($model, 'userApelido')->textInput()->label('Last name')  ?>
+                <?= $form->field($model, 'userApelido')->textInput()  ?>
             </div>
         </div>
 
-        <?= $form->field($model, 'userNIF')->textInput()->label('NIF')  ?>
-        <?= $form->field($model, 'userMorada')->textInput()->label('Adress')  ?>
+        <?= $form->field($model, 'userNIF')->textInput()  ?>
+        <?= $form->field($model, 'userMorada')->textInput()  ?>
         <?= $form->field($model, 'userDataNasc')->widget(\yii\jui\DatePicker::class, [
             'dateFormat' => 'yyyy-MM-dd',
-        ])->textInput()->label('Birthday') ?>
+        ])->textInput() ?>
 
         <?= $form->field($model, 'email') ?>
         <?= $form->field($model, 'password')->passwordInput() ?>

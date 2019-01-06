@@ -5,6 +5,7 @@ use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\db\Exception;
 use yii\web\IdentityInterface;
 
 /**
@@ -165,15 +166,33 @@ class User extends ActiveRecord implements IdentityInterface
         return null;
     }
 
-    public function generateAccessToken()
+    /**
+     * @param $user
+     * @return \Exception
+     */
+    public static function generateAccessToken($user)
     {
-        $this->access_token = Yii::$app->security->generateRandomString() . '_' . time();
-        $this->access_token_timestamp = ((int)Yii::$app->formatter->asTimestamp(date('Y-m-d h:i:s')) + 250000);
+        try{
+            $user->access_token = Yii::$app->getSecurity()->generateRandomString(64);
+            $user->access_token_timestamp = ((int)Yii::$app->formatter->asTimestamp(date('Y-m-d h:i:s')) + 250000);
+
+            $update = static::findOne(['id' => $user->id]);
+            $update->access_token = $user->access_token;
+            $update->access_token_timestamp = $user->access_token_timestamp;
+            $update->save();
+        }catch (\Exception $exception){
+            return $exception;
+        }
+
+        return $user;
     }
 
+    /**
+     * @return bool
+     */
     public function timestamp()
     {
-        if (!empty($this->access_token_timestamp > (int)Yii::$app->formatter->asTimestamp(date('Y-m-d h:i:s')))) {
+        if (!empty($this->access_token_timestamp) > (int)Yii::$app->formatter->asTimestamp(date('Y-m-d h:i:s'))) {
             return true;
         }
         return false;
