@@ -156,7 +156,15 @@ class CampanhasController extends ActiveController
     {
         try {
             $campanha = Campanha::findOne($id);
-            $campanha -> delete();
+            if ($campanha!=null)
+            {
+                $campanha -> delete();
+            }
+            else
+            {
+                throw new \yii\web\NotFoundHttpException('Campanha não encontrada!');
+            }
+
         }
         catch (IntegrityException $e)
         {
