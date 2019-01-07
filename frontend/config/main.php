@@ -48,7 +48,7 @@ return [
             'class' => 'yii\web\urlManager',
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'baseUrl' => 'http://localhost/TeSP-PSI-PL2-07-WEB-html/backend/web',
+            'baseUrl' => 'http://localhost/TeSP-PSI-PL2-07-WEB/backend/web',
         ],
 
     ],

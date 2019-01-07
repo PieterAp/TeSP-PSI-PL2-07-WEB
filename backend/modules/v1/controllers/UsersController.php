@@ -23,20 +23,14 @@ class UsersController extends ActiveController
      */
     public function actionHelp()
     {
-        $help[] = array( 'allowed actions' => 'get,post,put');
+        $help[] = array( 'allowed actions' => 'post');
 
-        $get = array( 'action' => 'get' , 'routes' => array() );
-        $post['options'][] = array('label'=>['Label'],'value'=>['value']);
+        $get = array( 'action' => 'post', 'access' => 'unrestricted', 'routes' => array() );
+        $get['routes'][] = array('registo de um user' => 'user/registo',
+                                'login de um user' => 'user/login');
         $help[] = $get;
 
-
-        $post = array( 'request' => 'post' , 'options' => array() );
-        $post['options'][] = array('label'=>['Label'],'value'=>['value']);
-        $help[] = $post;
-
-        $put = array( 'request' => 'put' , 'options' => array() );
-        $put['options'][] = array('label'=>['Label'],'value'=>['value']);
-        $help[] = $put;
+        return array($help);
 
 
         return array($help);
@@ -49,8 +43,8 @@ class UsersController extends ActiveController
     public function actionLogin()
     {
         $user = new LoginForm();
-        $user->username =   \Yii::$app->request->get('username');
-        $user->password =   \Yii::$app->request->get('password');
+        $user->username =   \Yii::$app->request->post('username');
+        $user->password =   \Yii::$app->request->post('password');
 
         if ($user->login()){
             $identity = User::findOne(['username' => $user->username]);
@@ -65,7 +59,6 @@ class UsersController extends ActiveController
         }
 
         return false;
-
     }
 
     /**
@@ -75,14 +68,14 @@ class UsersController extends ActiveController
     {
         $signupForm = new SignupForm();
 
-        $signupForm->username = \Yii::$app->request->get('username');
-        $signupForm->userNomeProprio = \Yii::$app->request->get('firstname');
-        $signupForm->userApelido = \Yii::$app->request->get('lastname');
-        $signupForm->userNIF = \Yii::$app->request->get('nif');
-        $signupForm->userMorada = \Yii::$app->request->get('address');
-        $signupForm->userDataNasc = \Yii::$app->request->get('birthday');
-        $signupForm->email = \Yii::$app->request->get('email');
-        $signupForm->password = (\Yii::$app->request->get('password'));
+        $signupForm->username = \Yii::$app->request->post('username');
+        $signupForm->userNomeProprio = \Yii::$app->request->post('firstname');
+        $signupForm->userApelido = \Yii::$app->request->post('lastname');
+        $signupForm->userNIF = \Yii::$app->request->post('nif');
+        $signupForm->userMorada = \Yii::$app->request->post('address');
+        $signupForm->userDataNasc = \Yii::$app->request->post('birthday');
+        $signupForm->email = \Yii::$app->request->post('email');
+        $signupForm->password = (\Yii::$app->request->post('password'));
 
         if (!$signupForm->validate()){
             return $signupForm->errors;
@@ -107,6 +100,14 @@ class UsersController extends ActiveController
         $userdata->save();
 
         return 'Register successfully';
+    }
+
+    /**
+     * Allows user to edit his account
+     */
+    public function actionEdit()
+    {
 
     }
+
 }
