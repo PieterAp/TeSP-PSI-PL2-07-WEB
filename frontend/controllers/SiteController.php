@@ -76,18 +76,6 @@ class SiteController extends LayoutController
      */
     public function actionIndex()
     {
-/*
-        $query = (new Query())
-            ->select(['categoria.*', 'categoria_child.*', 'COUNT(Distinct(categoria.idcategorias)) as "qntCategorias"'])
-            ->from('categoria')
-            ->leftJoin('categoria_child', '`categoria`.`idcategorias` = `categoria_child`.`categoria_idcategorias`');
-
-        $command = $query->createCommand();
-        $allCategories = $command->queryAll();
-
-        var_dump($allCategories);
-        die();*/
-
         $allCategories = Categoria::find()
             ->select('Categoria.*')
             ->distinct()
@@ -98,21 +86,72 @@ class SiteController extends LayoutController
             ->distinct()
             ->all();
 
-        $allBrands = Produto::find()
-            ->select('produto.produtoMarca')
-            ->distinct()
+        $categoryRow = (new Query())
+            ->select(['categoria_child.idchild','categoria_child.childNome'])
+            ->from('categoria_child')
+            ->innerJoin('produto', '`categoria_child`.`idchild` = `produto`.`categoria_child_id`')
+            ->where(['produto.produtoEstado' => 1])
+            ->andWhere(['categoria_child.childEstado' => 1])
+            ->groupBy('produto.categoria_child_id')
+            ->orderBy('count(produto.categoria_child_id) DESC')
+            ->limit(3)
             ->all();
 
-        $allProducts = Produto::find()
-            ->select('produto.*')
+        /*
+        $bestSeller = (new Query())
+            ->select([
+                'idprodutos',
+                'produtoNome',
+                'produtoPreco',
+                'produtoImagem1',
+                'campanhaPercentagem',
+                'produtoPreco-(produtoPreco*(campanhaPercentagem / 100)) AS "precoDpsDesconto"'
+            ])
+            ->from('compraproduto')
+            ->innerJoin('produto', 'produto_idprodutos = idprodutos')
+            ->leftJoin('produtocampanha', 'idprodutos = produtos_idprodutos')
+            ->leftJoin('campanha', 'campanha_idCampanha = idCampanha')
+            ->where(['produtoEstado' => 1])
+            ->andwhere(['>=','campanhaDataFim', date('Y-m-d')])
+            ->andWhere(['<=','campanhaDataInicio', date('Y-m-d')])
+            ->groupBy('categoria_child_id')
+            ->orderBy('count(idprodutos) DESC')
+            ->limit(8)
             ->all();
 
+        var_dump($bestSeller);
+        die();
+        */
+
+
+        //old one, quite light
+
+        $bestSeller = (new Query())
+            ->select(['produto.idprodutos','produto.produtoNome','produto.produtoPreco', 'produto.produtoImagem1'])
+            ->from('compraproduto')
+            ->innerJoin('produto', '`compraproduto`.`produto_idprodutos` = `produto`.`idprodutos`')
+            ->where(['produto.produtoEstado' => 1])
+            ->groupBy('produto.categoria_child_id')
+            ->orderBy('count(produto.idprodutos) DESC')
+            ->limit(8)
+            ->all();
+
+
+
+
+
+
+        //::todo: query to show recommended products, max 8 products
+        //::todo: query to show recommended products, max 8 products
 
         return $this->render('index', [
             'allCategories' => $allCategories,
             'allCategoryChilds' => $allCategoryChilds,
-            'allBrands' => $allBrands,
-            'allProducts' => $allProducts,
+            'categoryRow' => $categoryRow,
+            'bestSeller' => $bestSeller,
+            //'featured' => $featured,
+            //'sale' => $sale,
+            //'sale' => $topRate,
         ]);
     }
 
