@@ -3,6 +3,7 @@
 namespace app\modules\v1\controllers;
 
 use common\models\Campanha;
+use yii\db\IntegrityException;
 use yii\db\Query;
 use yii\rest\ActiveController;
 
@@ -137,5 +138,27 @@ class CampanhasController extends ActiveController
             return $allProdutos;
         }
         return null;
+    }
+
+    /**
+     * Delete the given CAMPANHA
+     * @param $id
+     * @return string
+     * @throws \Exception
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
+    public function actionDelete($id)
+    {
+        try {
+            $campanha = Campanha::findOne($id);
+            $campanha -> delete();
+        }
+        catch (IntegrityException $e)
+        {
+            return 'Esta campanha tem produtos associados';
+        }
+
+        return 'Apagado com sucesso!';
     }
 }

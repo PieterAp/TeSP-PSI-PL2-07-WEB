@@ -68,6 +68,7 @@ return [
                         'GET help' => 'help',
                         'GET {id}' => 'detail',
                         'GET {id}/produtos' => 'produtos',
+                        'DELETE {id}' => 'delete',
                     ],
                 ],
                 [
@@ -100,7 +101,10 @@ return [
                     'controller' => 'v1/produtos',
                     'pluralize' => false,
                     'extraPatterns' => [
-                        //todo: this!
+                        'GET' => 'available',
+                        'GET {id}/categoria' => 'categoria',
+                        'GET {id}/child' => 'child',
+                        'GET {id}/campanha' => 'campanha',
                     ]
                 ],
                 [

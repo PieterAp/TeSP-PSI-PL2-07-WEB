@@ -58,7 +58,7 @@ class ProdutosController extends ActiveController
      */
     public function actionCampanha($id)
     {
-        $Campanha = (new Query())
+        $Campanhas = (new Query())
             ->select(['campanha.*','COUNT(produto.idprodutos) as "qntProdutos"'])
             ->from('campanha')
             ->innerJoin('produtocampanha', '`campanha`.`idCampanha` = `produtocampanha`.`campanha_idCampanha`')
@@ -70,6 +70,75 @@ class ProdutosController extends ActiveController
             ->groupBy('`campanha`.`idCampanha`')
             ->all();
 
-        return $Campanha;
+        if ($Campanhas!=null)
+        {
+            foreach($Campanhas as $key=>$oneCampanha)
+            {
+                $oneCampanha['idCampanha'] = (int) $oneCampanha['idCampanha'];
+                $oneCampanha['qntProdutos'] = (int) $oneCampanha['qntProdutos'];
+
+                $Campanhas[$key] = $oneCampanha;
+            }
+            return $Campanhas;
+        }
+        return null;
+    }
+
+    /**
+     * Shows all CATEGORIA's related to the given PRODUTO
+     * @return mixed
+     */
+    public function actionCategoria($id)
+    {
+        $oneCategoria = (new Query())
+            ->select(['categoria.*','COUNT(produto.idprodutos) as "qntProdutos"'])
+            ->from('categoria')
+            ->innerJoin('categoria_child', '`categoria_child`.`categoria_idcategorias` = `categoria`.`idcategorias`')
+            ->innerJoin('produto', '`categoria_child`.`idchild` = `produto`.`categoria_child_id`')
+            ->where(['produto.idprodutos'=>$id])
+            ->andWhere(['categoriaEstado'=>1])
+            ->andWhere(['produto.produtoEstado'=>1])
+            ->groupBy('`categoria_child`.`idchild`')
+            ->one();
+
+        if($oneCategoria != null)
+        {
+            $oneCategoria['idcategorias'] = (int) $oneCategoria['idcategorias'];
+            $oneCategoria['categoriaEstado'] = (int) $oneCategoria['categoriaEstado'];
+            $oneCategoria['qntProdutos'] = (int) $oneCategoria['qntProdutos'];
+
+            return $oneCategoria;
+        }
+        return null;
+    }
+
+    /**
+     * Shows all CATEGORIACHILD's related to the given PRODUTO
+     * @param $id
+     * @return array|\yii\db\ActiveRecord[]
+     */
+    public function actionChild($id)
+    {
+        $oneCategoriesChild = (new Query())
+            ->select(['categoria_child.*','COUNT(produto.idprodutos) as "qntProdutos"'])
+            ->from('categoria')
+            ->innerJoin('categoria_child', '`categoria_child`.`categoria_idcategorias` = `categoria`.`idcategorias`')
+            ->innerJoin('produto', '`categoria_child`.`idchild` = `produto`.`categoria_child_id`')
+            ->where(['produto.idprodutos'=>$id])
+            ->andWhere(['childEstado'=>1])
+            ->andWhere(['produto.produtoEstado'=>1])
+            ->groupBy('`categoria_child`.`idchild`')
+            ->one();
+
+        if($oneCategoriesChild != null)
+        {
+            $oneCategoriesChild['idchild'] = (int) $oneCategoriesChild['idchild'];
+            $oneCategoriesChild['categoria_idcategorias'] = (int) $oneCategoriesChild['categoria_idcategorias'];
+            $oneCategoriesChild['childEstado'] = (int) $oneCategoriesChild['childEstado'];
+            $oneCategoriesChild['qntProdutos'] = (int) $oneCategoriesChild['qntProdutos'];
+
+            return $oneCategoriesChild;
+        }
+        return null;
     }
 }

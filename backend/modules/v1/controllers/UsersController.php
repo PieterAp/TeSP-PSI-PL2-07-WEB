@@ -50,11 +50,14 @@ class UsersController extends ActiveController
     /**
      * Allows user to log into their accounts
      */
-    public function actionLogin()
+    public function actionLogin($username, $password)
     {
+
         $user = new LoginForm();
-        $user->username =   \Yii::$app->request->post('username');
-        $user->password =   \Yii::$app->request->post('password');
+        $user->username =   $username;
+        $user->password =   $password;
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
 
         if ($user->login()){
             $identity = User::findOne(['username' => $user->username]);
@@ -74,18 +77,20 @@ class UsersController extends ActiveController
     /**
      * Allows user to create a new account
      */
-    public function actionRegisto()
+    public function actionRegisto($username,$firstname,$lastname,$nif,$address,$birthday,$email,$password)
     {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
         $signupForm = new SignupForm();
 
-        $signupForm->username = \Yii::$app->request->post('username');
-        $signupForm->userNomeProprio = \Yii::$app->request->post('firstname');
-        $signupForm->userApelido = \Yii::$app->request->post('lastname');
-        $signupForm->userNIF = \Yii::$app->request->post('nif');
-        $signupForm->userMorada = \Yii::$app->request->post('address');
-        $signupForm->userDataNasc = \Yii::$app->request->post('birthday');
-        $signupForm->email = \Yii::$app->request->post('email');
-        $signupForm->password = (\Yii::$app->request->post('password'));
+        $signupForm->username = $username;
+        $signupForm->userNomeProprio = $firstname;
+        $signupForm->userApelido = $lastname;
+        $signupForm->userNIF = $nif;
+        $signupForm->userMorada = $address;
+        $signupForm->userDataNasc = $birthday;
+        $signupForm->email = $email;
+        $signupForm->password = $password;
 
         if (!$signupForm->validate()){
             return $signupForm->errors;
@@ -98,6 +103,8 @@ class UsersController extends ActiveController
         $user->email = $signupForm->email;
         $user->setPassword($signupForm->password);
         $user->generateAuthKey();
+        $user->save();
+
         $auth = \Yii::$app->authManager;
         $authorRole = $auth->getRole('cliente');
         $auth->assign($authorRole, $user->getId());
@@ -110,7 +117,7 @@ class UsersController extends ActiveController
         $userdata->userDataNasc = $signupForm->userDataNasc;
         $identity = User::findOne(['username' => $user->username]);
         $userdata->user_id = $identity->id;
-        $userdata->save();
+        $userdata->save(false);
 
         return 'Register successfully';
     }
