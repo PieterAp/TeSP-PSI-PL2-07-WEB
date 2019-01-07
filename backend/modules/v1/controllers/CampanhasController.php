@@ -27,15 +27,17 @@ class CampanhasController extends ActiveController
     }
 
     /**
-     * Shows the user which actions and routes are available to use
+     * Shows the user which actions and endpoints are available to use
      * @return array
      */
     public function actionHelp()
     {
         $help[] = array( 'allowed actions' => 'get');
 
-        $get = array( 'action' => 'get' , 'routes' => array() );
+        $get = array( 'action' => 'get', 'access' => 'unrestricted','routes' => array() );
         $get['routes'][] = array('todas as campanhas disponiveis' => 'campanhas',
+                                 'todos os endpoints disponiveis' => 'campanhas/help',
+                                 'campanha detalhe' => 'campanhas/{id}',
                                  'produtos dentro de campanha' => 'campanhas/{id}/produtos');
         $help[] = $get;
 
@@ -43,7 +45,7 @@ class CampanhasController extends ActiveController
     }
 
     /**
-     * Shows all Campanhas which are visible and which have a valid date (date must be within the limits)
+     * Shows all CAMPANHA's which have visible PRODUTO's and which have a valid date (date must be within the limits)
      * @return array
      */
     public function actionAvailable()
@@ -59,19 +61,50 @@ class CampanhasController extends ActiveController
             ->groupBy('`campanha`.`idCampanha`')
             ->all();
 
-        foreach($allCampanhas as $key=>$oneCampanha)
+        if ($allCampanhas!=null)
         {
-            $oneCampanha['idCampanha'] = (int) $oneCampanha['idCampanha'];
-            $oneCampanha['qntProdutos'] = (int) $oneCampanha['qntProdutos'];
+            foreach($allCampanhas as $key=>$oneCampanha)
+            {
+                $oneCampanha['idCampanha'] = (int) $oneCampanha['idCampanha'];
+                $oneCampanha['qntProdutos'] = (int) $oneCampanha['qntProdutos'];
 
-            $allCampanhas[$key] = $oneCampanha;
+                $allCampanhas[$key] = $oneCampanha;
+            }
+            return $allCampanhas;
         }
-
-        return $allCampanhas;
+        return null;
     }
 
     /**
-     * Shows all Produtos inside of the given $id of Campanha
+     * Shows specific information about one given CAMPANHA
+     * @param $id
+     * @return array
+     */
+    public function actionDetail($id)
+    {
+        $oneCampanha = (new Query())
+            ->select(['campanha.*','COUNT(produto.idprodutos) as "qntProdutos"'])
+            ->from('campanha')
+            ->innerJoin('produtocampanha', '`campanha`.`idCampanha` = `produtocampanha`.`campanha_idCampanha`')
+            ->innerJoin('produto', '`produtocampanha`.`produtos_idprodutos` = `produto`.`idprodutos`')
+            ->where(['campanha.idCampanha'=>$id])
+            ->andWhere(['>=','campanhaDataFim', date('Y-m-d')])
+            ->andWhere(['<=','campanhaDataInicio', date('Y-m-d')])
+            ->andWhere(['produto.produtoEstado'=>1])
+            ->groupBy('`campanha`.`idCampanha`')
+            ->one();
+
+        if ($oneCampanha!=null)
+        {
+            $oneCampanha['idCampanha'] = (int) $oneCampanha['idCampanha'];
+            $oneCampanha['qntProdutos'] = (int) $oneCampanha['qntProdutos'];
+            return $oneCampanha;
+        }
+        return null;
+    }
+
+    /**
+     * Shows all PRODUTO's inside of the given $id of CAMPANHA
      * @param $id
      * @return array
      */
@@ -84,33 +117,25 @@ class CampanhasController extends ActiveController
             ->innerJoin('produto', '`produtocampanha`.`produtos_idprodutos` = `produto`.`idprodutos`')
             ->where(['idCampanha' => $id])
             ->andWhere(['produto.produtoEstado'=>1])
+            ->groupBy('`produto`.`idprodutos`')
             ->all();
 
-        foreach($allProdutos as $key=>$oneProduto)
+        if ($allProdutos!=null)
         {
-            $oneProduto['idprodutos'] = (int) $oneProduto['idprodutos'];
-            $oneProduto['produtoStock'] = (int) $oneProduto['produtoStock'];
-            $oneProduto['produtoPreco'] = (float) $oneProduto['produtoPreco'];
-            $oneProduto['categoria_child_id'] = (int) $oneProduto['categoria_child_id'];
-            $oneProduto['produtoEstado'] = (int) $oneProduto['produtoEstado'];
-            $oneProduto['campanhaPercentagem'] = (int) $oneProduto['campanhaPercentagem'];
-            $oneProduto['precoDpsDesconto'] = (float) $oneProduto['precoDpsDesconto'];
+            foreach($allProdutos as $key=>$oneProduto)
+            {
+                $oneProduto['idprodutos'] = (int) $oneProduto['idprodutos'];
+                $oneProduto['produtoStock'] = (int) $oneProduto['produtoStock'];
+                $oneProduto['produtoPreco'] = (float) $oneProduto['produtoPreco'];
+                $oneProduto['categoria_child_id'] = (int) $oneProduto['categoria_child_id'];
+                $oneProduto['produtoEstado'] = (int) $oneProduto['produtoEstado'];
+                $oneProduto['campanhaPercentagem'] = (int) $oneProduto['campanhaPercentagem'];
+                $oneProduto['precoDpsDesconto'] = (float) $oneProduto['precoDpsDesconto'];
 
-            $allProdutos[$key] = $oneProduto;
+                $allProdutos[$key] = $oneProduto;
+            }
+            return $allProdutos;
         }
-
-        return $allProdutos;
-    }
-
-    /**
-     * Shows specific information about one given CAMPANHA
-     * @param $id
-     * @return array
-     */
-    public function actionDetail($id)
-    {
-        $allCampanhas = Campanha::find()->where(['idCampanha' => $id])->all();
-
-        return $allCampanhas;
+        return null;
     }
 }
