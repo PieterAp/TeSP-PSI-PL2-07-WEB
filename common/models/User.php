@@ -156,6 +156,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public static function findIdentityByAccessToken($token, $type = NULL)
     {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
 
         // find user with token
         if ($user = static::findOne(['access_token' => $token])) {
@@ -192,7 +193,7 @@ class User extends ActiveRecord implements IdentityInterface
      */
     public function timestamp()
     {
-        if (!empty($this->access_token_timestamp) > (int)Yii::$app->formatter->asTimestamp(date('Y-m-d h:i:s'))) {
+        if ($this->access_token_timestamp > (int)Yii::$app->formatter->asTimestamp(date('Y-m-d h:i:s'))) {
             return true;
         }
         return false;
