@@ -5,6 +5,7 @@ namespace app\modules\v1\controllers;
 use common\models\LoginForm;
 use common\models\User;
 use common\models\Userdata;
+use frontend\models\EditAccountForm;
 use frontend\models\SignupForm;
 use Yii;
 use yii\filters\auth\QueryParamAuth;
@@ -18,6 +19,18 @@ class UsersController extends ActiveController
     public $modelClass = 'common\models\User';
 
     /**
+     * API Authorization - Query Parameter Authentication
+     */
+    public function behaviors()
+    {
+        $behaviors['authenticator'] = [
+            'class' => QueryParamAuth::className(),
+            'except' => ['help','login','registo'],
+        ];
+        return $behaviors;
+    }
+
+    /**
      * Shows the user which actions and routes are available to use
      * @return array
      */
@@ -29,9 +42,6 @@ class UsersController extends ActiveController
         $get['routes'][] = array('registo de um user' => 'user/registo',
                                 'login de um user' => 'user/login');
         $help[] = $get;
-
-        return array($help);
-
 
         return array($help);
     }
@@ -81,13 +91,16 @@ class UsersController extends ActiveController
             return $signupForm->errors;
         }
 
-        $userdata = new UserData();
+        $userdata = new Userdata();
         $user = new User();
 
         $user->username = $signupForm->username;
         $user->email = $signupForm->email;
         $user->setPassword($signupForm->password);
         $user->generateAuthKey();
+        $auth = \Yii::$app->authManager;
+        $authorRole = $auth->getRole('cliente');
+        $auth->assign($authorRole, $user->getId());
         $user->save();
 
         $userdata->userNomeProprio =$signupForm->userNomeProprio;
@@ -105,9 +118,32 @@ class UsersController extends ActiveController
     /**
      * Allows user to edit his account
      */
-    public function actionEdit()
+    public function actionEdit($accesstoken,$password,$firstname,$lastname,$address,$birthday)
     {
+        $user = User::findIdentityByAccessToken($accesstoken);
+        $editAccount = new EditAccountForm();
+        $editAccount->userNomeProprio = $password;
+        $editAccount->userNomeProprio = $firstname;
+        $editAccount->userApelido = $lastname;
+        $editAccount->userMorada = $address;
+        $editAccount->userDataNasc = $birthday;
 
+        if ($editAccount->editAccount()) {
+            if($password != ''){
+                $user->setPassword($password);
+                $user->save();
+            }
+
+            $userdata = Userdata::find()->where(['user_id' => $user->id])->one();
+            $userdata->userNomeProprio = $editAccount->userNomeProprio;
+            $userdata->userApelido = $editAccount->userApelido;
+            $userdata->userMorada = $editAccount->userMorada;
+            $userdata->userDataNasc = $editAccount->userDataNasc;
+            $userdata->save(false);
+
+        }else{
+            return $editAccount->errors;
+        }
+        return "Alteracao com sucesso";
     }
-
 }
