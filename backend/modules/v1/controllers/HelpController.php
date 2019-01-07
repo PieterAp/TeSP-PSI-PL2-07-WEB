@@ -28,10 +28,13 @@ class HelpController extends \yii\rest\Controller
      */
     public function actionHelp()
     {
-        $campanhas = array( 'controller name' => 'campanhas' ,'allowed actions' => 'get', 'access' => 'open' , 'routes' => array() );
-        $campanhas['routes'] = array('todas as campanhas disponiveis' => 'campanhas',
+        $campanhas = array( 'controller name' => 'campanhas' ,'allowed actions' => 'get', 'access' => 'unrestricted' , 'routes' => array() );
+        $campanhas['routes'][] = array('todas as campanhas disponiveis' => 'campanhas',
+                                       'todos os endpoints disponiveis' => 'campanhas/help',
+                                       'campanha detalhe' => 'campanhas/{id}',
                                        'produtos dentro de campanha' => 'campanhas/{id}/produtos');
         $help[] = $campanhas;
+
 
         $categoriasChild = array( 'controller name' => 'categoriaschild' ,'allowed actions' => 'get', 'access' => 'open' , 'routes' => array() );
         $categoriasChild['routes'] = array('todas as categoriaschild disponiveis' => 'categoriaschild',
@@ -39,10 +42,15 @@ class HelpController extends \yii\rest\Controller
                                            'produtos dentro de categoriaschild' => 'categoriaschild/{id}/produtos');
         $help[] = $categoriasChild;
 
+
         $categorias = array( 'controller name' => 'categorias' ,'allowed actions' => 'get', 'access' => 'open' , 'routes' => array() );
-        $categorias['routes'] = array('todas as categorias disponiveis' => 'categorias',
-                                      'produtos dentro de categoria' => 'categorias/{id}/produtos');
+        $categorias['routes'][] = array('todas as categorias disponiveis' => 'categorias',
+                                        'todos os endpoints disponiveis' => 'categorias/help',
+                                        'categorias detalhe' => 'categorias/{id}',
+                                        'produtos dentro de categoria' => 'categorias/{id}/produtos',
+                                        'categorias child dentro de categoria' => 'categorias/{id}/child');
         $help[] = $categorias;
+
 
         $categorias = array( 'controller name' => 'compras' ,'allowed actions' => 'get, post, put', 'access' => 'restricted' , 'routes' => array() );
         $categorias['routes'][] = array('action' => 'get',

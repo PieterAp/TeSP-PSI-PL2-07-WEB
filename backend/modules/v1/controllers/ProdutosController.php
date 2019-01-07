@@ -2,6 +2,7 @@
 
 namespace app\modules\v1\controllers;
 
+use yii\db\Query;
 use yii\rest\ActiveController;
 
 /**
@@ -40,6 +41,7 @@ class ProdutosController extends ActiveController
     }
 
     /**
+     * Shows all Produtos which have a visible status (produtoEstado == 1)
      * @return mixed
      */
     public function actionAvailable()
@@ -48,5 +50,26 @@ class ProdutosController extends ActiveController
         $allProdutos = $model::find()->where(['produtoEstado'=>1])->all();
 
         return $allProdutos;
+    }
+
+    /**
+     * Shows the campanha associated with a certain product
+     * @return mixed
+     */
+    public function actionCampanha($id)
+    {
+        $Campanha = (new Query())
+            ->select(['campanha.*','COUNT(produto.idprodutos) as "qntProdutos"'])
+            ->from('campanha')
+            ->innerJoin('produtocampanha', '`campanha`.`idCampanha` = `produtocampanha`.`campanha_idCampanha`')
+            ->innerJoin('produto', '`produtocampanha`.`produtos_idprodutos` = `produto`.`idprodutos`')
+            ->where(['produtocampanha.produtos_idprodutos'=>$id])
+            ->andWhere(['>=','campanhaDataFim', date('Y-m-d')])
+            ->andWhere(['<=','campanhaDataInicio', date('Y-m-d')])
+            ->andWhere(['produto.produtoEstado'=>1])
+            ->groupBy('`campanha`.`idCampanha`')
+            ->all();
+
+        return $Campanha;
     }
 }
