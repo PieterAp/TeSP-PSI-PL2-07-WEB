@@ -28,22 +28,29 @@ class HelpController extends \yii\rest\Controller
      */
     public function actionHelp()
     {
-        $campanhas = array( 'controller name' => 'campanhas' ,'allowed actions' => 'get', 'access' => 'unrestricted' , 'routes' => array() );
-        $campanhas['routes'][] = array('todas as campanhas disponiveis' => 'campanhas',
-                                       'todos os endpoints disponiveis' => 'campanhas/help',
-                                       'campanha detalhe' => 'campanhas/{id}',
-                                       'produtos dentro de campanha' => 'campanhas/{id}/produtos');
+        $campanhas = array( 'controller name' => 'campanhas' ,'allowed actions' => 'get / delete', 'access' => 'unrestricted' , 'routes' => array() );
+        $campanhas['routes'][] = array('action' => 'get',
+                                                        'todas as campanhas disponiveis' => 'campanhas',
+                                                        'campanha detalhe' => 'campanhas/{id}',
+                                                        'produtos dentro de campanha' => 'campanhas/{id}/produtos',
+                                                        'todos os endpoints disponiveis' => 'campanhas/help');
+        $campanhas['routes'][] = array('action' => 'delete',
+                                                            'elimina uma campanha' => 'campanhas/{id}');
         $help[] = $campanhas;
 
 
-        $categoriasChild = array( 'controller name' => 'categoriaschild' ,'allowed actions' => 'get', 'access' => 'open' , 'routes' => array() );
+
+        $categoriasChild = array( 'controller name' => 'categoriaschild' ,'allowed actions' => 'get', 'access' => 'unrestricted' , 'routes' => array() );
         $categoriasChild['routes'] = array('todas as categoriaschild disponiveis' => 'categoriaschild',
-                                           'categoria pertencente à categoriaschild' => 'categoriaschild/{id}/categoria',
-                                           'produtos dentro de categoriaschild' => 'categoriaschild/{id}/produtos');
+                                           'todos os endpoints disponiveis' => 'categoriaschild/help',
+                                           'categoriasChild detalhe' => 'categoriaschild/{id}',
+                                           'produtos dentro de categoriaschild' => 'categoriaschild/{id}/produtos',
+                                           'categoria pertencente à categoriaschild' => 'categoriaschild/{id}/categoria');
         $help[] = $categoriasChild;
 
 
-        $categorias = array( 'controller name' => 'categorias' ,'allowed actions' => 'get', 'access' => 'open' , 'routes' => array() );
+
+        $categorias = array( 'controller name' => 'categorias' ,'allowed actions' => 'get', 'access' => 'unrestricted' , 'routes' => array() );
         $categorias['routes'][] = array('todas as categorias disponiveis' => 'categorias',
                                         'todos os endpoints disponiveis' => 'categorias/help',
                                         'categorias detalhe' => 'categorias/{id}',
@@ -52,20 +59,29 @@ class HelpController extends \yii\rest\Controller
         $help[] = $categorias;
 
 
-        $categorias = array( 'controller name' => 'compras' ,'allowed actions' => 'get, post, put', 'access' => 'restricted' , 'routes' => array() );
-        $categorias['routes'][] = array('action' => 'get',
-                                        'todas as categorias disponiveis' => 'categorias',
-                                        'produtos dentro de categoria' => 'categorias/{id}/produtos');
-        $categorias['routes'][] = array('action' => 'post',
-                                        'todas as categorias disponiveis' => 'categorias',
-                                        'produtos dentro de categoria' => 'categorias/{id}/produtos');
-        $categorias['routes'][] = array('action' => 'put',
-                                        'todas as categorias disponiveis' => 'categorias',
-                                        'produtos dentro de categoria' => 'categorias/{id}/produtos');
-        $categorias['routes'][] = array('action' => 'delete',
-                                        'todas as categorias disponiveis' => 'categorias',
-                                        'produtos dentro de categoria' => 'categorias/{id}/produtos');
-        $help[] = $categorias;
+
+        $produtos = array( 'controller name' => 'produtos' ,'allowed actions' => 'get', 'access' => 'unrestricted' , 'routes' => array() );
+        $produtos['routes'][] = array('todas os produtos disponiveis' => 'produtos',
+                                      'produtos detalhe' => 'produtos/{id}',
+                                      'campanhas relacionadas com produto' => 'produtos/{id}/campanhas',
+                                      'categoria relacionada com produto' => 'produtos/{id}/categoria',
+                                      'categoriaChild relacionada com produto' => 'produtos/{id}/child');
+        $help[] = $produtos;
+
+
+
+        $users = array( 'controller name' => 'users' ,'allowed actions' => 'get / post / put', 'access' => 'restricted & unrestricted' , 'routes' => array() );
+        $users['routes'][] = array('action' => 'get', 'access' => 'unrestricted',
+                                                                                'todos os endpoints disponiveis' => 'users/help');
+        $users['routes'][] = array('action' => 'post', 'access' => 'unrestricted',
+                                                                                'registo user' => 'users/registo?{fields}',
+                                                                                'login user' => 'users/login?{fields}');
+        $users['routes'][] = array('action' => 'put', 'access' => 'restricted',
+                                                                                'editar conta user' => 'users/?access-token={token}?accesstoken={token}?{fields}');
+        $help[] = $users;
+
+
+
 
         return $help;
     }

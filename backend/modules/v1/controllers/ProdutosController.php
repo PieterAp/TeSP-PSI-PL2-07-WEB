@@ -6,7 +6,7 @@ use yii\db\Query;
 use yii\rest\ActiveController;
 
 /**
- * Default controller for the `v1` module
+ * Produtos controller for the `v1` module
  */
 class ProdutosController extends ActiveController
 {
@@ -33,8 +33,13 @@ class ProdutosController extends ActiveController
     {
         $help[] = array( 'allowed actions' => 'get');
 
-        $get = array( 'action' => 'get' , 'routes' => array() );
-        $get['routes'][] = array('todas as categorias disponiveis' => 'categorias');
+        $get = array( 'action' => 'get', 'access' => 'unrestricted','routes' => array() );
+        $get['routes'][] = array('todas os produtos disponiveis' => 'produtos',
+                                 'todos os endpoints disponiveis' => 'produtos/help',
+                                 'produtos detalhe' => 'produtos/{id}',
+                                 'campanhas relacionadas com produto' => 'produtos/{id}/campanhas',
+                                 'categoria relacionada com produto' => 'produtos/{id}/categoria',
+                                 'categoriaChild relacionada com produto' => 'produtos/{id}/child');
         $help[] = $get;
 
         return array($help);
@@ -56,7 +61,7 @@ class ProdutosController extends ActiveController
      * Shows the campanha associated with a certain product
      * @return mixed
      */
-    public function actionCampanha($id)
+    public function actionCampanhas($id)
     {
         $Campanhas = (new Query())
             ->select(['campanha.*','COUNT(produto.idprodutos) as "qntProdutos"'])

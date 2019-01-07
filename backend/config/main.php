@@ -91,7 +91,6 @@ return [
                         'GET' => 'available',
                         'GET help' => 'help',
                         'GET {id}' => 'detail',
-                        'GET {id}/child' => 'child',
                         'GET {id}/produtos' => 'produtos',
                         'GET {id}/categoria' => 'categoria',
                     ]
@@ -104,7 +103,7 @@ return [
                         'GET' => 'available',
                         'GET {id}/categoria' => 'categoria',
                         'GET {id}/child' => 'child',
-                        'GET {id}/campanha' => 'campanha',
+                        'GET {id}/campanhas' => 'campanhas',
                     ]
                 ],
                 [

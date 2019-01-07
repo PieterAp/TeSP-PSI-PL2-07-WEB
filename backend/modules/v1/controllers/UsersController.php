@@ -12,7 +12,7 @@ use yii\filters\auth\QueryParamAuth;
 use yii\rest\ActiveController;
 
 /**
- * Compraprodutos controller for the `v1` module
+ * Users controller for the `v1` module
  */
 class UsersController extends ActiveController
 {
@@ -36,11 +36,20 @@ class UsersController extends ActiveController
      */
     public function actionHelp()
     {
-        $help[] = array( 'allowed actions' => 'post');
+        $help[] = array( 'allowed actions' => 'get / post / put');
+
+        $get = array( 'action' => 'get', 'access' => 'unrestricted', 'routes' => array() );
+        $get['routes'][] = array('todos os endpoints disponiveis' => 'users/help',);
+        $help[] = $get;
 
         $get = array( 'action' => 'post', 'access' => 'unrestricted', 'routes' => array() );
         $get['routes'][] = array('registo de um user' => 'user/registo',
-                                'login de um user' => 'user/login');
+                                 'login de um user' => 'user/login');
+        $help[] = $get;
+
+        $get = array( 'action' => 'post', 'access' => 'unrestricted', 'routes' => array() );
+        $get['routes'][] = array('registo de um user' => 'user/registo',
+            'login de um user' => 'user/login');
         $help[] = $get;
 
         return array($help);
