@@ -33,14 +33,18 @@ class CampanhasController extends ActiveController
      */
     public function actionHelp()
     {
-        $help[] = array( 'allowed actions' => 'get');
+        $help[] = array( 'allowed actions' => 'get / delete');
 
         $get = array( 'action' => 'get', 'access' => 'unrestricted','routes' => array() );
         $get['routes'][] = array('todas as campanhas disponiveis' => 'campanhas',
-                                 'todos os endpoints disponiveis' => 'campanhas/help',
                                  'campanha detalhe' => 'campanhas/{id}',
-                                 'produtos dentro de campanha' => 'campanhas/{id}/produtos');
+                                 'produtos dentro de campanha' => 'campanhas/{id}/produtos',
+                                 'todos os endpoints disponiveis' => 'campanhas/help');
         $help[] = $get;
+
+        $delete = array( 'action' => 'delete', 'access' => 'unrestricted','routes' => array() );
+        $delete['routes'][] = array('elimina uma campanha' => 'campanhas/{id}');
+        $help[] = $delete;
 
         return array($help);
     }
