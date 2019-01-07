@@ -107,6 +107,7 @@ return [
                         'GET {id}/categoria' => 'categoria',
                     ]
                 ],
+                /*
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'v1/compras',
@@ -123,14 +124,16 @@ return [
                         //todo: this!
                     ]
                 ],
+                */
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'v1/produtos',
                     'pluralize' => false,
                     'extraPatterns' => [
-                        'GET {id}/campanha' => 'campanha',
+                        'GET {id}/produtos' => 'produtos',
                     ]
                 ],
+                /*
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'v1/produtoscampanha',
@@ -147,6 +150,7 @@ return [
                         //todo: this!
                     ]
                 ],
+                */
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'v1/users',
@@ -157,6 +161,7 @@ return [
                         'PUT edit' => 'edit',
                     ]
                 ],
+                /*
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'v1/usersdata',
@@ -165,6 +170,7 @@ return [
                         //todo: this!
                     ]
                 ],
+                */
             ],
         ],
     ],

@@ -3,7 +3,11 @@
 use common\models\Campanha;
 use common\models\Categoria;
 use common\models\CategoriaChild;
+use common\models\Compra;
+use common\models\Compraproduto;
 use common\models\Produto;
+use common\models\Produtocampanha;
+use common\models\Reparacao;
 use yii\db\Migration;
 use common\models\User;
 use common\models\Userdata;
@@ -145,12 +149,17 @@ class m181125_162407_createDefaultTableData extends Migration
         $campanha->campanhaDataFim = '2018-12-31';
         $campanha->save(false);
         //endregion
+
+        //region Campanha: Saldos de Natal 2019
         $campanha = new Campanha();
         $campanha->campanhaNome = 'Saldos de Natal 2019';
         $campanha->campanhaDataInicio = '2019-12-01';
         $campanha->campanhaDescricao = 'Produtos em desconto durante a época de natal';
         $campanha->campanhaDataFim = '2019-12-25';
         $campanha->save();
+        //endregion
+
+        //region Campanha: Ano novo, preços novos
         $campanha = new Campanha();
         $campanha->campanhaNome = 'Ano novo, preços novos';
         $campanha->campanhaDataInicio = '2019-01-01';
@@ -158,181 +167,309 @@ class m181125_162407_createDefaultTableData extends Migration
         $campanha->campanhaDataFim = '2019-01-15';
         $campanha->save();
         //endregion
+        //endregion
 
 
         //region table_categoria
-        $campanha = new Categoria();
-        $campanha->categoriaNome = 'Components';
-        $campanha->categoriaDescricao = 'Usually used to build your own computer';
-        $campanha->categoriaEstado = 1;
-        $campanha->save();
+        $categoria = new Categoria();
+        $categoria->categoriaNome = 'Components';
+        $categoria->categoriaDescricao = 'Usually used to build your own computer';
+        $categoria->categoriaEstado = 1;
+        $categoria->save();
 
-        $campanha = new Categoria();
-        $campanha->categoriaNome = 'Software';
-        $campanha->categoriaDescricao = 'To make hardware accessible for humans';
-        $campanha->categoriaEstado = 1;
-        $campanha->save();
+        $categoria = new Categoria();
+        $categoria->categoriaNome = 'Software';
+        $categoria->categoriaDescricao = 'To make hardware accessible for humans';
+        $categoria->categoriaEstado = 1;
+        $categoria->save();
 
-        $campanha = new Categoria();
-        $campanha->categoriaNome = 'Storage';
-        $campanha->categoriaDescricao = 'To save all of your precious art';
-        $campanha->categoriaEstado = 1;
-        $campanha->save();
+        $categoria = new Categoria();
+        $categoria->categoriaNome = 'Storage';
+        $categoria->categoriaDescricao = 'To save all of your precious art';
+        $categoria->categoriaEstado = 1;
+        $categoria->save();
 
-        $campanha = new Categoria();
-        $campanha->categoriaNome = 'Network';
-        $campanha->categoriaDescricao = 'To connect and share data between two or more computers';
-        $campanha->categoriaEstado = 1;
-        $campanha->save();
+        $categoria = new Categoria();
+        $categoria->categoriaNome = 'Network';
+        $categoria->categoriaDescricao = 'To connect and share data between two or more computers';
+        $categoria->categoriaEstado = 1;
+        $categoria->save();
         //endregion
 
 
         //region table_categoria_child
         //region Categoria: Components
-        $campanha = new CategoriaChild();
-        $campanha->childNome = 'CPU';
-        $campanha->childDescricao = 'Central Processing Unit';
-        $campanha->categoria_idcategorias = 1;
-        $campanha->childEstado = 1;
-        $campanha->save();
+        $categoriaChild = new CategoriaChild();
+        $categoriaChild->childNome = 'CPU';
+        $categoriaChild->childDescricao = 'Central Processing Unit';
+        $categoriaChild->categoria_idcategorias = 1;
+        $categoriaChild->childEstado = 1;
+        $categoriaChild->save();
 
-        $campanha = new CategoriaChild();
-        $campanha->childNome = 'Fans';
-        $campanha->childDescricao = 'To cool down your computer';
-        $campanha->categoria_idcategorias = 1;
-        $campanha->childEstado = 1;
-        $campanha->save();
+        $categoriaChild = new CategoriaChild();
+        $categoriaChild->childNome = 'Fans';
+        $categoriaChild->childDescricao = 'To cool down your computer';
+        $categoriaChild->categoria_idcategorias = 1;
+        $categoriaChild->childEstado = 1;
+        $categoriaChild->save();
 
-        $campanha = new CategoriaChild();
-        $campanha->childNome = 'Motherboards';
-        $campanha->childDescricao = 'Usually used to build your own computer';
-        $campanha->categoria_idcategorias = 1;
-        $campanha->childEstado = 1;
-        $campanha->save();
+        $categoriaChild = new CategoriaChild();
+        $categoriaChild->childNome = 'Motherboards';
+        $categoriaChild->childDescricao = 'Usually used to build your own computer';
+        $categoriaChild->categoria_idcategorias = 1;
+        $categoriaChild->childEstado = 1;
+        $categoriaChild->save();
         //endregion
 
         //region Categoria: Software
-        $campanha = new CategoriaChild();
-        $campanha->childNome = 'Operating System';
-        $campanha->childDescricao = 'To run your software on top of your hardware';
-        $campanha->categoria_idcategorias = 2;
-        $campanha->childEstado = 1;
-        $campanha->save();
+        $categoriaChild = new CategoriaChild();
+        $categoriaChild->childNome = 'Operating System';
+        $categoriaChild->childDescricao = 'To run your software on top of your hardware';
+        $categoriaChild->categoria_idcategorias = 2;
+        $categoriaChild->childEstado = 1;
+        $categoriaChild->save();
 
-        $campanha = new CategoriaChild();
-        $campanha->childNome = 'Image Editing';
-        $campanha->childDescricao = 'To edit images';
-        $campanha->categoria_idcategorias = 2;
-        $campanha->childEstado = 1;
-        $campanha->save();
+        $categoriaChild = new CategoriaChild();
+        $categoriaChild->childNome = 'Image Editing';
+        $categoriaChild->childDescricao = 'To edit images';
+        $categoriaChild->categoria_idcategorias = 2;
+        $categoriaChild->childEstado = 1;
+        $categoriaChild->save();
 
-        $campanha = new CategoriaChild();
-        $campanha->childNome = 'Video Editing';
-        $campanha->childDescricao = 'To edit videos';
-        $campanha->categoria_idcategorias = 2;
-        $campanha->childEstado = 1;
-        $campanha->save();
+        $categoriaChild = new CategoriaChild();
+        $categoriaChild->childNome = 'Video Editing';
+        $categoriaChild->childDescricao = 'To edit videos';
+        $categoriaChild->categoria_idcategorias = 2;
+        $categoriaChild->childEstado = 1;
+        $categoriaChild->save();
         //endregion
 
         //region Categoria: Storage
-        $campanha = new CategoriaChild();
-        $campanha->childNome = 'USB Sticks';
-        $campanha->childDescricao = 'Small and mobile';
-        $campanha->categoria_idcategorias = 3;
-        $campanha->childEstado = 1;
-        $campanha->save();
+        $categoriaChild = new CategoriaChild();
+        $categoriaChild->childNome = 'USB Sticks';
+        $categoriaChild->childDescricao = 'Small and mobile';
+        $categoriaChild->categoria_idcategorias = 3;
+        $categoriaChild->childEstado = 1;
+        $categoriaChild->save();
 
-        $campanha = new CategoriaChild();
-        $campanha->childNome = 'Internal';
-        $campanha->childDescricao = 'For the inside of you computer';
-        $campanha->categoria_idcategorias = 3;
-        $campanha->childEstado = 1;
-        $campanha->save();
+        $categoriaChild = new CategoriaChild();
+        $categoriaChild->childNome = 'Internal';
+        $categoriaChild->childDescricao = 'For the inside of you computer';
+        $categoriaChild->categoria_idcategorias = 3;
+        $categoriaChild->childEstado = 1;
+        $categoriaChild->save();
 
-        $campanha = new CategoriaChild();
-        $campanha->childNome = 'External';
-        $campanha->childDescricao = 'Same as internal storage but more practical';
-        $campanha->categoria_idcategorias = 3;
-        $campanha->childEstado = 1;
-        $campanha->save();
+        $categoriaChild = new CategoriaChild();
+        $categoriaChild->childNome = 'External';
+        $categoriaChild->childDescricao = 'Same as internal storage but more practical';
+        $categoriaChild->categoria_idcategorias = 3;
+        $categoriaChild->childEstado = 1;
+        $categoriaChild->save();
         //endregion
 
         //region Categoria: Network
-        $campanha = new CategoriaChild();
-        $campanha->childNome = 'Switch';
-        $campanha->childDescricao = 'To manage all the connections';
-        $campanha->categoria_idcategorias = 4;
-        $campanha->childEstado = 1;
-        $campanha->save();
+        $categoriaChild = new CategoriaChild();
+        $categoriaChild->childNome = 'Switch';
+        $categoriaChild->childDescricao = 'To manage all the connections';
+        $categoriaChild->categoria_idcategorias = 4;
+        $categoriaChild->childEstado = 1;
+        $categoriaChild->save();
         //endregion
         //endregion
 
-/*
+
         //region table_produto
         //region Categoria: Components
         //region CategoriaChild: CPU
-        $campanha = new Produto();
-        $campanha->produtoNome = 'CPU';
-        $campanha->produtoCodigo = 'Central Processing Unit';
-        $campanha->produtoDataCriacao = 'Central Processing Unit';
-        $campanha->produtoStock = 'Central Processing Unit';
-        $campanha->produtoPreco = 'Central Processing Unit';
-        $campanha->produtoMarca = 'Central Processing Unit';
-        $campanha->produtoDescricao1 = 'Central Processing Unit';
-        $campanha->produtoDescricao2 = 'Central Processing Unit';
-        $campanha->produtoDescricao3 = 'Central Processing Unit';
-        $campanha->produtoDescricao4 = 'Central Processing Unit';
-        $campanha->produtoDescricao5 = 'Central Processing Unit';
-        $campanha->produtoDescricao6 = 'Central Processing Unit';
-        $campanha->produtoDescricao7 = 'Central Processing Unit';
-        $campanha->categoria_child_id = 1;
-        $campanha->save();
+        $produto = new Produto();
+        $produto->produtoNome = 'CPU1';
+        $produto->produtoCodigo = 'NA4648464589';
+        $produto->produtoDataCriacao = '2019-01-01 00:00:00';
+        $produto->produtoStock = '23';
+        $produto->produtoPreco = '200';
+        $produto->produtoMarca = 'Intel';
+        $produto->produtoDescricao1 = 'Descrição 1';
+        $produto->produtoDescricao2 = 'Descrição 2';
+        $produto->produtoDescricao3 = 'Descrição 3';
+        $produto->produtoDescricao4 = 'Descrição 4';
+        $produto->produtoImagem1 = 'image1';
+        $produto->categoria_child_id = 1;
+        $produto->produtoEstado = 1;
+        $produto->save(false);
+
+        $produto = new Produto();
+        $produto->produtoNome = 'CPU2';
+        $produto->produtoCodigo = '457845215';
+        $produto->produtoDataCriacao = '2019-01-01 00:00:00';
+        $produto->produtoStock = '33';
+        $produto->produtoPreco = '300';
+        $produto->produtoMarca = 'Intel';
+        $produto->produtoDescricao1 = 'Descrição 1';
+        $produto->produtoDescricao2 = 'Descrição 2';
+        $produto->produtoDescricao3 = 'Descrição 3';
+        $produto->produtoDescricao4 = 'Descrição 4';
+        $produto->produtoImagem1 = 'image1';
+        $produto->categoria_child_id = 1;
+        $produto->produtoEstado = 1;
+        $produto->save(false);
+
+        $produto = new Produto();
+        $produto->produtoNome = 'CPU3';
+        $produto->produtoCodigo = '784526985';
+        $produto->produtoDataCriacao = '2019-01-01 00:00:00';
+        $produto->produtoStock = '43';
+        $produto->produtoPreco = '400';
+        $produto->produtoMarca = 'Intel';
+        $produto->produtoDescricao1 = 'Descrição 1';
+        $produto->produtoDescricao2 = 'Descrição 2';
+        $produto->produtoDescricao3 = 'Descrição 3';
+        $produto->produtoDescricao4 = 'Descrição 4';
+        $produto->produtoImagem1 = 'image1';
+        $produto->categoria_child_id = 1;
+        $produto->produtoEstado = 0;
+        $produto->save(false);
         //endregion
 
         //region CategoriaChild: Fans
-        $campanha = new Produto();
-        $campanha->produtoNome = 'CPU';
-        $campanha->produtoCodigo = 'Central Processing Unit';
-        $campanha->produtoDataCriacao = 'Central Processing Unit';
-        $campanha->produtoStock = 'Central Processing Unit';
-        $campanha->produtoPreco = 'Central Processing Unit';
-        $campanha->produtoMarca = 'Central Processing Unit';
-        $campanha->produtoDescricao1 = 'Central Processing Unit';
-        $campanha->produtoDescricao2 = 'Central Processing Unit';
-        $campanha->produtoDescricao3 = 'Central Processing Unit';
-        $campanha->produtoDescricao4 = 'Central Processing Unit';
-        $campanha->produtoDescricao5 = 'Central Processing Unit';
-        $campanha->produtoDescricao6 = 'Central Processing Unit';
-        $campanha->produtoDescricao7 = 'Central Processing Unit';
-        $campanha->categoria_child_id = 1;
-        $campanha->save();
+        $produto = new Produto();
+        $produto->produtoNome = 'FAN1';
+        $produto->produtoCodigo = 'T1258478523';
+        $produto->produtoDataCriacao = '2019-01-01 00:00:00';
+        $produto->produtoStock = '23';
+        $produto->produtoPreco = '200';
+        $produto->produtoMarca = 'Cooler Master';
+        $produto->produtoDescricao1 = 'Descrição 1';
+        $produto->produtoDescricao2 = 'Descrição 2';
+        $produto->produtoDescricao3 = 'Descrição 3';
+        $produto->produtoDescricao4 = 'Descrição 4';
+        $produto->produtoImagem1 = 'image1';
+        $produto->categoria_child_id = 2;
+        $produto->produtoEstado = 1;
+        $produto->save(false);
+
+        $produto = new Produto();
+        $produto->produtoNome = 'FAN2';
+        $produto->produtoCodigo = 'D47758452';
+        $produto->produtoDataCriacao = '2019-01-01 00:00:00';
+        $produto->produtoStock = '33';
+        $produto->produtoPreco = '300';
+        $produto->produtoMarca = 'Cooler Master';
+        $produto->produtoDescricao1 = 'Descrição 1';
+        $produto->produtoDescricao2 = 'Descrição 2';
+        $produto->produtoDescricao3 = 'Descrição 3';
+        $produto->produtoDescricao4 = 'Descrição 4';
+        $produto->produtoImagem1 = 'image1';
+        $produto->categoria_child_id = 2;
+        $produto->produtoEstado = 0;
+        $produto->save(false);
+
+        $produto = new Produto();
+        $produto->produtoNome = 'FAN3';
+        $produto->produtoCodigo = 'l4475896525';
+        $produto->produtoDataCriacao = '2019-01-01 00:00:00';
+        $produto->produtoStock = '43';
+        $produto->produtoPreco = '400';
+        $produto->produtoMarca = 'Cooler Master';
+        $produto->produtoDescricao1 = 'Descrição 1';
+        $produto->produtoDescricao2 = 'Descrição 2';
+        $produto->produtoDescricao3 = 'Descrição 3';
+        $produto->produtoDescricao4 = 'Descrição 4';
+        $produto->produtoImagem1 = 'image1';
+        $produto->categoria_child_id = 2;
+        $produto->produtoEstado = 0;
+        $produto->save(false);
+
+        //endregion
         //endregion
 
-        //region CategoriaChild: Motherboards
-        $campanha = new Produto();
-        $campanha->produtoNome = 'CPU';
-        $campanha->produtoCodigo = 'Central Processing Unit';
-        $campanha->produtoDataCriacao = 'Central Processing Unit';
-        $campanha->produtoStock = 'Central Processing Unit';
-        $campanha->produtoPreco = 'Central Processing Unit';
-        $campanha->produtoMarca = 'Central Processing Unit';
-        $campanha->produtoDescricao1 = 'Central Processing Unit';
-        $campanha->produtoDescricao2 = 'Central Processing Unit';
-        $campanha->produtoDescricao3 = 'Central Processing Unit';
-        $campanha->produtoDescricao4 = 'Central Processing Unit';
-        $campanha->produtoDescricao5 = 'Central Processing Unit';
-        $campanha->produtoDescricao6 = 'Central Processing Unit';
-        $campanha->produtoDescricao7 = 'Central Processing Unit';
-        $campanha->categoria_child_id = 1;
-        $campanha->save();
+        //region Categoria: Software
+        //region CategoriaChild: Operating System
+        $produto = new Produto();
+        $produto->produtoNome = 'Windwows 10';
+        $produto->produtoCodigo = 'R774582145';
+        $produto->produtoDataCriacao = '2019-01-01 00:00:00';
+        $produto->produtoStock = '40';
+        $produto->produtoPreco = '700';
+        $produto->produtoMarca = 'Microsoft';
+        $produto->produtoDescricao1 = 'Descrição 1';
+        $produto->produtoDescricao2 = 'Descrição 2';
+        $produto->produtoDescricao3 = 'Descrição 3';
+        $produto->produtoDescricao4 = 'Descrição 4';
+        $produto->produtoImagem1 = 'image1';
+        $produto->categoria_child_id = 4;
+        $produto->produtoEstado = 1;
+        $produto->save(false);
+
+        $produto = new Produto();
+        $produto->produtoNome = 'Windwows 7';
+        $produto->produtoCodigo = 'F5545446566';
+        $produto->produtoDataCriacao = '2019-01-01 00:00:00';
+        $produto->produtoStock = '7';
+        $produto->produtoPreco = '500';
+        $produto->produtoMarca = 'Microsoft';
+        $produto->produtoDescricao1 = 'Descrição 1';
+        $produto->produtoDescricao2 = 'Descrição 2';
+        $produto->produtoDescricao3 = 'Descrição 3';
+        $produto->produtoDescricao4 = 'Descrição 4';
+        $produto->produtoImagem1 = 'image1';
+        $produto->categoria_child_id = 4;
+        $produto->produtoEstado = 0;
+        $produto->save(false);
+        //endregion
+
+        //region CategoriaChild: Image Editing
+        $produto = new Produto();
+        $produto->produtoNome = 'Adobe Photoshop';
+        $produto->produtoCodigo = 'k4849646469';
+        $produto->produtoDataCriacao = '2019-01-01 00:00:00';
+        $produto->produtoStock = '4';
+        $produto->produtoPreco = '40';
+        $produto->produtoMarca = 'Adobe';
+        $produto->produtoDescricao1 = 'Descrição 1';
+        $produto->produtoDescricao2 = 'Descrição 2';
+        $produto->produtoDescricao3 = 'Descrição 3';
+        $produto->produtoDescricao4 = 'Descrição 4';
+        $produto->produtoImagem1 = 'image1';
+        $produto->categoria_child_id = 5;
+        $produto->produtoEstado = 1;
+        $produto->save(false);
+
+        $produto = new Produto();
+        $produto->produtoNome = 'Adobe Illustrator';
+        $produto->produtoCodigo = 'J48646468';
+        $produto->produtoDataCriacao = '2019-01-01 00:00:00';
+        $produto->produtoStock = '2';
+        $produto->produtoPreco = '500';
+        $produto->produtoMarca = 'Adobe';
+        $produto->produtoDescricao1 = 'Descrição 1';
+        $produto->produtoDescricao2 = 'Descrição 2';
+        $produto->produtoDescricao3 = 'Descrição 3';
+        $produto->produtoDescricao4 = 'Descrição 4';
+        $produto->produtoImagem1 = 'image1';
+        $produto->categoria_child_id = 5;
+        $produto->produtoEstado = 0;
+        $produto->save(false);
         //endregion
         //endregion
         //endregion
-*/
+
 
         //region table_userdata
-
+        //todo:criar userdata
         //endregion
+
+
+        //region table_produtocampanha
+        //todo:criar produtocampanha
+        //endregion
+
+
+
+
+
+
+
+
 
 
         //region table_compra
@@ -345,11 +482,6 @@ class m181125_162407_createDefaultTableData extends Migration
         //endregion
 
 
-        //region table_produtocampanha
-
-        //endregion
-
-
         //region table_reparacao
 
         //endregion
@@ -357,24 +489,42 @@ class m181125_162407_createDefaultTableData extends Migration
 
     public function down()
     {
+        /*
         echo "m181125_162407_createDefaultTableData cannot be reverted.\n";
 
         return false;
+        */
+        $userdata = new Compraproduto();
+        $userdata->deleteAll();
 
-        /*
+        $userdata = new Compra();
+        $userdata->deleteAll();
+
+        $userdata = new ProdutoCampanha();
+        $userdata->deleteAll();
+
+        $userdata = new Campanha();
+        $userdata->deleteAll();
+
+        $userdata = new Reparacao();
+        $userdata->deleteAll();
+
+        $userdata = new Produto();
+        $userdata->deleteAll();
+
+        $userdata = new Campanha();
+        $userdata->deleteAll();
+
+
+
         $userdata = new Userdata();
-        $userdata->deleteAll('id ='.$this->user_id);
+        $userdata->deleteAll();
 
         $user = new User();
-        $userdata->deleteAll('id ='.$this->user_id);
+        $user->deleteAll();
 
 
-
-        foreach ($this->user_id as $each)
-        {
-            echo $each;
-        }
-        echo "Deleted all users!";*/
+        echo "Deleted all data!";
     }
 
 }

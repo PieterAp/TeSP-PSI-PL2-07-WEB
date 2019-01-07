@@ -88,6 +88,8 @@ class Campanha extends \yii\db\ActiveRecord
 
         $myJSON = json_encode($myObj);
 
+
+
         if($insert)
         {
             $this->FazPublish('INSERT',$myJSON);
