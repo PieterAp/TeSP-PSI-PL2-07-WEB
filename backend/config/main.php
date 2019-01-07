@@ -59,18 +59,6 @@ return [
                         'GET' => 'help',
                     ],
                 ],
-                /*
-                [
-                    'class' => 'yii\rest\UrlRule',
-                    'controller' => ['v1/campanhas','v1/categorias','v1/categoriaschild','v1/compras','v1/compraprodutos','v1/produtos','v1/produtoscampanha','v1/reparacoes','v1/users','v1/usersdata'],
-                    'pluralize' => false,
-                    'extraPatterns' => [
-                        'GET' => 'available',
-                        'GET help' => 'help',
-                        'GET {id}' => 'detail',
-                    ]
-                ],
-                */
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'v1/campanhas',
@@ -107,50 +95,14 @@ return [
                         'GET {id}/categoria' => 'categoria',
                     ]
                 ],
-                /*
-                [
-                    'class' => 'yii\rest\UrlRule',
-                    'controller' => 'v1/compras',
-                    'pluralize' => false,
-                    'extraPatterns' => [
-                        //todo: this!
-                    ]
-                ],
-                [
-                    'class' => 'yii\rest\UrlRule',
-                    'controller' => 'v1/compraprodutos',
-                    'pluralize' => false,
-                    'extraPatterns' => [
-                        //todo: this!
-                    ]
-                ],
-                */
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'v1/produtos',
                     'pluralize' => false,
                     'extraPatterns' => [
-                        'GET {id}/produtos' => 'produtos',
-                    ]
-                ],
-                /*
-                [
-                    'class' => 'yii\rest\UrlRule',
-                    'controller' => 'v1/produtoscampanha',
-                    'pluralize' => false,
-                    'extraPatterns' => [
                         //todo: this!
                     ]
                 ],
-                [
-                    'class' => 'yii\rest\UrlRule',
-                    'controller' => 'v1/reparacoes',
-                    'pluralize' => false,
-                    'extraPatterns' => [
-                        //todo: this!
-                    ]
-                ],
-                */
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => 'v1/users',
@@ -161,16 +113,6 @@ return [
                         'PUT edit' => 'edit',
                     ]
                 ],
-                /*
-                [
-                    'class' => 'yii\rest\UrlRule',
-                    'controller' => 'v1/usersdata',
-                    'pluralize' => false,
-                    'extraPatterns' => [
-                        //todo: this!
-                    ]
-                ],
-                */
             ],
         ],
     ],
