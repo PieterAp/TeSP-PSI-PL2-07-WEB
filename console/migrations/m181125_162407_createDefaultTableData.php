@@ -105,7 +105,7 @@ class m181125_162407_createDefaultTableData extends Migration
 
 
         //region table_campanha
-        //region Campanha: Christmas Sales
+        //region Campanha: Christmas Sales 1
         $campanha = new Campanha();
         $campanha->campanhaNome = 'Christmas Sales';
         $campanha->campanhaDataInicio = '2018-12-01';
@@ -114,7 +114,7 @@ class m181125_162407_createDefaultTableData extends Migration
         $campanha->save(false);
         //endregion
 
-        //region Campanha: New Year Sale
+        //region Campanha: New Year Sale 2
         $campanha = new Campanha();
         $campanha->campanhaNome = 'New Year Sale';
         $campanha->campanhaDataInicio = '2018-12-31';
@@ -123,7 +123,7 @@ class m181125_162407_createDefaultTableData extends Migration
         $campanha->save(false);
         //endregion
 
-        //region Campanha: New year new stuff
+        //region Campanha: New year new stuff 3
         $campanha = new Campanha();
         $campanha->campanhaNome = 'New year new stuff';
         $campanha->campanhaDataInicio = '2019-01-01';
@@ -132,7 +132,7 @@ class m181125_162407_createDefaultTableData extends Migration
         $campanha->save(false);
         //endregion
 
-        //region Campanha: Black Weekend
+        //region Campanha: Black Weekend 4
         $campanha = new Campanha();
         $campanha->campanhaNome = 'Black Weekend';
         $campanha->campanhaDataInicio = '2018-12-15';
@@ -141,7 +141,7 @@ class m181125_162407_createDefaultTableData extends Migration
         $campanha->save(false);
         //endregion
 
-        //region Campanha: Anniversary of FixByte
+        //region Campanha: Anniversary of FixByte 5
         $campanha = new Campanha();
         $campanha->campanhaNome = 'Anniversary of FixByte';
         $campanha->campanhaDataInicio = '2018-12-01';
@@ -150,7 +150,7 @@ class m181125_162407_createDefaultTableData extends Migration
         $campanha->save(false);
         //endregion
 
-        //region Campanha: Saldos de Natal 2019
+        //region Campanha: Saldos de Natal 2019 6
         $campanha = new Campanha();
         $campanha->campanhaNome = 'Saldos de Natal 2019';
         $campanha->campanhaDataInicio = '2019-12-01';
@@ -159,12 +159,37 @@ class m181125_162407_createDefaultTableData extends Migration
         $campanha->save();
         //endregion
 
-        //region Campanha: Ano novo, preços novos
+        //region Campanha: Ano novo, preços novos 7
         $campanha = new Campanha();
         $campanha->campanhaNome = 'Ano novo, preços novos';
         $campanha->campanhaDataInicio = '2019-01-01';
         $campanha->campanhaDescricao = 'Ano novo campanha';
-        $campanha->campanhaDataFim = '2019-01-15';
+        $campanha->campanhaDataFim = '2019-02-25';
+        $campanha->save();
+        //endregion
+
+        //region Small bonus 8
+        $campanha = new Campanha();
+        $campanha->campanhaNome = 'Small bonus';
+        $campanha->campanhaDataInicio = '2019-01-15';
+        $campanha->campanhaDescricao = 'Happy day';
+        $campanha->campanhaDataFim = '2019-02-25';
+        $campanha->save();
+        //endregion
+        //region Sales all year 9
+        $campanha = new Campanha();
+        $campanha->campanhaNome = 'Sales all year';
+        $campanha->campanhaDataInicio = '2019-01-02';
+        $campanha->campanhaDescricao = 'YEAR';
+        $campanha->campanhaDataFim = '2019-12-02';
+        $campanha->save();
+        //endregion
+        //region Pedro birthday 10
+        $campanha = new Campanha();
+        $campanha->campanhaNome = 'Pedro birthday';
+        $campanha->campanhaDataInicio = '2019-02-25';
+        $campanha->campanhaDescricao = 'YEAR';
+        $campanha->campanhaDataFim = '2019-02-27';
         $campanha->save();
         //endregion
         //endregion
@@ -454,14 +479,56 @@ class m181125_162407_createDefaultTableData extends Migration
         //endregion
 
 
-        //region table_userdata
-        //todo:criar userdata
-        //endregion
-
 
         //region table_produtocampanha
-        //todo:criar produtocampanha
+        $produtocampanha = new Produtocampanha();
+        $produtocampanha->campanha_idCampanha = 6;
+        $produtocampanha->produtos_idprodutos = 1;
+        $produtocampanha->campanhaPercentagem = 5;
+
+        $produtocampanha = new Produtocampanha();
+        $produtocampanha->campanha_idCampanha = 6;
+        $produtocampanha->produtos_idprodutos = 2;
+        $produtocampanha->campanhaPercentagem = 15;
+
+        $produtocampanha = new Produtocampanha();
+        $produtocampanha->campanha_idCampanha = 6;
+        $produtocampanha->produtos_idprodutos = 3;
+        $produtocampanha->campanhaPercentagem = 10;
+
+
+        $produtocampanha = new Produtocampanha();
+        $produtocampanha->campanha_idCampanha = 7;
+        $produtocampanha->produtos_idprodutos = 4;
+        $produtocampanha->campanhaPercentagem = 10;
+
+        $produtocampanha = new Produtocampanha();
+        $produtocampanha->campanha_idCampanha = 7;
+        $produtocampanha->produtos_idprodutos = 5;
+        $produtocampanha->campanhaPercentagem = 20;
+
+        $produtocampanha = new Produtocampanha();
+        $produtocampanha->campanha_idCampanha = 8;
+        $produtocampanha->produtos_idprodutos = 6;
+        $produtocampanha->campanhaPercentagem = 8;
+
+        $produtocampanha = new Produtocampanha();
+        $produtocampanha->campanha_idCampanha = 9;
+        $produtocampanha->produtos_idprodutos = 7;
+        $produtocampanha->campanhaPercentagem = 50;
+
+        $produtocampanha = new Produtocampanha();
+        $produtocampanha->campanha_idCampanha = 10;
+        $produtocampanha->produtos_idprodutos = 8;
+        $produtocampanha->campanhaPercentagem = 20;
+
+        $produtocampanha = new Produtocampanha();
+        $produtocampanha->campanha_idCampanha = 10;
+        $produtocampanha->produtos_idprodutos = 9;
+        $produtocampanha->campanhaPercentagem = 35;
         //endregion
+
+
 
 
 
@@ -500,7 +567,7 @@ class m181125_162407_createDefaultTableData extends Migration
         $userdata = new Compra();
         $userdata->deleteAll();
 
-        $userdata = new ProdutoCampanha();
+        $userdata = new Produtocampanha();
         $userdata->deleteAll();
 
         $userdata = new Campanha();
