@@ -156,7 +156,7 @@ class m181125_162407_createDefaultTableData extends Migration
         $campanha->campanhaDataInicio = '2019-12-01';
         $campanha->campanhaDescricao = 'Produtos em desconto durante a época de natal';
         $campanha->campanhaDataFim = '2019-12-25';
-        $campanha->save();
+        $campanha->save(false);
         //endregion
 
         //region Campanha: Ano novo, preços novos 7
@@ -165,7 +165,7 @@ class m181125_162407_createDefaultTableData extends Migration
         $campanha->campanhaDataInicio = '2019-01-01';
         $campanha->campanhaDescricao = 'Ano novo campanha';
         $campanha->campanhaDataFim = '2019-02-25';
-        $campanha->save();
+        $campanha->save(false);
         //endregion
 
         //region Small bonus 8
@@ -174,7 +174,7 @@ class m181125_162407_createDefaultTableData extends Migration
         $campanha->campanhaDataInicio = '2019-01-15';
         $campanha->campanhaDescricao = 'Happy day';
         $campanha->campanhaDataFim = '2019-02-25';
-        $campanha->save();
+        $campanha->save(false);
         //endregion
         //region Sales all year 9
         $campanha = new Campanha();
@@ -182,7 +182,7 @@ class m181125_162407_createDefaultTableData extends Migration
         $campanha->campanhaDataInicio = '2019-01-02';
         $campanha->campanhaDescricao = 'YEAR';
         $campanha->campanhaDataFim = '2019-12-02';
-        $campanha->save();
+        $campanha->save(false);
         //endregion
         //region Pedro birthday 10
         $campanha = new Campanha();
@@ -190,7 +190,7 @@ class m181125_162407_createDefaultTableData extends Migration
         $campanha->campanhaDataInicio = '2019-02-25';
         $campanha->campanhaDescricao = 'YEAR';
         $campanha->campanhaDataFim = '2019-02-27';
-        $campanha->save();
+        $campanha->save(false);
         //endregion
         //endregion
 
@@ -485,47 +485,60 @@ class m181125_162407_createDefaultTableData extends Migration
         $produtocampanha->campanha_idCampanha = 6;
         $produtocampanha->produtos_idprodutos = 1;
         $produtocampanha->campanhaPercentagem = 5;
+        $produtocampanha->save();
 
         $produtocampanha = new Produtocampanha();
         $produtocampanha->campanha_idCampanha = 6;
         $produtocampanha->produtos_idprodutos = 2;
         $produtocampanha->campanhaPercentagem = 15;
+        $produtocampanha->save();
 
         $produtocampanha = new Produtocampanha();
         $produtocampanha->campanha_idCampanha = 6;
         $produtocampanha->produtos_idprodutos = 3;
         $produtocampanha->campanhaPercentagem = 10;
+        $produtocampanha->save();
 
 
         $produtocampanha = new Produtocampanha();
         $produtocampanha->campanha_idCampanha = 7;
         $produtocampanha->produtos_idprodutos = 4;
         $produtocampanha->campanhaPercentagem = 10;
+        $produtocampanha->save();
 
         $produtocampanha = new Produtocampanha();
         $produtocampanha->campanha_idCampanha = 7;
         $produtocampanha->produtos_idprodutos = 5;
         $produtocampanha->campanhaPercentagem = 20;
+        $produtocampanha->save();
+
 
         $produtocampanha = new Produtocampanha();
         $produtocampanha->campanha_idCampanha = 8;
         $produtocampanha->produtos_idprodutos = 6;
         $produtocampanha->campanhaPercentagem = 8;
+        $produtocampanha->save();
+
 
         $produtocampanha = new Produtocampanha();
         $produtocampanha->campanha_idCampanha = 9;
         $produtocampanha->produtos_idprodutos = 7;
         $produtocampanha->campanhaPercentagem = 50;
+        $produtocampanha->save();
+
 
         $produtocampanha = new Produtocampanha();
         $produtocampanha->campanha_idCampanha = 10;
         $produtocampanha->produtos_idprodutos = 8;
         $produtocampanha->campanhaPercentagem = 20;
+        $produtocampanha->save();
+
 
         $produtocampanha = new Produtocampanha();
         $produtocampanha->campanha_idCampanha = 10;
         $produtocampanha->produtos_idprodutos = 9;
         $produtocampanha->campanhaPercentagem = 35;
+        $produtocampanha->save();
         //endregion
 
 
