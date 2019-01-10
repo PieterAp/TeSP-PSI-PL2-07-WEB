@@ -17,15 +17,7 @@ use yii\rest\ActiveController;
 class UsersController extends ActiveController
 {
     public $modelClass = 'common\models\User';
-    public function actions()
-    {
-        $actions = parent::actions();
-        unset(//POST
-            //PUT & PATCH {id}
-            $actions['index'],
-            $actions['delete']);//DELETE {id}
-        return $actions;
-    }
+   
 
     /**
      * API Authorization - Query Parameter Authentication
@@ -88,7 +80,7 @@ class UsersController extends ActiveController
                 return 'uservisibility is 0';
             }else{
                 $identity = User::generateAccessToken($identity);
-                return [$identity];
+                return $identity;
             }
         }
         return false;
@@ -110,6 +102,7 @@ class UsersController extends ActiveController
         $password = Yii::$app->request->post('password');
 
         $signupForm = new SignupForm();
+
         $signupForm->username = $username;
         $signupForm->userNomeProprio = $firstname;
         $signupForm->userApelido = $lastname;
@@ -152,17 +145,9 @@ class UsersController extends ActiveController
     /**
      * Allows user to edit his account
      */
-    public function actionEdit(/*$accesstoken,$password,$firstname,$lastname,$address,$birthday*/)
+    public function actionEdit($accesstoken,$password,$firstname,$lastname,$address,$birthday)
     {
-        //$user = User::findIdentityByAccessToken($accesstoken);
-        
-        $user = User::findIdentityByAccessToken(Yii::$app->request->post('access-token'));
-        $birthday = Yii::$app->request->post('birthday');
-        $address = Yii::$app->request->post('address');
-        $lastname = Yii::$app->request->post('lastname');
-        $firstname = Yii::$app->request->post('firstname');
-        $password = Yii::$app->request->post('password');
-
+        $user = User::findIdentityByAccessToken($accesstoken);
         $editAccount = new EditAccountForm();
         $editAccount->userNomeProprio = $password;
         $editAccount->userNomeProprio = $firstname;
