@@ -22,23 +22,71 @@ class userdataTest extends \Codeception\Test\Unit
     public function testFieldSizeUser()
     {
         $user = new User();
+
         $user->setUsername('D');
-        $user->setEmail('ok@gmaidasasasasasasasasasasasasasasasasasl.com');
-        $user->setPassword('d');
-        $user->generateAuthKey();
-        $this->tester->assertFalse($user->save());
+        $this->tester->assertFalse($user->validate('username'));
+        $user->setUsername(null);
+        $this->tester->assertFalse($user->validate('username'));
+        $user->setUsername('undbsauydsabuydgsaundbsauydsabuydgsauydfpuisafisafgpuisagfuiposagfuisagfpuisagfpuiasgfpuisagfpuiasgfpuisagfpuisagfuguuydfpuisafisafgpuisagfuiposagfuisagfpuisagfpuiasgfpuisagfpuiasgfpuisagfpuisagfugu+isafgpuisagfuiposagfuisagfpuisagfpuiasgfpuisagfpuiasgfpuisagfpuisagfu+isagfuisagfuisagfpuiasgfu+isagbfugfuiagfpuisagfu+isagfu8sagfgfhgfpuisa');
+        $this->tester->assertFalse($user->validate('username'));
+        $user->setUsername('test12321');
+        $this->tester->assertTrue($user->validate('username'));
+
+        $user->setEmail('ok@c');
+        $this->tester->assertFalse($user->validate('email'));
+        $user->setEmail(null);
+        $this->tester->assertFalse($user->validate('email'));
+        $user->setEmail('ok@uhfuhidguhigdgsuhigwuhiefguhiguhihdfhdfhdgjoijoijoijoijoijokjokdfpkmfgdigmnfidgnoidfngoidfngoidfngoidfngoingniodfngodfngiodfngoidfngidfngdfogndfgdfgdfgdfgdfgdf.com');
+        $this->tester->assertFalse($user->validate('email'));
+        $user->setEmail('test2019@gmail.com');
+        $this->tester->assertTrue($user->validate('email'));
+
     }
     public function testFieldSizeUserData()
     {
         $userdata = new Userdata();
-        $userdata->setUserApelido('d');
-        $userdata->setUserNomeProprio('d');
-        $userdata->setUserDataNasc('2018-12-28');
-        $userdata->setUserEstado('user');
-        $userdata->setUserMorada('dsadas');
-        $userdata->setUserNIF('123');
-        $this->tester->assertFalse($userdata->save());
 
+        $userdata->setUserApelido('d');
+        $this->tester->assertFalse($userdata->validate('userApelido'));
+        $userdata->setUserApelido(null);
+        $this->tester->assertFalse($userdata->validate('userApelido'));
+        $userdata->setUserApelido('uhfuhidguhigdgsuhigwuhiefguhiguhihdfhdfhdgjoijoijoijoijoijokjokdfpkmfgdigmnfidgnoidfngoidfngoidfngoidfngoingniodfngodfngiodfngoidfngidfngdfogndfgdfgdfgdfgdfgdf');
+        $this->tester->assertFalse($userdata->validate('userApelido'));
+        $userdata->setUserApelido('Dia');
+        $this->tester->assertTrue($userdata->validate('userApelido'));
+
+        $userdata->setUserNomeProprio('d');
+        $this->tester->assertFalse($userdata->validate('userNomeProprio'));
+        $userdata->setUserNomeProprio(null);
+        $this->tester->assertFalse($userdata->validate('userNomeProprio'));
+        $userdata->setUserNomeProprio('uhfuhidguhigdgsuhigwuhiefguhiguhihdfhdfhdgjoijoijoijoijoijokjokdfpkmfgdigmnfidgnoidfngoidfngoidfngoidfngoingniodfngodfngiodfngoidfngidfngdfogndfgdfgdfgdfgdfgdf');
+        $this->tester->assertFalse($userdata->validate('userNomeProprio'));
+        $userdata->setUserNomeProprio('Bom');
+        $this->tester->assertTrue($userdata->validate('userNomeProprio'));
+
+        $userdata->setUserMorada('dsas');
+        $this->tester->assertFalse($userdata->validate('userMorada'));
+        $userdata->setUserMorada(null);
+        $this->tester->assertFalse($userdata->validate('userMorada'));
+        $userdata->setUserMorada('dsadasdsadadsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadasdsadassdsadasdsadasdsadasdsadasdsadasdsadas');
+        $this->tester->assertFalse($userdata->validate('userMorada'));
+        $userdata->setUserMorada('Rua das Moradas N123');
+        $this->tester->assertTrue($userdata->validate('userMorada'));
+
+        $userdata->setUserNIF('123');
+        $this->tester->assertFalse($userdata->validate('userNIF'));
+        $userdata->setUserNIF(null);
+        $this->tester->assertFalse($userdata->validate('userNIF'));
+        $userdata->setUserNIF(983217798321);
+        $this->tester->assertFalse($userdata->validate('userNIF'));
+        $userdata->setUserNIF('983217798321');
+        $this->tester->assertFalse($userdata->validate('userNIF'));
+        $userdata->setUserNIF('123');
+        $this->tester->assertFalse($userdata->validate('userNIF'));
+        $userdata->setUserNIF('123321222');
+        $this->tester->assertTrue($userdata->validate('userNIF'));
+        $userdata->setUserNIF(123321222);
+        $this->tester->assertTrue($userdata->validate('userNIF'));
     }
 
     function testSaveUser()
@@ -49,8 +97,6 @@ class userdataTest extends \Codeception\Test\Unit
         $user->setPassword('123123');
         $user->generateAuthKey();
         $user->save();
-
-
         $this->assertEquals('pedromig1112', $user->getUsername());
 
     }
@@ -61,12 +107,12 @@ class userdataTest extends \Codeception\Test\Unit
         $userdata->setUserApelido('Inacio');
         $userdata->setUserNomeProprio('Pedro');
         $userdata->setUserMorada('iasdnuidashudashudhas');
-        $userdata->setUserDataNasc('2010-12-28');
+        $userdata->setUserDataNasc('2000-02-08');
         $userdata->setUserEstado('user');
-        $userdata->setUserNIF('122123122');
+        $userdata->setUserNIF(122123129);
         $userdata->setUserId($user->id);
-        $userdata->save();
-        $this->assertEquals('122123122', $userdata->getUserNIF());
+        $userdata->save(false);
+        $this->assertEquals(122123129, $userdata->getUserNIF());
 
     }
     function testViewSavedUser()
@@ -76,7 +122,7 @@ class userdataTest extends \Codeception\Test\Unit
     }
     function testViewSavedUserData()
     {
-        $this->tester->seeInDatabase('userdata',['userNIF' => '122123122']);
+        $this->tester->seeInDatabase('userdata',['userNIF' => '122123129']);
         //$this->tester->seeInDatabase('pessoa', ['nome' => 'Pieter Aparicio', 'morada' => 'Avenida General Humberto Delgado Leiria']);
     }
     function testUpdateSavedUser()
@@ -94,10 +140,10 @@ class userdataTest extends \Codeception\Test\Unit
     }
     function testUpdateSavedUserData()
     {
-        $idData = $this->tester->grabRecord('common\models\Userdata',['userNIF' => '122123122']);
+        $idData = $this->tester->grabRecord('common\models\Userdata',['userNIF' => '122123129']);
         $userData = Userdata::findOne($idData);
         $userData->userMorada = "Rua Rainha Santa Isabel";
-        $userData->update();
+        $userData->update(false);
         /*
         $id = $this->tester->grabRecord('common\models\Pessoa',['nome'=>'Pieter Aparicio']);
         $pessoa = Pessoa::findOne($id);
@@ -114,38 +160,29 @@ class userdataTest extends \Codeception\Test\Unit
         $this->tester->seeRecord('common\models\Userdata',['userMorada'=>'Rua Rainha Santa Isabel']);
         //$this->tester->seeRecord('common\models\Pessoa',['nome'=>'Pieter Aparicio']);
     }
-    function testDeleteUpdatedSavedUserData()
+    function testDeletedSavedUserData()
     {
-        $idData = $this->tester->grabRecord('common\models\Userdata',['userNIF' => '122123122']);
+        $idData = $this->tester->grabRecord('common\models\Userdata',['userNIF' => '122123129']);
         $userdata = Userdata::findOne($idData);
         $userdata->delete();
 
-        /*$id = $this->tester->grabRecord('common\models\Pessoa',['nome'=>'Pieter Aparicio']);
-        $pessoa = Pessoa::findOne($id);
-        $pessoa->delete();*/
     }
-    //f. Apagar o registo
-    function testDeleteUpdatedSavedUser()
+    function testViewDeletedSavedUserData()
     {
-        $id = $this->tester->grabRecord('common\models\User',['username' => 'pedromig']);
-        $user = User::findOne($id);
-        $user->delete();
-
-
-        /*$id = $this->tester->grabRecord('common\models\Pessoa',['nome'=>'Pieter Aparicio']);
-        $pessoa = Pessoa::findOne($id);
-        $pessoa->delete();*/
-    }
-
-    //g. Verificar que o registo não se encontra na BD.
-    function testViewDeletedUpdatedSavedUserData()
-    {
-        $this->tester->dontSeeRecord('common\models\Userdata',['userNIF'=>'122123122']);
+        $this->tester->dontSeeRecord('common\models\Userdata',['userNIF'=>'122123129']);
         //$this->tester->dontSeeRecord('common\models\Pessoa',['nome'=>'Pieter Aparicio']);
     }
-    function testViewDeletedUpdatedSavedUser()
+    //f. Apagar o registo
+    function testDeletedSavedUser()
     {
-    $this->tester->dontSeeRecord('common\models\User',['username'=>'pedromig']);
+        $id = $this->tester->grabRecord('common\models\User',['username' => 'pedromig1112']);
+        $user = User::findOne(['id'=>$id->id]);
+        $user->delete();
+    }
+
+    function testViewDeletedSavedUser()
+    {
+    $this->tester->dontSeeRecord('common\models\User',['username'=>'pedromig1112']);
     //$this->tester->dontSeeRecord('common\models\Pessoa',['nome'=>'Pieter Aparicio']);
     }
 }
