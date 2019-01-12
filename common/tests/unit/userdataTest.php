@@ -128,7 +128,7 @@ class userdataTest extends \Codeception\Test\Unit
     function testUpdateSavedUser()
     {
         $id = $this->tester->grabRecord('common\models\User',['username' => 'pedromig1112']);
-        $user = User::findOne($id);
+        $user = User::findOne(['id'=>$id->id]);
         $user->username = "pedromig";
         $user->update();
 
@@ -141,7 +141,7 @@ class userdataTest extends \Codeception\Test\Unit
     function testUpdateSavedUserData()
     {
         $idData = $this->tester->grabRecord('common\models\Userdata',['userNIF' => '122123129']);
-        $userData = Userdata::findOne($idData);
+        $userData = Userdata::findOne(['iduser'=>$idData->iduser]);
         $userData->userMorada = "Rua Rainha Santa Isabel";
         $userData->update(false);
         /*
@@ -163,7 +163,7 @@ class userdataTest extends \Codeception\Test\Unit
     function testDeletedSavedUserData()
     {
         $idData = $this->tester->grabRecord('common\models\Userdata',['userNIF' => '122123129']);
-        $userdata = Userdata::findOne($idData);
+        $userdata = Userdata::findOne(['iduser'=>$idData->iduser]);
         $userdata->delete();
 
     }
@@ -175,7 +175,7 @@ class userdataTest extends \Codeception\Test\Unit
     //f. Apagar o registo
     function testDeletedSavedUser()
     {
-        $id = $this->tester->grabRecord('common\models\User',['username' => 'pedromig1112']);
+        $id = $this->tester->grabRecord('common\models\User',['username' => 'pedromig']);
         $user = User::findOne(['id'=>$id->id]);
         $user->delete();
     }
