@@ -29,8 +29,8 @@ class LayoutController extends Controller
      */
     public function beforeAction($action)
     {
-        $categorias = Categoria::find()->orderBy("categoriaNome")->all();
-        $categoriasChild = CategoriaChild::find()->orderBy("childNome")->all();
+        $categorias = Categoria::find()->orderBy("categoriaNome")->where(['categoriaEstado'=>1])->all();
+        $categoriasChild = CategoriaChild::find()->orderBy("childNome")->where(['childEstado'=>1])->all();
         $sale = Campanha::find()
             ->where (['>','campanhaDataFim', date('Y-m-d')])->orderBy("campanhaDataFim")
             ->andWhere(['<','campanhaDataInicio', date('Y-m-d')])
