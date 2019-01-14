@@ -135,10 +135,12 @@ class SiteController extends LayoutController
                            LEFT JOIN (SELECT produtocampanha.*
                                       FROM produtocampanha INNER JOIN campanha ON produtocampanha.campanha_idCampanha=campanha.idCampanha
                                       WHERE (campanha.campanhaDataInicio <= CURRENT_DATE()) AND (campanha.campanhaDataFim >= CURRENT_DATE())
+                                      GROUP BY idprodutocampanha
                                      ) as produtocampanha ON produto.idprodutos=produtocampanha.produtos_idprodutos
                            LEFT JOIN (SELECT campanha.*
                                       FROM campanha
                                       WHERE (campanha.campanhaDataInicio <= CURRENT_DATE()) AND (campanha.campanhaDataFim >= CURRENT_DATE())
+                                      GROUP BY idCampanha
                                      ) AS campanha ON produtocampanha.campanha_idCampanha=campanha.idCampanha
         WHERE (produto.produtoEstado = 1)
         GROUP BY compraproduto.produto_idprodutos
