@@ -101,6 +101,7 @@ class SiteController extends LayoutController
             ->leftJoin('produto', '`produtocampanha`.`produtos_idprodutos` = `produto`.`idprodutos`')
             ->where(['>=','campanhaDataFim', date('Y-m-d')])
             ->andWhere(['<=','campanhaDataInicio', date('Y-m-d')])
+            ->andWhere(['produto.produtoEstado'=>1])
             ->groupBy('`campanha`.`idCampanha`')
             ->orderBy("campanhaDataFim")
             ->limit(3)
@@ -147,15 +148,41 @@ class SiteController extends LayoutController
         ->queryAll();
 
 
-        //::todo: query to show recommended products, max 8 products
-        //::todo: query to show recommended products, max 8 products
+
+        $new = $connect->createCommand('
+        SELECT produto.*, produtocampanha.campanhaPercentagem, produtoPreco-(produtoPreco*(campanhaPercentagem / 100)) AS "precoDpsDesconto"
+        FROM produto
+                           LEFT JOIN (SELECT produtocampanha.*
+                                      FROM produtocampanha INNER JOIN campanha ON produtocampanha.campanha_idCampanha=campanha.idCampanha
+                                      WHERE (campanha.campanhaDataInicio <= CURRENT_DATE()) AND (campanha.campanhaDataFim >= CURRENT_DATE())
+                                     ) as produtocampanha ON produto.idprodutos=produtocampanha.produtos_idprodutos
+                           LEFT JOIN (SELECT campanha.*
+                                      FROM campanha
+                                      WHERE (campanha.campanhaDataInicio <= CURRENT_DATE()) AND (campanha.campanhaDataFim >= CURRENT_DATE())
+                                     ) AS campanha ON produtocampanha.campanha_idCampanha=campanha.idCampanha
+        WHERE (produto.produtoEstado = 1) AND (DATEDIFF(NOW(),produtoDataCriacao) < 5)
+        GROUP BY produto.idprodutos
+        ORDER BY produtoDataCriacao DESC
+        LIMIT 8;
+       ')
+            ->queryAll();
+
+
+
+
+/*
+        $new = Produto::find()
+            ->where ('DATEDIFF(NOW(),produtoDataCriacao) < 5')
+            ->orderBy("produtoDataCriacao DESC")
+            ->limit(8)
+            ->all();
+*/
 
         return $this->render('index', [
             'sale' => $sale,
             'categoryRow' => $categoryRow,
             'bestSeller' => $bestSeller,
-            //'new' => $new,
-            //'sale' => $sale,
+            'new' => $new,
             //'RecentPro' => $RecentPro,
         ]);
     }
