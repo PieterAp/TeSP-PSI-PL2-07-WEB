@@ -89,11 +89,11 @@ class Campanha extends \yii\db\ActiveRecord
 
         if($insert)
         {
-            $this->FazPublish('INSERT',$myJSON);
+            //$this->FazPublish('INSERT',$myJSON);
         }
         else
         {
-            $this->FazPublish('UPDATE',$myJSON);
+            //$this->FazPublish('UPDATE',$myJSON);
         }
     }
 
@@ -110,7 +110,7 @@ class Campanha extends \yii\db\ActiveRecord
         $myObj->id = $camp_id;
         $myJSON = json_encode($myObj);
 
-        $this->FazPublish('DELETE', $myJSON);
+        //$this->FazPublish('DELETE', $myJSON);
     }
 
     /**

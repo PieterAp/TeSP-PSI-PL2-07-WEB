@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\Campanha;
 use common\models\Categoria;
 use common\models\CategoriaChild;
 use common\models\Produto;
@@ -68,72 +69,42 @@ class SiteController extends LayoutController
         ];
     }
 
+    public function actionIndexdefault()
+    {
+        return $this->render('index_backup');
+    }
 
     /**
      * Displays homepage.
      *
      * @return mixed
+     * @throws \yii\db\Exception
      */
     public function actionIndex()
     {
-        $allCategories = Categoria::find()
-            ->select('Categoria.*')
-            ->distinct()
-            ->all();
-
-        $allCategoryChilds = CategoriaChild::find()
-            ->select('categoria_child.*')
-            ->distinct()
-            ->all();
-
-        $categoryRow = (new Query())
-            ->select(['categoria_child.idchild','categoria_child.childNome'])
-            ->from('categoria_child')
-            ->innerJoin('produto', '`categoria_child`.`idchild` = `produto`.`categoria_child_id`')
-            ->where(['produto.produtoEstado' => 1])
-            ->andWhere(['categoria_child.childEstado' => 1])
-            ->groupBy('produto.categoria_child_id')
-            ->orderBy('count(produto.categoria_child_id) DESC')
-            ->limit(3)
-            ->all();
+        $connect = \Yii::$app->db;
 
         /*
-        $bestSeller = (new Query())
-            ->select([
-                'idprodutos',
-                'produtoNome',
-                'produtoPreco',
-                'produtoImagem1',
-                'campanhaPercentagem',
-                'produtoPreco-(produtoPreco*(campanhaPercentagem / 100)) AS "precoDpsDesconto"'
-            ])
-            ->from('compraproduto')
-            ->innerJoin('produto', 'produto_idprodutos = idprodutos')
-            ->leftJoin('produtocampanha', 'idprodutos = produtos_idprodutos')
-            ->leftJoin('campanha', 'campanha_idCampanha = idCampanha')
-            ->where(['produtoEstado' => 1])
-            ->andwhere(['>=','campanhaDataFim', date('Y-m-d')])
-            ->andWhere(['<=','campanhaDataInicio', date('Y-m-d')])
-            ->groupBy('categoria_child_id')
-            ->orderBy('count(idprodutos) DESC')
-            ->limit(8)
+        $sale = Campanha::find()
+            ->where (['>','campanhaDataFim', date('Y-m-d')])
+            ->andWhere(['<','campanhaDataInicio', date('Y-m-d')])
+            ->orderBy("campanhaDataFim")
+            ->limit(3)
             ->all();
-
-        var_dump($bestSeller);
-        die();
         */
 
 
-        //old one, quite light
-
-        $bestSeller = (new Query())
-            ->select(['produto.idprodutos','produto.produtoNome','produto.produtoPreco', 'produto.produtoImagem1'])
-            ->from('compraproduto')
-            ->innerJoin('produto', '`compraproduto`.`produto_idprodutos` = `produto`.`idprodutos`')
-            ->where(['produto.produtoEstado' => 1])
-            ->groupBy('produto.categoria_child_id')
-            ->orderBy('count(produto.idprodutos) DESC')
-            ->limit(8)
+        $sale = (new Query())
+            ->select(['campanha.*','COUNT(produtocampanha.idprodutocampanha) as "qntProdutos"'])
+            ->from('campanha')
+            ->leftJoin('produtocampanha', '`campanha`.`idCampanha` = `produtocampanha`.`campanha_idCampanha`')
+            ->leftJoin('produto', '`produtocampanha`.`produtos_idprodutos` = `produto`.`idprodutos`')
+            ->where(['>=','campanhaDataFim', date('Y-m-d')])
+            ->andWhere(['<=','campanhaDataInicio', date('Y-m-d')])
+            ->andWhere(['produto.produtoEstado'=>1])
+            ->groupBy('`campanha`.`idCampanha`')
+            ->orderBy("campanhaDataFim")
+            ->limit(3)
             ->all();
 
 
@@ -141,17 +112,78 @@ class SiteController extends LayoutController
 
 
 
-        //::todo: query to show recommended products, max 8 products
-        //::todo: query to show recommended products, max 8 products
+
+
+
+        $categoryRow = $connect->createCommand('
+                SELECT  idchild, childNome, (SELECT produto.produtoImagem1
+                                             FROM produto INNER JOIN categoria_child ON produto.categoria_child_id = categoria_child.idchild
+                                             WHERE categoria_child.idchild = c.idchild
+                                             ORDER BY produtoDataCriacao DESC
+                                             LIMIT 1) as imagem1, produto.idprodutos
+                FROM categoria_child as c INNER JOIN produto ON c.idchild = produto.categoria_child_id
+                WHERE (produtoEstado = 1) AND (childEstado = 1)
+                GROUP BY categoria_child_id
+                ORDER BY count(categoria_child_id) DESC
+                LIMIT 3;
+               ')
+            ->queryAll();
+
+        $bestSeller = $connect->createCommand('
+        SELECT produto.*, produtocampanha.campanhaPercentagem, produtoPreco-(produtoPreco*(campanhaPercentagem / 100)) AS "precoDpsDesconto", count(compraproduto.produto_idprodutos) as "qntCompras"
+        FROM compraproduto INNER JOIN produto ON compraproduto.produto_idprodutos=produto.idprodutos
+                           LEFT JOIN (SELECT produtocampanha.*
+                                      FROM produtocampanha INNER JOIN campanha ON produtocampanha.campanha_idCampanha=campanha.idCampanha
+                                      WHERE (campanha.campanhaDataInicio <= CURRENT_DATE()) AND (campanha.campanhaDataFim >= CURRENT_DATE())
+                                     ) as produtocampanha ON produto.idprodutos=produtocampanha.produtos_idprodutos
+                           LEFT JOIN (SELECT campanha.*
+                                      FROM campanha
+                                      WHERE (campanha.campanhaDataInicio <= CURRENT_DATE()) AND (campanha.campanhaDataFim >= CURRENT_DATE())
+                                     ) AS campanha ON produtocampanha.campanha_idCampanha=campanha.idCampanha
+        WHERE (produto.produtoEstado = 1)
+        GROUP BY compraproduto.produto_idprodutos
+        ORDER BY (count(compraproduto.produto_idprodutos)) DESC, produtocampanha.campanhaPercentagem DESC
+        LIMIT 8;
+       ')
+        ->queryAll();
+
+
+
+        $new = $connect->createCommand('
+        SELECT produto.*, produtocampanha.campanhaPercentagem, produtoPreco-(produtoPreco*(campanhaPercentagem / 100)) AS "precoDpsDesconto"
+        FROM produto
+                           LEFT JOIN (SELECT produtocampanha.*
+                                      FROM produtocampanha INNER JOIN campanha ON produtocampanha.campanha_idCampanha=campanha.idCampanha
+                                      WHERE (campanha.campanhaDataInicio <= CURRENT_DATE()) AND (campanha.campanhaDataFim >= CURRENT_DATE())
+                                     ) as produtocampanha ON produto.idprodutos=produtocampanha.produtos_idprodutos
+                           LEFT JOIN (SELECT campanha.*
+                                      FROM campanha
+                                      WHERE (campanha.campanhaDataInicio <= CURRENT_DATE()) AND (campanha.campanhaDataFim >= CURRENT_DATE())
+                                     ) AS campanha ON produtocampanha.campanha_idCampanha=campanha.idCampanha
+        WHERE (produto.produtoEstado = 1) AND (DATEDIFF(NOW(),produtoDataCriacao) < 5)
+        GROUP BY produto.idprodutos
+        ORDER BY produtoDataCriacao DESC
+        LIMIT 8;
+       ')
+            ->queryAll();
+
+
+
+
+/*
+        $new = Produto::find()
+            ->where ('DATEDIFF(NOW(),produtoDataCriacao) < 5')
+            ->orderBy("produtoDataCriacao DESC")
+            ->limit(8)
+            ->all();
+*/
 
         return $this->render('index', [
-            'allCategories' => $allCategories,
-            'allCategoryChilds' => $allCategoryChilds,
+            'sale' => $sale,
             'categoryRow' => $categoryRow,
             'bestSeller' => $bestSeller,
-            //'featured' => $featured,
-            //'sale' => $sale,
-            //'sale' => $topRate,
+            'new' => $new,
+            //'RecentPro' => $RecentPro,
         ]);
     }
 
