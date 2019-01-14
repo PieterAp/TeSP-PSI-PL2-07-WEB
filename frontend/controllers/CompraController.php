@@ -48,34 +48,6 @@ class CompraController extends LayoutController
     }
 
     /**
-     * Lists all Compra models.
-     * @return mixed
-     */
-    public function actionIndex()
-    {
-        $searchModel = new CompraSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-
-
-    /**
-     * Displays a single Compra model.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionView($id)
-    {
-        return $this->render('view', [
-            'model' => $this->findModel($id),
-        ]);
-    }
-    /**
      * save models after purchase
         If creation is successful, the browser will be redirected to the 'purchase' page, if not go to 'errorstock' view.
      */
@@ -98,9 +70,6 @@ class CompraController extends LayoutController
                 $produto->produtoStock -= 1;
                 $produto->save();
             }else{
-                $cart1 = Compraproduto::find()
-                    ->where (['compra_idcompras' => $compra->idcompras])
-                    ->all();
 
                 $myCommand =  Yii::$app->db->createCommand()
                     ->delete('compraproduto', 'compra_idcompras = '.$key->compra_idcompras.' AND produto_idprodutos = '.$key->produto_idprodutos.' AND produto_preco = '.$key->produto_preco.' limit 1');
@@ -191,27 +160,6 @@ class CompraController extends LayoutController
         $compraproduto->save(false);
         return $this->redirect(['index']);
     }
-
-    /**
-     * Updates an existing Compra model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idcompras]);
-        }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
-    }
-
     /**
      * Deletes an existing Compra model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
@@ -273,6 +221,7 @@ class CompraController extends LayoutController
             ->where(['iduser'=>Yii::$app->user->id, 'compraEstado' => 0]);
 
         $dataProvider = new ActiveDataProvider(['query' => $rows]);
+
         return $this->render('historic',[
             'dataProvider' => $dataProvider,
         ]);

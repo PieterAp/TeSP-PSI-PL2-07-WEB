@@ -63,7 +63,11 @@ class CompraController extends Controller
             'dataProvider' => $dataProvider,
         ]);
     }
-    
+
+    /**
+     * Historico global
+     * @return string
+     */
     public function actionHistoric()
     {
         $rows = (new Query())
@@ -95,10 +99,10 @@ class CompraController extends Controller
 
     /**
      * Creates a new Compra model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
+     * If creation is successful, the browser will be redirected to the 'index' page.
      * @return mixed
      */
-    public function actionCreate($id)
+    /*public function actionCreate($id)
     {
         $compra = new Compra();
         $produto = Produto::findOne($id);
@@ -124,41 +128,7 @@ class CompraController extends Controller
         $compra->save();
         $compraproduto->save();
         return $this->redirect(['index']);
-    }
-
-    /**
-     * Updates an existing Compra model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idcompras]);
-        }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Deletes an existing Compra model.
-     * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
-
-        return $this->redirect(['index']);
-    }
+    }*/
 
     /**
      * Finds the Compra model based on its primary key value.

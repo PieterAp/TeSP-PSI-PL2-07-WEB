@@ -43,50 +43,31 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $role;
                 },
             ],
-            /*[
-                'attribute' => 'Action',
-                'format' => 'raw',
-                'header' => 'Action',
-
-                'value' =>
-                    function ($dataProvider) {
-                        return Html::a('', ['delete', 'id' =>'1'], [
-                                    'class' => 'glyphicon glyphicon-remove',
-                                    'data' => [
-                                        'confirm' => 'Are you sure you want to delete this item?',
-                                        'method' => 'post',
-                                    ],
-                        ]);
-                    },
-                'ad'
-
-
-                /*'value' =>
-                    function ($dataProvider) {
-                    $url = Url::to(['view', 'id' => $dataProvider['id']]);
-                        $urldelete = Url::to(['delete', 'id' => $dataProvider['id']]);
-
-                    return '<a href='.$url.'><span class="glyphicon glyphicon-eye-open"></span></a> <a href='.$urldelete.'><span class="glyphicon glyphicon-remove"></span></a>';
-
-                },
-
-
-            ],
-            Html::a('Edit', ['update', 'id' => $dataProvider->id], ['class' => 'btn btn-primary']),
-            Html::a('Delete', ['delete', 'id' =>$dataProvider->id], [
-                'class' => 'btn btn-danger',
-                'data' => [
-                    'confirm' => 'Are you sure you want to delete this item?',
-                    'method' => 'post',
-                ],
-            ]),
-            Html::a('Back','index', ['class' => 'btn btn-warning']),*/
             [
                 'header' => 'Action',
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{view} {delete}',  // the default buttons + your custom button
+                'template' => '{view} {edit} {remove}',  // the default buttons + your custom button
+                'buttons' => [
+                    'view' =>  function ($key, $model) {
 
-            ]
+                        return Html::a('', ['user/update', 'id' => $model['id']], ['class' => 'glyphicon glyphicon-eye-open']);
+                    },
+                    'edit' =>  function ($key, $model) {
+
+                        return Html::a('', ['user/update', 'id' => $model['id']], ['class' => 'glyphicon glyphicon-pencil']);
+                    },
+                    'remove' =>  function ($key, $model) {
+                        if (\Yii::$app->user->can('deleteCliente'))
+                        {
+                            return Html::a('<span class="glyphicon glyphicon-trash"></span>',['user/delete', 'id' => $model['id']],['data' => [
+                                'confirm' => 'Are you sure you want to delete this item?',
+                                'method' => 'post',
+                            ]]);
+                        }
+                    }
+
+                ]
+            ],
         ]
     ]); ?>
 </div>

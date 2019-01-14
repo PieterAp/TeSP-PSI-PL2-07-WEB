@@ -41,6 +41,11 @@ class UserController extends LayoutController
             ],
         ];
     }
+
+    /**
+     * @return string
+     * @throws NotFoundHttpException
+     */
     public function actionUpdate()
     {
         $model = new EditAccountForm();

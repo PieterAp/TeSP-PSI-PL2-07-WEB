@@ -59,13 +59,22 @@ class UserController extends Controller
         $rows = (new Query())
             ->select(['id','username', 'userNomeProprio', 'userApelido', 'userVisibilidade'])
             ->from('user')
-            ->innerJoin('userdata','user_id=id');
+            ->innerJoin('userdata','user_id=id')
+            ->orderBy('id');
+
+        $model = (new Query())
+            ->select(['id','username', 'userNomeProprio', 'userApelido', 'userVisibilidade'])
+            ->from('user')
+            ->innerJoin('userdata','user_id=id')
+            ->orderBy('id')
+            ->all();
 
         $dataProvider = new ActiveDataProvider(['query' => $rows]);
 
         return $this->render('index', [
             'dataProvider' => $dataProvider,
             'searchModel' => $searchModel,
+            'model' => $model,
         ]);
     }
 
@@ -77,10 +86,11 @@ class UserController extends Controller
      */
     public function actionView($id)
     {
-        $userdata = Userdata::find()->where(['user_id' => $id+1])->one();
+
+        $userdata = Userdata::find()->where(['user_id' => $id])->one();
 
         return $this->render('view', [
-            'model' => $this->findModel($id+1),
+            'model' => $this->findModel($id),
             'userdata' => $userdata,
         ]);
     }
@@ -164,7 +174,6 @@ class UserController extends Controller
             $userdata->save(false);
             return $this->redirect(['index']);
         }
-
         return $this->render('update', [
             'model' => $model,
             'userdata' => $userdata,
@@ -181,7 +190,7 @@ class UserController extends Controller
      */
     public function actionDelete($id)
     {
-        $auth = \Yii::$app->authManager->getRolesByUser($id+1);
+        $auth = \Yii::$app->authManager->getRolesByUser($id);
         $userdata = new Userdata;
         $role= '';
         if (array_key_exists ('admin' , $auth)){
@@ -190,7 +199,7 @@ class UserController extends Controller
 
         if (($role != 'admin') ){
             $userdata = new Userdata();
-            $userdata = Userdata::findOne(['iduser' => $id+1]);
+            $userdata = Userdata::findOne(['iduser' => $id]);
             $userdata->userVisibilidade = 0;
             $userdata->save(false);
             return $this->redirect(['index']);
