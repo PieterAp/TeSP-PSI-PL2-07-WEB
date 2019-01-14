@@ -115,7 +115,7 @@ return [
                         'POST login' => 'login',
                         'POST registo' => 'registo',
                         'PUT edit' => 'edit',
-                        'get account' => 'account',
+                        'GET' => 'account',
                     ]
                 ],
                 [
