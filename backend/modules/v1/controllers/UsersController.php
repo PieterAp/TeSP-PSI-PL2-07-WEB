@@ -173,4 +173,12 @@ class UsersController extends ActiveController
         }
         return "Alteracao com sucesso";
     }
+
+    /**
+     * Returns whole user account
+     */
+    public function actionAccount()
+    {
+
+    }
 }

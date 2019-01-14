@@ -104,6 +104,7 @@ return [
                         'GET {id}/categoria' => 'categoria',
                         'GET {id}/child' => 'child',
                         'GET {id}/campanhas' => 'campanhas',
+                        'GET help' => 'help',
                     ]
                 ],
                 [
@@ -114,6 +115,16 @@ return [
                         'POST login' => 'login',
                         'POST registo' => 'registo',
                         'PUT edit' => 'edit',
+                        'get account' => 'account',
+                    ]
+                ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'v1/compras',
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'GET' => 'getcompras',
+                        'PUT' => 'setcompras',
                     ]
                 ],
             ],
