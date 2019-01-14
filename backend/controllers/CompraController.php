@@ -104,7 +104,7 @@ class CompraController extends Controller
         $produto = Produto::findOne($id);
         $compra = Compra::find()
             ->andWhere(['user_iduser' => Yii::$app->user->id])
-            ->andWhere(['or','compraEstado'=> 1])
+            ->andWhere(['compraEstado'=> 1])
             ->one();
 
         if($compra == null){
