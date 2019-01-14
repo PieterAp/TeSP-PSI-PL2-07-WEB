@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <h1><?= Html::encode($this->title) ?></h1>
     <?php if (isset($errors)) {
         echo '<div class="alert alert-danger">
-            <strong>Error!</strong> Something went wrong
+            <strong>Error!</strong>'.$errors.'
         </div>';
     } ?>
 

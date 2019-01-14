@@ -8,6 +8,8 @@ use Yii;
 use common\models\Produto;
 use app\models\ProdutoSearch;
 use yii\base\Exception;
+use yii\data\ActiveDataProvider;
+use yii\db\Query;
 use yii\filters\AccessControl;
 use yii\helpers\ArrayHelper;
 use yii\helpers\FileHelper;
@@ -60,22 +62,47 @@ class ProdutoController extends Controller
     public function actionProdutocampanha($id)
     {
         $productsale = new Produtocampanha();
+
         $sales = Campanha::find()
             ->where (['>','campanhaDataInicio', date('Y-m-d')])
             ->orderBy('idCampanha')
             ->all();
         $sale  = ArrayHelper::map($sales,'idCampanha','campanhaNome');
-
+        
+        //vai buscar produtoscampanhas ativos existentes
+        $rows = (new Query())
+            ->select(['idCampanha','idprodutos','campanhaNome','campanhaDataInicio','campanhaDataFim','campanhaPercentagem','produtoNome'])
+            ->from('campanha')
+            ->innerJoin('produtocampanha','campanha_idCampanha=idCampanha')
+            ->innerJoin('produto','produtos_idprodutos=idprodutos')
+            ->where (['<','campanhaDataInicio', date('Y-m-d')])
+            ->andWhere(['>','campanhaDataFim', date('Y-m-d')]);
+        $rows = $rows->all();
+        
+        foreach ($rows as $key => $value){
+            if ($id == $rows[$key]['idprodutos']){
+                $searchModel = new ProdutoSearch();
+                $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+                $model = new Produto();
+                $model = Produto::find()->all();
+                
+                return $this->render('index', [
+                    'error' => 'This product is already in active sale',
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
+                    'model' => $model,
+                ]);
+            }
+        }
+        
         if (Yii::$app->request->post()) {
             $productsale = Yii::$app->request->post('Produtocampanha');
             $sale = Yii::$app->request->post('Campanha');
-
 
             $productSale = new Produtocampanha();
             $productSale->produtos_idprodutos = $id;
             $productSale->campanha_idCampanha = $sale['campanhaNome'];
             $productSale->campanhaPercentagem = $productsale['campanhaPercentagem'];
-
             $productSale->save(false);
 
             return $this->redirect(['index']);
@@ -85,7 +112,6 @@ class ProdutoController extends Controller
             'sale' => $sale,
             'sales' => $sales,
         ]);
-
     }
     public function actionIndex()
     {

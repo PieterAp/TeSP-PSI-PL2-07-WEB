@@ -51,6 +51,10 @@ class ProdutocampanhaController extends Controller
             ],
         ];
     }
+
+    /**
+     * @return string
+     */
     public function actionIndex()
     {
         $rows = (new Query())
@@ -128,11 +132,10 @@ class ProdutocampanhaController extends Controller
         try {
             $this->findModel($id)->delete();
         } catch (IntegrityException $e) {
-            $errors = 1;
             $searchModel = new CampanhaSearch();
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
             return $this->render('index', [
-                'errors' => $errors,
+                'errors' => 'Sale has associated products',
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
             ]);
@@ -140,6 +143,10 @@ class ProdutocampanhaController extends Controller
 
         return $this->redirect(['index']);
     }
+
+    /**
+     * @return string
+     */
     public function actionProdutocampanha()
     {
         $rows = (new Query())
