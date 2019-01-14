@@ -1,7 +1,7 @@
 <section class="slide1">
     <div class="wrap-slick1">
         <div class="slick1">
-            <div class="item-slick1 item1-slick1" style="background-image: url(images/master-slide-07.jpg);">
+            <div class="item-slick1 item1-slick1" style="background-image: url(../../web/images/master-slide-07.jpg);">
                 <div class="wrap-content-slide1 sizefull flex-col-c-m p-l-15 p-r-15 p-t-150 p-b-170">
                     <h2 class="caption1-slide1 xl-text2 t-center bo14 p-b-6 animated visible-false m-b-22" data-appear="fadeInUp">
                         Leather Bags
@@ -20,7 +20,7 @@
                 </div>
             </div>
 
-            <div class="item-slick1 item2-slick1" style="background-image: url(images/master-slide-06.jpg);">
+            <div class="item-slick1 item2-slick1" style="background-image: url(../../web/images/master-slide-06.jpg);">
                 <div class="wrap-content-slide1 sizefull flex-col-c-m p-l-15 p-r-15 p-t-150 p-b-170">
                     <h2 class="caption1-slide1 xl-text2 t-center bo14 p-b-6 animated visible-false m-b-22" data-appear="rollIn">
                         Leather Bags
@@ -39,7 +39,7 @@
                 </div>
             </div>
 
-            <div class="item-slick1 item3-slick1" style="background-image: url(images/master-slide-02.jpg);">
+            <div class="item-slick1 item3-slick1" style="background-image: url(../../web/images/master-slide-02.jpg);">
                 <div class="wrap-content-slide1 sizefull flex-col-c-m p-l-15 p-r-15 p-t-150 p-b-170">
                     <h2 class="caption1-slide1 xl-text2 t-center bo14 p-b-6 animated visible-false m-b-22" data-appear="rotateInDownLeft">
                         Leather Bags
@@ -69,7 +69,7 @@
             <div class="col-sm-10 col-md-8 col-lg-4 m-l-r-auto">
                 <!-- block1 -->
                 <div class="block1 hov-img-zoom pos-relative m-b-30">
-                    <img src="images/banner-05.jpg" alt="IMG-BENNER">
+                    <img src="../../web/images/banner-05.jpg" alt="IMG-BENNER">
 
                     <div class="block1-wrapbtn w-size2">
                         <!-- Button -->
@@ -83,7 +83,7 @@
             <div class="col-sm-10 col-md-8 col-lg-4 m-l-r-auto">
                 <!-- block1 -->
                 <div class="block1 hov-img-zoom pos-relative m-b-30">
-                    <img src="images/banner-03.jpg" alt="IMG-BENNER">
+                    <img src="../../web/images/banner-03.jpg" alt="IMG-BENNER">
 
                     <div class="block1-wrapbtn w-size2">
                         <!-- Button -->
@@ -97,7 +97,7 @@
             <div class="col-sm-10 col-md-8 col-lg-4 m-l-r-auto">
                 <!-- block1 -->
                 <div class="block1 hov-img-zoom pos-relative m-b-30">
-                    <img src="images/banner-10.jpg" alt="IMG-BENNER">
+                    <img src="../../web/images/banner-10.jpg" alt="IMG-BENNER">
 
                     <div class="block1-wrapbtn w-size2">
                         <!-- Button -->
@@ -148,7 +148,7 @@
                             <!-- Block2 -->
                             <div class="block2">
                                 <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
-                                    <img src="images/item-02.jpg" alt="IMG-PRODUCT">
+                                    <img src="../../web/images/item-02.jpg" alt="IMG-PRODUCT">
 
                                     <div class="block2-overlay trans-0-4">
                                         <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
@@ -181,7 +181,7 @@
                             <!-- Block2 -->
                             <div class="block2">
                                 <div class="block2-img wrap-pic-w of-hidden pos-relative">
-                                    <img src="images/item-08.jpg" alt="IMG-PRODUCT">
+                                    <img src="../../web/images/item-08.jpg" alt="IMG-PRODUCT">
 
                                     <div class="block2-overlay trans-0-4">
                                         <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
@@ -214,7 +214,7 @@
                             <!-- Block2 -->
                             <div class="block2">
                                 <div class="block2-img wrap-pic-w of-hidden pos-relative">
-                                    <img src="images/item-10.jpg" alt="IMG-PRODUCT">
+                                    <img src="../../web/images/item-10.jpg" alt="IMG-PRODUCT">
 
                                     <div class="block2-overlay trans-0-4">
                                         <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
@@ -247,7 +247,7 @@
                             <!-- Block2 -->
                             <div class="block2">
                                 <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelsale">
-                                    <img src="images/item-06.jpg" alt="IMG-PRODUCT">
+                                    <img src="../../web/images/item-06.jpg" alt="IMG-PRODUCT">
 
                                     <div class="block2-overlay trans-0-4">
                                         <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
@@ -280,7 +280,7 @@
                             <!-- Block2 -->
                             <div class="block2">
                                 <div class="block2-img wrap-pic-w of-hidden pos-relative">
-                                    <img src="images/item-12.jpg" alt="IMG-PRODUCT">
+                                    <img src="../../web/images/item-12.jpg" alt="IMG-PRODUCT">
 
                                     <div class="block2-overlay trans-0-4">
                                         <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
@@ -313,7 +313,7 @@
                             <!-- Block2 -->
                             <div class="block2">
                                 <div class="block2-img wrap-pic-w of-hidden pos-relative">
-                                    <img src="images/item-14.jpg" alt="IMG-PRODUCT">
+                                    <img src="../../web/images/item-14.jpg" alt="IMG-PRODUCT">
 
                                     <div class="block2-overlay trans-0-4">
                                         <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
@@ -346,7 +346,7 @@
                             <!-- Block2 -->
                             <div class="block2">
                                 <div class="block2-img wrap-pic-w of-hidden pos-relative">
-                                    <img src="images/item-05.jpg" alt="IMG-PRODUCT">
+                                    <img src="../../web/images/item-05.jpg" alt="IMG-PRODUCT">
 
                                     <div class="block2-overlay trans-0-4">
                                         <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
@@ -379,7 +379,7 @@
                             <!-- Block2 -->
                             <div class="block2">
                                 <div class="block2-img wrap-pic-w of-hidden pos-relative">
-                                    <img src="images/item-07.jpg" alt="IMG-PRODUCT">
+                                    <img src="../../web/images/item-07.jpg" alt="IMG-PRODUCT">
 
                                     <div class="block2-overlay trans-0-4">
                                         <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
@@ -421,7 +421,7 @@
                             <!-- Block2 -->
                             <div class="block2">
                                 <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelsale">
-                                    <img src="images/item-07.jpg" alt="IMG-PRODUCT">
+                                    <img src="../../web/images/item-07.jpg" alt="IMG-PRODUCT">
 
                                     <div class="block2-overlay trans-0-4">
                                         <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
@@ -458,7 +458,7 @@
                             <!-- Block2 -->
                             <div class="block2">
                                 <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
-                                    <img src="images/item-01.jpg" alt="IMG-PRODUCT">
+                                    <img src="../../web/images/item-01.jpg" alt="IMG-PRODUCT">
 
                                     <div class="block2-overlay trans-0-4">
                                         <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
@@ -491,7 +491,7 @@
                             <!-- Block2 -->
                             <div class="block2">
                                 <div class="block2-img wrap-pic-w of-hidden pos-relative">
-                                    <img src="images/item-14.jpg" alt="IMG-PRODUCT">
+                                    <img src="../../web/images/item-14.jpg" alt="IMG-PRODUCT">
 
                                     <div class="block2-overlay trans-0-4">
                                         <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
@@ -524,7 +524,7 @@
                             <!-- Block2 -->
                             <div class="block2">
                                 <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
-                                    <img src="images/item-06.jpg" alt="IMG-PRODUCT">
+                                    <img src="../../web/images/item-06.jpg" alt="IMG-PRODUCT">
 
                                     <div class="block2-overlay trans-0-4">
                                         <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
@@ -557,7 +557,7 @@
                             <!-- Block2 -->
                             <div class="block2">
                                 <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelsale">
-                                    <img src="images/item-11.jpg" alt="IMG-PRODUCT">
+                                    <img src="../../web/images/item-11.jpg" alt="IMG-PRODUCT">
 
                                     <div class="block2-overlay trans-0-4">
                                         <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
@@ -594,7 +594,7 @@
                             <!-- Block2 -->
                             <div class="block2">
                                 <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
-                                    <img src="images/item-12.jpg" alt="IMG-PRODUCT">
+                                    <img src="../../web/images/item-12.jpg" alt="IMG-PRODUCT">
 
                                     <div class="block2-overlay trans-0-4">
                                         <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
@@ -627,7 +627,7 @@
                             <!-- Block2 -->
                             <div class="block2">
                                 <div class="block2-img wrap-pic-w of-hidden pos-relative">
-                                    <img src="images/item-15.jpg" alt="IMG-PRODUCT">
+                                    <img src="../../web/images/item-15.jpg" alt="IMG-PRODUCT">
 
                                     <div class="block2-overlay trans-0-4">
                                         <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
@@ -665,7 +665,7 @@
                             <!-- Block2 -->
                             <div class="block2">
                                 <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelsale">
-                                    <img src="images/item-01.jpg" alt="IMG-PRODUCT">
+                                    <img src="../../web/images/item-01.jpg" alt="IMG-PRODUCT">
 
                                     <div class="block2-overlay trans-0-4">
                                         <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
@@ -698,7 +698,7 @@
                             <!-- Block2 -->
                             <div class="block2">
                                 <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelsale">
-                                    <img src="images/item-14.jpg" alt="IMG-PRODUCT">
+                                    <img src="../../web/images/item-14.jpg" alt="IMG-PRODUCT">
 
                                     <div class="block2-overlay trans-0-4">
                                         <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
@@ -731,7 +731,7 @@
                             <!-- Block2 -->
                             <div class="block2">
                                 <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelsale">
-                                    <img src="images/item-06.jpg" alt="IMG-PRODUCT">
+                                    <img src="../../web/images/item-06.jpg" alt="IMG-PRODUCT">
 
                                     <div class="block2-overlay trans-0-4">
                                         <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
@@ -764,7 +764,7 @@
                             <!-- Block2 -->
                             <div class="block2">
                                 <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelsale">
-                                    <img src="images/item-08.jpg" alt="IMG-PRODUCT">
+                                    <img src="../../web/images/item-08.jpg" alt="IMG-PRODUCT">
 
                                     <div class="block2-overlay trans-0-4">
                                         <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
@@ -802,7 +802,7 @@
                             <!-- Block2 -->
                             <div class="block2">
                                 <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
-                                    <img src="images/item-02.jpg" alt="IMG-PRODUCT">
+                                    <img src="../../web/images/item-02.jpg" alt="IMG-PRODUCT">
 
                                     <div class="block2-overlay trans-0-4">
                                         <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
@@ -835,7 +835,7 @@
                             <!-- Block2 -->
                             <div class="block2">
                                 <div class="block2-img wrap-pic-w of-hidden pos-relative">
-                                    <img src="images/item-03.jpg" alt="IMG-PRODUCT">
+                                    <img src="../../web/images/item-03.jpg" alt="IMG-PRODUCT">
 
                                     <div class="block2-overlay trans-0-4">
                                         <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
@@ -868,7 +868,7 @@
                             <!-- Block2 -->
                             <div class="block2">
                                 <div class="block2-img wrap-pic-w of-hidden pos-relative">
-                                    <img src="images/item-05.jpg" alt="IMG-PRODUCT">
+                                    <img src="../../web/images/item-05.jpg" alt="IMG-PRODUCT">
 
                                     <div class="block2-overlay trans-0-4">
                                         <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
@@ -901,7 +901,7 @@
                             <!-- Block2 -->
                             <div class="block2">
                                 <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelsale">
-                                    <img src="images/item-07.jpg" alt="IMG-PRODUCT">
+                                    <img src="../../web/images/item-07.jpg" alt="IMG-PRODUCT">
 
                                     <div class="block2-overlay trans-0-4">
                                         <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
@@ -938,7 +938,7 @@
                             <!-- Block2 -->
                             <div class="block2">
                                 <div class="block2-img wrap-pic-w of-hidden pos-relative">
-                                    <img src="images/item-10.jpg" alt="IMG-PRODUCT">
+                                    <img src="../../web/images/item-10.jpg" alt="IMG-PRODUCT">
 
                                     <div class="block2-overlay trans-0-4">
                                         <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
@@ -971,7 +971,7 @@
                             <!-- Block2 -->
                             <div class="block2">
                                 <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelsale">
-                                    <img src="images/item-11.jpg" alt="IMG-PRODUCT">
+                                    <img src="../../web/images/item-11.jpg" alt="IMG-PRODUCT">
 
                                     <div class="block2-overlay trans-0-4">
                                         <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
@@ -1008,7 +1008,7 @@
                             <!-- Block2 -->
                             <div class="block2">
                                 <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
-                                    <img src="images/item-12.jpg" alt="IMG-PRODUCT">
+                                    <img src="../../web/images/item-12.jpg" alt="IMG-PRODUCT">
 
                                     <div class="block2-overlay trans-0-4">
                                         <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
@@ -1041,7 +1041,7 @@
                             <!-- Block2 -->
                             <div class="block2">
                                 <div class="block2-img wrap-pic-w of-hidden pos-relative">
-                                    <img src="images/item-15.jpg" alt="IMG-PRODUCT">
+                                    <img src="../../web/images/item-15.jpg" alt="IMG-PRODUCT">
 
                                     <div class="block2-overlay trans-0-4">
                                         <a href="#" class="block2-btn-addwishlist hov-pointer trans-0-4">
@@ -1087,7 +1087,7 @@
                 <!-- Block3 -->
                 <div class="block3">
                     <a href="blog-detail.html" class="block3-img dis-block hov-img-zoom">
-                        <img src="images/blog-01.jpg" alt="IMG-BLOG">
+                        <img src="../../web/images/blog-01.jpg" alt="IMG-BLOG">
                     </a>
 
                     <div class="block3-txt p-t-14">
@@ -1110,7 +1110,7 @@
                 <!-- Block3 -->
                 <div class="block3">
                     <a href="blog-detail.html" class="block3-img dis-block hov-img-zoom">
-                        <img src="images/blog-02.jpg" alt="IMG-BLOG">
+                        <img src="../../web/images/blog-02.jpg" alt="IMG-BLOG">
                     </a>
                     <div class="block3-txt p-t-14">
                         <h4 class="p-b-7">
@@ -1130,7 +1130,7 @@
                 <!-- Block3 -->
                 <div class="block3">
                     <a href="blog-detail.html" class="block3-img dis-block hov-img-zoom">
-                        <img src="images/blog-03.jpg" alt="IMG-BLOG">
+                        <img src="../../web/images/blog-03.jpg" alt="IMG-BLOG">
                     </a>
 
                     <div class="block3-txt p-t-14">
@@ -1164,7 +1164,7 @@
     <div class="flex-w">
         <!-- Block4 -->
         <div class="block4 wrap-pic-w">
-            <img src="images/gallery-03.jpg" alt="IMG-INSTAGRAM">
+            <img src="../../web/images/gallery-03.jpg" alt="IMG-INSTAGRAM">
 
             <a href="#" class="block4-overlay sizefull ab-t-l trans-0-4">
 					<span class="block4-overlay-heart s-text9 flex-m trans-0-4 p-l-40 p-t-25">
@@ -1186,7 +1186,7 @@
 
         <!-- Block4 -->
         <div class="block4 wrap-pic-w">
-            <img src="images/gallery-07.jpg" alt="IMG-INSTAGRAM">
+            <img src="../../web/images/gallery-07.jpg" alt="IMG-INSTAGRAM">
 
             <a href="#" class="block4-overlay sizefull ab-t-l trans-0-4">
 					<span class="block4-overlay-heart s-text9 flex-m trans-0-4 p-l-40 p-t-25">
@@ -1208,7 +1208,7 @@
 
         <!-- Block4 -->
         <div class="block4 wrap-pic-w">
-            <img src="images/gallery-09.jpg" alt="IMG-INSTAGRAM">
+            <img src="../../web/images/gallery-09.jpg" alt="IMG-INSTAGRAM">
 
             <a href="#" class="block4-overlay sizefull ab-t-l trans-0-4">
 					<span class="block4-overlay-heart s-text9 flex-m trans-0-4 p-l-40 p-t-25">
@@ -1230,7 +1230,7 @@
 
         <!-- Block4 -->
         <div class="block4 wrap-pic-w">
-            <img src="images/gallery-13.jpg" alt="IMG-INSTAGRAM">
+            <img src="../../web/images/gallery-13.jpg" alt="IMG-INSTAGRAM">
 
             <a href="#" class="block4-overlay sizefull ab-t-l trans-0-4">
 					<span class="block4-overlay-heart s-text9 flex-m trans-0-4 p-l-40 p-t-25">
@@ -1263,23 +1263,23 @@
     <div class="t-center p-l-15 p-r-15">
         <div class="t-center p-l-15 p-r-15">
             <a href="#">
-                <img class="h-size2" src="images/icons/paypal.png" alt="IMG-PAYPAL">
+                <img class="h-size2" src="../../web/images/icons/paypal.png" alt="IMG-PAYPAL">
             </a>
 
             <a href="#">
-                <img class="h-size2" src="images/icons/visa.png" alt="IMG-VISA">
+                <img class="h-size2" src="../../web/images/icons/visa.png" alt="IMG-VISA">
             </a>
 
             <a href="#">
-                <img class="h-size2" src="images/icons/mastercard.png" alt="IMG-MASTERCARD">
+                <img class="h-size2" src="../../web/images/icons/mastercard.png" alt="IMG-MASTERCARD">
             </a>
 
             <a href="#">
-                <img class="h-size2" src="images/icons/express.png" alt="IMG-EXPRESS">
+                <img class="h-size2" src="../../web/images/icons/express.png" alt="IMG-EXPRESS">
             </a>
 
             <a href="#">
-                <img class="h-size2" src="images/icons/discover.png" alt="IMG-DISCOVER">
+                <img class="h-size2" src="../../web/images/icons/discover.png" alt="IMG-DISCOVER">
             </a>
         <div class="t-center s-text8 p-t-20">
             Copyright � 2018 All rights reserved. | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
