@@ -73,7 +73,7 @@ $this->title = 'FixByte';
 
                 }
                 echo '<a href="'.Url::to(['compra/historic']).'">Historic</a>';
-                echo '<a href="">Repairs</a>
+                echo '<a href="'.Url::to(['/reparacao/index']).'">Repairs</a>
                 <a href="'.Url::to(['site/logout']).'" id="logout" data-method="post">Log out</a>
             </div>
         </div>
@@ -124,17 +124,18 @@ $this->title = 'FixByte';
     </div>
 </div>
 <!-- top noti -->
-<div class="flex-c-m size22 bg0 s-text21 pos-relative">
     <?php if(isset($sale)){
+        echo '<div class="flex-c-m size22 bg0 s-text21 pos-relative">
+';
         echo 'Check our '.$sale['campanhaNome'].' sale, until '.$sale['campanhaDataFim'] ;
-    }?>
-    <a href="<?php echo Url::to(['/campanha/produtocampanha'])?>" class="s-text22 hov6 p-l-5">
+    }
+    echo '<a href="'.Url::to(['/campanha/produtocampanha']).'" class="s-text22 hov6 p-l-5">
         See
     </a>
     <button class="flex-c-m pos2 size23 colorwhite eff3 trans-0-4 btn-romove-top-noti">
         <i class="fa fa-remove fs-13" aria-hidden="true"></i>
     </button>
-</div>
+</div>';?>
 
 <!-- Header -->
 <header class="header2">
@@ -173,7 +174,7 @@ $this->title = 'FixByte';
 
                         }
                         echo '<a href="'.Url::to(['compra/historic']).'">Historic</a>';
-                        echo '<a href="<?php echo Url::to([\'/site/repair\'])?>">Repair</a>
+                        echo '<a href="'.Url::to(['/reparacao/index']).'">Repair</a>
                         <a href="'.Url::to(['site/logout']).'" data-method="post" >Log out</a>
                     </div>
                 </div>
@@ -286,7 +287,7 @@ $this->title = 'FixByte';
 
                              }
                         echo '<a href="'.Url::to(['compra/historic']).'">Historic</a>';
-                        echo '<a href="">Repair</a>
+                        echo '<a href="'.Url::to(['/reparacao/index']).'">Repair</a>
                         <a href="'.Url::to(['site/logout']).'" data-method="post" >Log out</a>
                     </div>
                 </div>';
