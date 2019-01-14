@@ -38,7 +38,7 @@ class Campanha extends \yii\db\ActiveRecord
             ['campanhaDataFim', 'date', 'format' => 'php:Y-m-d'],
 
             [['campanhaDataInicio', 'campanhaDataFim'], 'safe'],
-            [['campanhaNome'], 'string', 'min'=> 2, 'max' => 45],
+            [['campanhaNome'], 'string','max' => 45],
             [['campanhaDescricao'], 'string', 'max' => 128],
             
             ['campanhaDataFim', 'compare', 'compareAttribute' => 'campanhaDataInicio', 'operator' => '>', 'message' => 'Date End must be higher than Date Start'],
