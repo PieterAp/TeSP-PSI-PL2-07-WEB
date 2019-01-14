@@ -118,7 +118,6 @@ class SiteController extends LayoutController
                 SELECT  idchild, childNome, (SELECT produto.produtoImagem1
                                              FROM produto INNER JOIN categoria_child ON produto.categoria_child_id = categoria_child.idchild
                                              WHERE categoria_child.idchild = c.idchild
-                                             GROUP BY produto.idprodutos
                                              ORDER BY produtoDataCriacao DESC
                                              LIMIT 1) as imagem1, produto.idprodutos
                 FROM categoria_child as c INNER JOIN produto ON c.idchild = produto.categoria_child_id
