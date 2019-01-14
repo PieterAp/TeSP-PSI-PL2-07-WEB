@@ -7,6 +7,7 @@ use common\models\User;
 use common\models\Userdata;
 use frontend\models\EditAccountForm;
 use frontend\models\SignupForm;
+use yii\db\Query;
 use Yii;
 use yii\filters\auth\QueryParamAuth;
 use yii\rest\ActiveController;
@@ -80,7 +81,14 @@ class UsersController extends ActiveController
                 return 'uservisibility is 0';
             }else{
                 $identity = User::generateAccessToken($identity);
-                return $identity;
+                $user = (new Query())
+                    ->select('id, username, email, access_token, userNomeProprio, userApelido, userMorada, userDataNasc')
+                    ->from('user')
+                    ->innerJoin('userdata', 'id = user_id')
+                    ->where(['user_id' => $identity->id])
+                    ->one();
+
+                return $user;
             }
         }
         return false;
