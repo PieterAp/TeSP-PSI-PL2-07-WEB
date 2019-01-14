@@ -18,7 +18,7 @@
                             <?= $sale[0]['campanhaNome']?>
                         </h2>
                         <span class="caption2-slide1 m-text1 t-center animated visible-false m-b-33" data-appear="fadeInDown">
-                            Up to <?= $sale[0]['qntProdutos'] ?> items<br>
+                            Up to <?= $sale[0]['qntProdutos'] ?> items with discounts!<br>
     						Take advantage until <b><?= $sale[0]['campanhaDataFim'] ?></b>
     					</span>
 
@@ -33,6 +33,7 @@
             </div>
             <?php }?>
 
+            <?php if($bestSeller!=null){ ?>
             <div class="item-slick1 item2-slick1" style="background-image: url(<?= Url::to('@web/images/products/'.$bestSeller[0]['idprodutos'].'/'.$bestSeller[0]['produtoImagem1']) ?>);">
                 <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelbest">
                     <div class="wrap-content-slide1 sizefull flex-col-c-m p-l-15 p-r-15 p-t-150 p-b-170">
@@ -73,16 +74,36 @@
                     </div>
                 </div>
             </div>
+            <?php } ?>
 
+            <?php if($new!=null){?>
             <div class="item-slick1 item3-slick1" style="background-image: url(images/master-slide-02.jpg);">
                 <div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelnew">
                     <div class="wrap-content-slide1 sizefull flex-col-c-m p-l-15 p-r-15 p-t-150 p-b-170">
                         <h2 class="caption1-slide1 xl-text2 t-center bo14 p-b-6 animated visible-false m-b-22" data-appear="rotateInDownLeft">
-                            Leather Bags
+                            <?= $new[0]['produtoNome'] ?>
                         </h2>
 
                             <span class="caption2-slide1 m-text1 t-center animated visible-false m-b-33" data-appear="rotateInUpRight">
-                                New Collection 2018
+                                For just <b>
+                                    <?php
+                                    if ($new[0]['precoDpsDesconto']==null){
+                                        echo $new[0]['produtoPreco'].'€';
+                                    }
+                                    else
+                                    {
+                                        echo '
+                                        <span class="block2-oldprice m-text7 p-r-5">
+											'.$new[0]['produtoPreco'].'€
+                                        </span>
+    
+                                        <span class="block2-newprice m-text8 p-r-5" style="color: white;">
+    											'.$new[0]['precoDpsDesconto'].'€
+									    </span>
+                                    ';
+                                    }
+                                    ?>
+                                    </b> each
                             </span>
 
                         <div class="wrap-btn-slide1 w-size1 animated visible-false" data-appear="rotateIn">
@@ -94,6 +115,8 @@
                     </div>
                 </div>
             </div>
+            <?php } ?>
+
 
         </div>
     </div>
