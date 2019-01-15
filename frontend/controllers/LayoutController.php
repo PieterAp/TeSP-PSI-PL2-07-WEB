@@ -31,8 +31,14 @@ class LayoutController extends Controller
     {
         $categorias = Categoria::find()->orderBy("categoriaNome")->where(['categoriaEstado'=>1])->all();
         $categoriasChild = CategoriaChild::find()->orderBy("childNome")->where(['childEstado'=>1])->all();
-        $sale = Campanha::find()
-            ->where (['>','campanhaDataFim', date('Y-m-d')])->orderBy("campanhaDataFim")
+
+
+        $sale = (new Query())
+            ->select(['idCampanha','idprodutos','campanhaNome','campanhaDataInicio','campanhaDataFim','campanhaPercentagem','produtoNome'])
+            ->from('campanha')
+            ->innerJoin('produtocampanha','campanha_idCampanha=idCampanha')
+            ->innerJoin('produto','produtos_idprodutos=idprodutos')
+            ->where(['>','campanhaDataFim', date('Y-m-d')])
             ->andWhere(['<','campanhaDataInicio', date('Y-m-d')])
             ->one();
 
