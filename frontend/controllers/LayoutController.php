@@ -29,6 +29,9 @@ class LayoutController extends Controller
      */
     public function beforeAction($action)
     {
+        $categoriaNavbar = null;
+        $categoriaChildNavbar = null;
+
         $categorias = Categoria::find()->orderBy("categoriaNome")->where(['categoriaEstado'=>1])->all();
         $categoriasChild = CategoriaChild::find()->orderBy("childNome")->where(['childEstado'=>1])->all();
         $sale = Campanha::find()
@@ -60,7 +63,6 @@ class LayoutController extends Controller
         {
             $categoriaChildNavbar[]= ['childnome' => '' .  $child->childNome .'', 'childurl' => Url::to(['categoria-child/view', 'id' =>  $child->idchild]),'id' => ''.$child->categoria_idcategorias.''];
         }
-
 
         Yii::$app->view->params['categoriaNavbar'] = $categoriaNavbar;
         Yii::$app->view->params['categoriaChildNavbar'] = $categoriaChildNavbar;

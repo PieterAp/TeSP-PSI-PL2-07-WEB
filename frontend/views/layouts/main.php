@@ -72,7 +72,7 @@ $this->title = 'FixByte';
                     echo '<a href="'.Url::to(['user/backend']).'">Back office</a>';
 
                 }
-                echo '<a href="'.Url::to(['compra/historic']).'">Historic</a>';
+                echo '<a href="'.Url::to(['compra/historic']).'">History</a>';
                 echo '<a href="'.Url::to(['/reparacao/index']).'">Repairs</a>
                 <a href="'.Url::to(['site/logout']).'" id="logout" data-method="post">Log out</a>
             </div>
@@ -173,7 +173,7 @@ $this->title = 'FixByte';
                             echo '<a href="'.Url::to(['user/backend']).'">Back office</a>';
 
                         }
-                        echo '<a href="'.Url::to(['compra/historic']).'">Historic</a>';
+                        echo '<a href="'.Url::to(['compra/historic']).'">History</a>';
                         echo '<a href="'.Url::to(['/reparacao/index']).'">Repair</a>
                         <a href="'.Url::to(['site/logout']).'" data-method="post" >Log out</a>
                     </div>
@@ -286,7 +286,7 @@ $this->title = 'FixByte';
                                     echo '<a href="'.Url::to(['user/backend']).'">Back office</a>';
 
                              }
-                        echo '<a href="'.Url::to(['compra/historic']).'">Historic</a>';
+                        echo '<a href="'.Url::to(['compra/historic']).'">History</a>';
                         echo '<a href="'.Url::to(['/reparacao/index']).'">Repair</a>
                         <a href="'.Url::to(['site/logout']).'" data-method="post" >Log out</a>
                     </div>
@@ -382,7 +382,11 @@ $this->title = 'FixByte';
 <!--===============================================================================================-->
 <script src="js/main.js"></script>
 
-<div class="container">
+<div class="container" style="margin-left: 0px;
+    margin-right: 0px;
+    max-width: 100%;
+    padding-left: 0px;
+    padding-right: 0px;">
     <?= Breadcrumbs::widget([
         'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
     ]) ?>

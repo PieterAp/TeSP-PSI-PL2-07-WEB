@@ -82,108 +82,139 @@ class SiteController extends LayoutController
      */
     public function actionIndex()
     {
-        $connect = \Yii::$app->db;
-
-        /*
-        $sale = Campanha::find()
-            ->where (['>','campanhaDataFim', date('Y-m-d')])
-            ->andWhere(['<','campanhaDataInicio', date('Y-m-d')])
-            ->orderBy("campanhaDataFim")
-            ->limit(3)
-            ->all();
-        */
-
-
         $sale = (new Query())
-            ->select(['campanha.*','COUNT(produtocampanha.idprodutocampanha) as "qntProdutos"'])
+            ->select(['campanha.*','COUNT(produtocampanha.idprodutocampanha) as "qntProdutos"','produto.idprodutos','produto.produtoImagem1'])
             ->from('campanha')
             ->leftJoin('produtocampanha', '`campanha`.`idCampanha` = `produtocampanha`.`campanha_idCampanha`')
             ->leftJoin('produto', '`produtocampanha`.`produtos_idprodutos` = `produto`.`idprodutos`')
             ->where(['>=','campanhaDataFim', date('Y-m-d')])
             ->andWhere(['<=','campanhaDataInicio', date('Y-m-d')])
             ->andWhere(['produto.produtoEstado'=>1])
-            ->groupBy('`campanha`.`idCampanha`')
-            ->orderBy("campanhaDataFim")
+            ->groupBy('idCampanha')
+            ->orderBy("campanhaDataFim, produtoDataCriacao DESC")
+            ->limit(3)
+            ->all();
+
+        $new = (new Query())
+            ->select(['produto.*',
+                'produtocampanha.campanhaPercentagem',
+                'produtoPreco-(produtoPreco*(campanhaPercentagem / 100)) AS "precoDpsDesconto"'])
+            ->from('produto')
+            ->leftJoin('(SELECT produtocampanha.*
+                              FROM produtocampanha INNER JOIN campanha ON produtocampanha.campanha_idCampanha=campanha.idCampanha
+                              WHERE (campanha.campanhaDataInicio <= CURRENT_DATE()) AND (campanha.campanhaDataFim >= CURRENT_DATE())
+                              ) as produtocampanha ON produto.idprodutos=produtocampanha.produtos_idprodutos')
+            ->leftJoin('(SELECT campanha.*
+                              FROM campanha
+                              WHERE (campanha.campanhaDataInicio <= CURRENT_DATE()) AND (campanha.campanhaDataFim >= CURRENT_DATE())
+                              ) AS campanha ON produtocampanha.campanha_idCampanha=campanha.idCampanha')
+            ->where(['produtoEstado'=>1])
+            ->andWhere('DATEDIFF(NOW(),produtoDataCriacao) < 5')
+            ->groupBy('idprodutos')
+            ->orderBy('produtoDataCriacao DESC')
+            ->limit(1)
+            ->all();
+
+        $categoryRow = (new Query())
+            ->select(['idchild', 'childNome', 'produto.idprodutos', 'produto.produtoImagem1'])
+            ->from('categoria_child')
+            ->leftJoin('produto', 'categoria_child.idchild = produto.categoria_child_id')
+            ->where(['childEstado'=>1])
+            ->andWhere(['produtoEstado'=>1])
+            ->groupBy('categoria_child_id')
+            ->orderBy('count(categoria_child_id) DESC, produtoDataCriacao DESC')
             ->limit(3)
             ->all();
 
 
 
-
-
-
-
-
-
-        $categoryRow = $connect->createCommand('
-                SELECT  idchild, childNome, (SELECT produto.produtoImagem1
-                                             FROM produto INNER JOIN categoria_child ON produto.categoria_child_id = categoria_child.idchild
-                                             WHERE categoria_child.idchild = c.idchild
-                                             ORDER BY produtoDataCriacao DESC
-                                             LIMIT 1) as imagem1, produto.idprodutos
-                FROM categoria_child as c INNER JOIN produto ON c.idchild = produto.categoria_child_id
-                WHERE (produtoEstado = 1) AND (childEstado = 1)
-                GROUP BY categoria_child_id
-                ORDER BY count(categoria_child_id) DESC
-                LIMIT 3;
-               ')
-            ->queryAll();
-
-        $bestSeller = $connect->createCommand('
-        SELECT produto.*, produtocampanha.campanhaPercentagem, produtoPreco-(produtoPreco*(campanhaPercentagem / 100)) AS "precoDpsDesconto", count(compraproduto.produto_idprodutos) as "qntCompras"
-        FROM compraproduto INNER JOIN produto ON compraproduto.produto_idprodutos=produto.idprodutos
-                           LEFT JOIN (SELECT produtocampanha.*
-                                      FROM produtocampanha INNER JOIN campanha ON produtocampanha.campanha_idCampanha=campanha.idCampanha
-                                      WHERE (campanha.campanhaDataInicio <= CURRENT_DATE()) AND (campanha.campanhaDataFim >= CURRENT_DATE())
-                                     ) as produtocampanha ON produto.idprodutos=produtocampanha.produtos_idprodutos
-                           LEFT JOIN (SELECT campanha.*
-                                      FROM campanha
-                                      WHERE (campanha.campanhaDataInicio <= CURRENT_DATE()) AND (campanha.campanhaDataFim >= CURRENT_DATE())
-                                     ) AS campanha ON produtocampanha.campanha_idCampanha=campanha.idCampanha
-        WHERE (produto.produtoEstado = 1)
-        GROUP BY compraproduto.produto_idprodutos
-        ORDER BY (count(compraproduto.produto_idprodutos)) DESC, produtocampanha.campanhaPercentagem DESC
-        LIMIT 8;
-       ')
-        ->queryAll();
-
-
-
-        $new = $connect->createCommand('
-        SELECT produto.*, produtocampanha.campanhaPercentagem, produtoPreco-(produtoPreco*(campanhaPercentagem / 100)) AS "precoDpsDesconto"
-        FROM produto
-                           LEFT JOIN (SELECT produtocampanha.*
-                                      FROM produtocampanha INNER JOIN campanha ON produtocampanha.campanha_idCampanha=campanha.idCampanha
-                                      WHERE (campanha.campanhaDataInicio <= CURRENT_DATE()) AND (campanha.campanhaDataFim >= CURRENT_DATE())
-                                     ) as produtocampanha ON produto.idprodutos=produtocampanha.produtos_idprodutos
-                           LEFT JOIN (SELECT campanha.*
-                                      FROM campanha
-                                      WHERE (campanha.campanhaDataInicio <= CURRENT_DATE()) AND (campanha.campanhaDataFim >= CURRENT_DATE())
-                                     ) AS campanha ON produtocampanha.campanha_idCampanha=campanha.idCampanha
-        WHERE (produto.produtoEstado = 1) AND (DATEDIFF(NOW(),produtoDataCriacao) < 5)
-        GROUP BY produto.idprodutos
-        ORDER BY produtoDataCriacao DESC
-        LIMIT 8;
-       ')
-            ->queryAll();
-
-
-
-
-/*
-        $new = Produto::find()
-            ->where ('DATEDIFF(NOW(),produtoDataCriacao) < 5')
-            ->orderBy("produtoDataCriacao DESC")
+        $bestSeller = (new Query())
+            ->select(['produto.*',
+                      'produtocampanha.campanhaPercentagem',
+                      'produtoPreco-(produtoPreco*(campanhaPercentagem / 100)) AS "precoDpsDesconto"',
+                      'count(compraproduto.produto_idprodutos) as "qntCompras"
+                      '])
+            ->from('compraproduto')
+            ->innerJoin('produto', 'compraproduto.produto_idprodutos = produto.idprodutos')
+            ->leftJoin('(SELECT produtocampanha.*
+                              FROM produtocampanha INNER JOIN campanha ON produtocampanha.campanha_idCampanha=campanha.idCampanha
+                              WHERE (campanha.campanhaDataInicio <= CURRENT_DATE()) AND (campanha.campanhaDataFim >= CURRENT_DATE())
+                              ) as produtocampanha ON produto.idprodutos=produtocampanha.produtos_idprodutos')
+            ->leftJoin('(SELECT campanha.*
+                              FROM campanha
+                              WHERE (campanha.campanhaDataInicio <= CURRENT_DATE()) AND (campanha.campanhaDataFim >= CURRENT_DATE())
+                              ) AS campanha ON produtocampanha.campanha_idCampanha=campanha.idCampanha')
+            ->where(['produtoEstado'=>1])
+            ->groupBy('produto_idprodutos')
+            ->orderBy('(count(compraproduto.produto_idprodutos)) DESC, produtocampanha.campanhaPercentagem DESC')
             ->limit(8)
             ->all();
-*/
+
+        $recent = (new Query())
+            ->select(['produto.*',
+                'produtocampanha.campanhaPercentagem',
+                'produtoPreco-(produtoPreco*(campanhaPercentagem / 100)) AS "precoDpsDesconto"'])
+            ->from('produto')
+            ->leftJoin('(SELECT produtocampanha.*
+                              FROM produtocampanha INNER JOIN campanha ON produtocampanha.campanha_idCampanha=campanha.idCampanha
+                              WHERE (campanha.campanhaDataInicio <= CURRENT_DATE()) AND (campanha.campanhaDataFim >= CURRENT_DATE())
+                              ) as produtocampanha ON produto.idprodutos=produtocampanha.produtos_idprodutos')
+            ->leftJoin('(SELECT campanha.*
+                              FROM campanha
+                              WHERE (campanha.campanhaDataInicio <= CURRENT_DATE()) AND (campanha.campanhaDataFim >= CURRENT_DATE())
+                              ) AS campanha ON produtocampanha.campanha_idCampanha=campanha.idCampanha')
+            ->where(['produtoEstado'=>1])
+            ->groupBy('idprodutos')
+            ->orderBy('produtoDataCriacao DESC')
+            ->limit(8)
+            ->all();
+
+        $productSale = (new Query())
+            ->select(['produto.*',
+                      'produtocampanha.campanhaPercentagem',
+                      'produtoPreco-(produtoPreco*(campanhaPercentagem / 100)) AS "precoDpsDesconto"'])
+            ->from('campanha')
+            ->leftJoin('produtocampanha', '`campanha`.`idCampanha` = `produtocampanha`.`campanha_idCampanha`')
+            ->leftJoin('produto', '`produtocampanha`.`produtos_idprodutos` = `produto`.`idprodutos`')
+            ->where(['>=','campanhaDataFim', date('Y-m-d')])
+            ->andWhere(['<=','campanhaDataInicio', date('Y-m-d')])
+            ->andWhere(['produto.produtoEstado'=>1])
+            ->groupBy('idCampanha')
+            ->orderBy("campanhaDataFim, produtoDataCriacao DESC")
+            ->limit(8)
+            ->all();
+
+        $recentBuy = (new Query())
+            ->select(['produto.*',
+                      'produtocampanha.campanhaPercentagem',
+                      'produtoPreco-(produtoPreco*(campanhaPercentagem / 100)) AS "precoDpsDesconto"',
+                      'count(compraproduto.produto_idprodutos) as "qntCompras"
+                      '])
+            ->from('compra')
+            ->innerJoin('compraproduto', 'compraproduto.compra_idcompras = compra.idcompras')
+            ->innerJoin('produto', 'compraproduto.produto_idprodutos = produto.idprodutos')
+            ->leftJoin('(SELECT produtocampanha.*
+                              FROM produtocampanha INNER JOIN campanha ON produtocampanha.campanha_idCampanha=campanha.idCampanha
+                              WHERE (campanha.campanhaDataInicio <= CURRENT_DATE()) AND (campanha.campanhaDataFim >= CURRENT_DATE())
+                              ) as produtocampanha ON produto.idprodutos=produtocampanha.produtos_idprodutos')
+            ->leftJoin('(SELECT campanha.*
+                              FROM campanha
+                              WHERE (campanha.campanhaDataInicio <= CURRENT_DATE()) AND (campanha.campanhaDataFim >= CURRENT_DATE())
+                              ) AS campanha ON produtocampanha.campanha_idCampanha=campanha.idCampanha')
+            ->where(['produtoEstado'=>1])
+            ->groupBy('produto_idprodutos')
+            ->orderBy('compraData DESC')
+            ->limit(8)
+            ->all();
 
         return $this->render('index', [
             'sale' => $sale,
+            'new' => $new,
             'categoryRow' => $categoryRow,
             'bestSeller' => $bestSeller,
-            'new' => $new,
-            //'RecentPro' => $RecentPro,
+            'productSale' => $productSale,
+            'recent' => $recent,
+            'recentBuy' => $recentBuy,
         ]);
     }
 

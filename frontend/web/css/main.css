@@ -1705,6 +1705,13 @@ input[type=text] {
     margin: auto;
 }
 
+.block3
+{
+    max-width: 263px;
+    max-height: 350px;
+    margin: auto;
+}
+
 
 /*[ Block2 ]
 ///////////////////////////////////////////////////////////
