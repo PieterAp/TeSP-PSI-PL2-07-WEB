@@ -27,7 +27,7 @@ class UsersController extends ActiveController
     {
         $behaviors['authenticator'] = [
             'class' => QueryParamAuth::className(),
-            'except' => ['help','login','registo'],
+            'except' => ['help','login','registo','edit','account'],
         ];
         return $behaviors;
     }
@@ -153,19 +153,23 @@ class UsersController extends ActiveController
     /**
      * Allows user to edit his account
      */
-    public function actionEdit($accesstoken,$password,$firstname,$lastname,$address,$birthday)
+    public function actionEdit()
     {
-        $user = User::findIdentityByAccessToken($accesstoken);
+        $user = User::findIdentityByAccessToken(Yii::$app->request->getBodyParam('accesstoken'));
+
+        if ($user == null or empty($user)){
+            return false;
+        }
+
         $editAccount = new EditAccountForm();
-        $editAccount->userNomeProprio = $password;
-        $editAccount->userNomeProprio = $firstname;
-        $editAccount->userApelido = $lastname;
-        $editAccount->userMorada = $address;
-        $editAccount->userDataNasc = $birthday;
+        $editAccount->userNomeProprio = Yii::$app->request->getBodyParam('firstname');
+        $editAccount->userApelido = Yii::$app->request->getBodyParam('lastname');
+        $editAccount->userMorada = Yii::$app->request->getBodyParam('address');
+        $editAccount->userDataNasc = Yii::$app->request->getBodyParam('date');
 
         if ($editAccount->editAccount()) {
-            if($password != ''){
-                $user->setPassword($password);
+            if(Yii::$app->request->post('password') != ''){
+                $user->setPassword(Yii::$app->request->post('password'));
                 $user->save();
             }
 
@@ -184,9 +188,21 @@ class UsersController extends ActiveController
 
     /**
      * Returns whole user account
+     * @param $accesstoken
      */
-    public function actionAccount()
+    public function actionAccount($accesstoken)
     {
+        $user = User::findIdentityByAccessToken($accesstoken);
+        if ($user == null or empty($user)){
+            return false;
+        }
+        $userdata = (new Query())
+            ->select('id, username, email, userNomeProprio, userApelido, userMorada, userDataNasc, access_token')
+            ->from('user')
+            ->innerJoin('userdata', 'id = user_id')
+            ->where(['user_id' => $user->id])
+            ->one();
 
+        return [$userdata];
     }
 }
