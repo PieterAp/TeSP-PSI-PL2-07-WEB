@@ -233,9 +233,9 @@
                                                 <div class="block2-overlay trans-0-4">
                                                     <div class="block2-btn-addcart w-size1 trans-0-4">
                                                         <!-- Button -->
-                                                        <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
+                                                        <a class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4" href="'.Url::to(['compra/create', 'id' => $eachBest['idprodutos']]).'">
                                                             Add to Cart
-                                                        </button>
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -301,9 +301,9 @@
                                                 <div class="block2-overlay trans-0-4">
                                                     <div class="block2-btn-addcart w-size1 trans-0-4">
                                                         <!-- Button -->
-                                                        <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
+                                                        <a class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4" href="'.Url::to(['compra/create', 'id' => $eachRecent['idprodutos']]).'">
                                                             Add to Cart
-                                                        </button>
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -363,9 +363,9 @@
                                                 <div class="block2-overlay trans-0-4">
                                                     <div class="block2-btn-addcart w-size1 trans-0-4">
                                                         <!-- Button -->
-                                                        <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
+                                                        <a class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4" href="'.Url::to(['compra/create', 'id' => $eachProductSale['idprodutos']]).'">
                                                             Add to Cart
-                                                        </button>
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -422,9 +422,9 @@
                                                 <div class="block2-overlay trans-0-4">
                                                     <div class="block2-btn-addcart w-size1 trans-0-4">
                                                         <!-- Button -->
-                                                        <button class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
+                                                        <a class="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4" href="'.Url::to(['compra/create', 'id' => $eachRecentBuy['idprodutos']]).'">
                                                             Add to Cart
-                                                        </button>
+                                                        </a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -521,39 +521,8 @@
 </section>
 
 
-<!-- Footer -->
-<footer class="bg6 p-t-45 p-b-43 p-l-45 p-r-45">
-    <div class="t-center p-l-15 p-r-15">
-        <div class="t-center p-l-15 p-r-15">
-            <a href="#">
-                <img class="h-size2" src="images/icons/paypal.png" alt="IMG-PAYPAL">
-            </a>
 
-            <a href="#">
-                <img class="h-size2" src="images/icons/visa.png" alt="IMG-VISA">
-            </a>
 
-            <a href="#">
-                <img class="h-size2" src="images/icons/mastercard.png" alt="IMG-MASTERCARD">
-            </a>
-
-            <a href="#">
-                <img class="h-size2" src="images/icons/express.png" alt="IMG-EXPRESS">
-            </a>
-
-            <a href="#">
-                <img class="h-size2" src="images/icons/discover.png" alt="IMG-DISCOVER">
-            </a>
-        <div class="t-center s-text8 p-t-20">
-            Copyright � 2018 All rights reserved. | This project was developed by Pedro & Pieter, studying at <a href="https://www.ipleiria.pt/" target="_blank">IPL</a>
-        </div>
-    </div>
-</footer>
-<div class="btn-back-to-top bg0-hov" id="myBtn">
-		<span class="symbol-btn-back-to-top">
-			<i class="fa fa-angle-double-up" aria-hidden="true"></i>
-		</span>
-</div>
 
 
 <!-- Back to top -->

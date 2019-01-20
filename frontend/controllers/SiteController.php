@@ -135,6 +135,7 @@ class SiteController extends LayoutController
                       'count(compraproduto.produto_idprodutos) as "qntCompras"
                       '])
             ->from('compraproduto')
+            ->innerJoin('compra','compra.idcompras = compraproduto.compra_idcompras')
             ->innerJoin('produto', 'compraproduto.produto_idprodutos = produto.idprodutos')
             ->leftJoin('(SELECT produtocampanha.*
                               FROM produtocampanha INNER JOIN campanha ON produtocampanha.campanha_idCampanha=campanha.idCampanha
@@ -145,6 +146,7 @@ class SiteController extends LayoutController
                               WHERE (campanha.campanhaDataInicio <= CURRENT_DATE()) AND (campanha.campanhaDataFim >= CURRENT_DATE())
                               ) AS campanha ON produtocampanha.campanha_idCampanha=campanha.idCampanha')
             ->where(['produtoEstado'=>1])
+            ->andWhere(['compra.compraEstado' => 0])
             ->groupBy('produto_idprodutos')
             ->orderBy('(count(compraproduto.produto_idprodutos)) DESC, produtocampanha.campanhaPercentagem DESC')
             ->limit(8)
@@ -202,6 +204,7 @@ class SiteController extends LayoutController
                               WHERE (campanha.campanhaDataInicio <= CURRENT_DATE()) AND (campanha.campanhaDataFim >= CURRENT_DATE())
                               ) AS campanha ON produtocampanha.campanha_idCampanha=campanha.idCampanha')
             ->where(['produtoEstado'=>1])
+            ->andWhere(['compra.compraEstado' => 0])
             ->groupBy('produto_idprodutos')
             ->orderBy('compraData DESC')
             ->limit(8)
