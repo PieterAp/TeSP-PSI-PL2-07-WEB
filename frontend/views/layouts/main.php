@@ -89,8 +89,8 @@ $this->title = 'FixByte';
                     foreach ($cart as $key => $value){
                         echo '<li class="header-cart-item values'.$key.'">';?>
                             <?= Html::a('
-                             <div class="header-cart-item-img">
-                                <img href ="#" src="'.Url::to('@web/images/products/'.$cart[$key]['idprodutos'].'/'.$cart[$key]['produtoImagem1']).'" alt="IMG">
+                             <div class="header-cart-item-img text-center" style="display: table-cell;">
+                                <img href ="#" src="'.Url::to('@web/images/products/'.$cart[$key]['idprodutos'].'/'.$cart[$key]['produtoImagem1']).'" alt="IMG" style="max-width: 55px; max-height: 55px; margin: auto;">
                              </div>
                             ',null,['onclick' => 'compraDeleteAJAX("'.Yii::$app->request->baseUrl.'","'.$key.'","'.Yii::$app->request->getCsrfToken().'")']);?>
                                 <?php echo '<div class="header-cart-item-txt">
@@ -187,8 +187,8 @@ $this->title = 'FixByte';
                                 foreach ($cart as $key => $value){
                                     echo '<li class="header-cart-item values'.$key.'">';?>
                                     <?= Html::a('
-                                     <div class="header-cart-item-img">
-                                        <img href ="#" src="'.Url::to('@web/images/products/'.$cart[$key]['idprodutos'].'/'.$cart[$key]['produtoImagem4']).'" alt="IMG">
+                                    <div class="header-cart-item-img text-center" style="display: table-cell;">
+                                        <img href ="#" src="'.Url::to('@web/images/products/'.$cart[$key]['idprodutos'].'/'.$cart[$key]['produtoImagem1']).'" alt="IMG"  style="max-width: 55px; max-height: 55px; margin: auto;">
                                      </div>
                                     ',null,['onclick' => 'compraDeleteAJAX("'.Yii::$app->request->baseUrl.'","'.$key.'","'.Yii::$app->request->getCsrfToken().'")']);?>
                                             <?php echo '<div class="header-cart-item-txt">
@@ -302,7 +302,7 @@ $this->title = 'FixByte';
                                     echo '<li class="header-cart-item values'.$key.'">';?>
                                     <?= Html::a('
                                      <div class="header-cart-item-img">
-                                        <img href ="#" src="'.Url::to('@web/images/products/'.$cart[$key]['idprodutos'].'/'.$cart[$key]['produtoImagem4']).'" alt="IMG">
+                                        <img href ="#" src="'.Url::to('@web/images/products/'.$cart[$key]['idprodutos'].'/'.$cart[$key]['produtoImagem1']).'" alt="IMG">
                                      </div>
                                     ',null,['onclick' => 'compraDeleteAJAX("'.Yii::$app->request->baseUrl.'","'.$key.'","'.Yii::$app->request->getCsrfToken().'")']);?>
                                             <?php echo '<div class="header-cart-item-txt">
