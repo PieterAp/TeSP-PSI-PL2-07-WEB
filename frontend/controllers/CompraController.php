@@ -126,8 +126,9 @@ class CompraController extends LayoutController
     public function actionCreate($id)
     {
         $compra = new Compra();
-        $produto = Produto::findOne($id);
-        if ($produto->produtoStock >0){
+        $produto = Produto::findOne(['idprodutos'=>$id]);
+
+        if ($produto['produtoStock'] >0){
         }else {
             return $this->render('errorstock');
         }
@@ -158,7 +159,7 @@ class CompraController extends LayoutController
         $produto->save(false);
 
         $compraproduto->save(false);
-        return $this->redirect(['index']);
+        return $this->redirect(Yii::$app->request->referrer);
     }
     /**
      * Deletes an existing Compra model.
