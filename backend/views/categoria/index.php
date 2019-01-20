@@ -13,7 +13,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="categoria-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
@@ -260,3 +259,7 @@ $this->params['breadcrumbs'][] = $this->title;
     }
     ?>
 </div>
+
+<script type="text/javascript">
+    document.getElementById("content_wrapper").style.backgroundColor = "white";
+</script>

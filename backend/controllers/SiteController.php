@@ -3,6 +3,7 @@ namespace backend\controllers;
 
 use common\models\Userdata;
 use Yii;
+use yii\db\Query;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -12,7 +13,7 @@ use common\models\User;
 /**
  * Site controller
  */
-class SiteController extends Controller
+class SiteController extends LayoutController
 {
     /**
      * {@inheritdoc}
@@ -24,7 +25,7 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['login', 'error'],
+                        'actions' => ['login', 'error', 'frontend'],
                         'allow' => true,
                     ],
                     [
@@ -63,7 +64,110 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $users = (new Query())
+            ->select([
+                'count(DISTINCT user.id) as "qntUsers"',
+
+                '(SELECT count(*) as "qntAdmin"
+                 FROM auth_assignment
+                 WHERE item_name = "admin") as "qntAdmin"',
+
+                '(SELECT count(*) as "qntClient"
+                 FROM auth_assignment
+                 WHERE item_name = "cliente") as "qntClient"',
+
+                '(SELECT count(*) as "qntMod"
+                 FROM auth_assignment
+                 WHERE item_name = "funcionario") as "qntMod"',
+
+                '(SELECT count(*) as "qntNew"
+                  FROM user
+                  WHERE DATEDIFF(NOW(),from_unixtime(created_at)) < 5
+                  ORDER BY created_at DESC) as "qntNew"',
+            ])
+            ->from('user')
+            ->one();
+
+        $categories = (new Query())
+            ->select([
+                'count(DISTINCT categoria.idcategorias) as "qntCategories"',
+
+                '(SELECT count(produto.idprodutos) as "qntNew"
+                       FROM produto
+                       WHERE (produto.produtoEstado = 1) AND (DATEDIFF(NOW(),produtoDataCriacao) < 5)
+                       ORDER BY produtoDataCriacao DESC) as "qntNew"',
+
+                '(SELECT count(produto.idprodutos) as "qntDiscount"
+                       FROM produto RIGHT JOIN produtocampanha ON produto.idprodutos = produtocampanha.produtos_idprodutos
+                       WHERE (produto.produtoEstado = 1)) as "qntDiscount"',
+
+                '(SELECT count(*) as "qntVisible"
+                        FROM produto
+                        WHERE produto.produtoEstado = 1) as "qntVisible"',
+
+                '(SELECT count(*) as "qntVisible"
+                        FROM produto
+                        WHERE produto.produtoEstado = 0) as "qntInvisible"',
+            ])
+            ->from('categoria')
+            ->one();
+
+        $subCategories = (new Query())
+            ->select([
+                'count(DISTINCT produto.idprodutos) as "qntProducts"',
+
+                '(SELECT count(produto.idprodutos) as "qntNew"
+                       FROM produto
+                       WHERE (produto.produtoEstado = 1) AND (DATEDIFF(NOW(),produtoDataCriacao) < 5)
+                       ORDER BY produtoDataCriacao DESC) as "qntNew"',
+
+                '(SELECT count(produto.idprodutos) as "qntDiscount"
+                       FROM produto RIGHT JOIN produtocampanha ON produto.idprodutos = produtocampanha.produtos_idprodutos
+                       WHERE (produto.produtoEstado = 1)) as "qntDiscount"',
+
+                '(SELECT count(*) as "qntVisible"
+                        FROM produto
+                        WHERE produto.produtoEstado = 1) as "qntVisible"',
+
+                '(SELECT count(*) as "qntVisible"
+                        FROM produto
+                        WHERE produto.produtoEstado = 0) as "qntInvisible"',
+            ])
+            ->from('produto')
+            ->one();
+
+
+        $products = (new Query())
+            ->select([
+                      'count(DISTINCT produto.idprodutos) as "qntProducts"',
+
+                     '(SELECT count(produto.idprodutos) as "qntNew"
+                       FROM produto
+                       WHERE (produto.produtoEstado = 1) AND (DATEDIFF(NOW(),produtoDataCriacao) < 5)
+                       ORDER BY produtoDataCriacao DESC) as "qntNew"',
+
+                     '(SELECT count(produto.idprodutos) as "qntDiscount"
+                       FROM produto RIGHT JOIN produtocampanha ON produto.idprodutos = produtocampanha.produtos_idprodutos
+                       WHERE (produto.produtoEstado = 1)) as "qntDiscount"',
+
+                      '(SELECT count(*) as "qntVisible"
+                        FROM produto
+                        WHERE produto.produtoEstado = 1) as "qntVisible"',
+
+                      '(SELECT count(*) as "qntVisible"
+                        FROM produto
+                        WHERE produto.produtoEstado = 0) as "qntInvisible"',
+                      ])
+            ->from('produto')
+            ->where(['produtoEstado'=>'1'])
+            ->one();
+
+        return $this->render('index', [
+            'users' => $users,
+            'categories' => $categories,
+            'subCategories' => $subCategories,
+            'products' => $products,
+        ]);
     }
 
     /**
@@ -125,5 +229,10 @@ class SiteController extends Controller
         Yii::$app->user->logout();
 
         return $this->goHome();
+    }
+
+    public function actionFrontend()
+    {
+        return $this->redirect(Yii::$app->urlManagerFrontend->createUrl(['site/index']));
     }
 }

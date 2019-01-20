@@ -22,7 +22,7 @@ use yii\helpers\Url;
 /**
  * ProdutoController implements the CRUD actions for Produto model.
  */
-class ProdutoController extends Controller
+class ProdutoController extends LayoutController
 {
     /**
      * {@inheritdoc}
@@ -144,6 +144,7 @@ class ProdutoController extends Controller
      * Creates a new Produto model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
+     * @throws Exception
      */
     public function actionCreate()
     {
@@ -161,7 +162,8 @@ class ProdutoController extends Controller
 
                 if ($images[$k-1] != null)
                 {
-                    $model->{'produtoImagem'.$k} = $images[$k-1]->baseName.'.'.$images[$k-1]->extension;
+
+                    $model->{'produtoImagem'.$k} = (preg_replace('/\s+/', '_', $images[$k-1]->baseName)).'.'.$images[$k-1]->extension;
                 }
             }
 
@@ -175,6 +177,8 @@ class ProdutoController extends Controller
                 {
                     if ($images[$i]!=null)
                     {
+                        var_dump($model->{'produtoImagem'.($i+1)});
+                        die();
                         $images[$i]->saveAs($path.'/'.$model->{'produtoImagem'.($i+1)});
                     }
                 }

@@ -20,7 +20,7 @@ use yii\filters\VerbFilter;
 /**
  * CampanhaController implements the CRUD actions for Campanha model.
  */
-class ProdutocampanhaController extends Controller
+class ProdutocampanhaController extends LayoutController
 {
     /**
      * {@inheritdoc}
