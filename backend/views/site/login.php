@@ -10,27 +10,51 @@ use yii\bootstrap\ActiveForm;
 $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-login">
-    <div style="text-align: center;">
-        <h1><?= Html::encode($this->title) ?></h1>
-
-        <p>Please fill out the following fields to login:</p>
+<body class="hold-transition login-page">
+<div class="login-box">
+    <div class="login-logo">
+        <span class="logo-lg">
+            <b style="display: inline-flex;">
+                <span style="color: #F44336;">
+                    Fix
+                </span>
+                <span style="color: #37a0f4;">
+                    Byte
+                </span>
+            </b>
+            <span style="color: white;">Backend</span>
+        </span>
     </div>
-    <div class="row" style="display: flex; justify-content: center;">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
+    <!-- /.login-logo -->
+    <div class="login-box-body">
+        <p class="login-box-msg">Sign in to start your session</p>
 
-                <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
-
-                <?= $form->field($model, 'password')->passwordInput() ?>
-
-                <?= $form->field($model, 'rememberMe')->checkbox() ?>
-
-                <div class="form-group">
-                    <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+        <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
+            <div class="form-group has-feedback">
+                <?= $form->field($model, 'username')->textInput(['autofocus' => true, 'class'=>'form-control','placeholder'=>'Username'])->label(false) ?>
+                <span class="glyphicon glyphicon-user form-control-feedback"></span>
+            </div>
+            <div class="form-group has-feedback">
+                <?= $form->field($model, 'password')->passwordInput(['class'=>'form-control','placeholder'=>'Password'])->label(false) ?>
+                <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+            </div>
+            <div class="row">
+                <div class="col-xs-8">
+                    <div class="checkbox icheck">
+                        <label>
+                            <?= $form->field($model, 'rememberMe')->checkbox() ?>
+                        </label>
+                    </div>
                 </div>
+                <!-- /.col -->
+                <div class="col-xs-4">
+                    <?= Html::submitButton('Sign in', ['class' => 'btn btn-primary btn-block btn-flat', 'name' => 'login-button']) ?>
 
-            <?php ActiveForm::end(); ?>
-        </div>
+                </div>
+                <!-- /.col -->
+            </div>
+        <?php ActiveForm::end(); ?>
     </div>
+    <!-- /.login-box-body -->
 </div>
+<!-- /.login-box -->

@@ -21,7 +21,7 @@ use yii\filters\VerbFilter;
 /**
  * CompraController implements the CRUD actions for Compra model.
  */
-class CompraController extends Controller
+class CompraController extends LayoutController
 {
     /**
      * {@inheritdoc}

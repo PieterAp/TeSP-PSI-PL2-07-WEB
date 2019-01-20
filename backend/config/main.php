@@ -45,7 +45,7 @@ return [
             ],
         ],
         'errorHandler' => [
-            'errorAction' => 'site/error',
+            'errorAction' => 'error/guideline',
         ],
         'urlManager' => [
             'enablePrettyUrl' => true,
@@ -128,6 +128,12 @@ return [
                     ]
                 ],
             ],
+        ],
+        'urlManagerFrontend' => [
+            'class' => 'yii\web\urlManager',
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'baseUrl' => 'http://localhost/TeSP-PSI-PL2-07-WEB/frontend/web',
         ],
     ],
     'params' => $params,

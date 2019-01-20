@@ -8,12 +8,11 @@ use yii\helpers\Url;
 /* @var $searchModel app\models\ProdutoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Produtos';
+$this->title = 'Products';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="produto-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
     <?php // echo $this->render('_search', ['model' => $searchModel]);
         if (isset($error)){
             echo '<div class="alert alert-danger">
@@ -23,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
     ?>
     
     <p>
-        <?= Html::a('Create Produto', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Product', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([

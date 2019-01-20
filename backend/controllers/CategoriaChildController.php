@@ -17,7 +17,7 @@ use yii\filters\VerbFilter;
 /**
  * CategoriaChildController implements the CRUD actions for CategoriaChild model.
  */
-class CategoriaChildController extends Controller
+class CategoriaChildController extends LayoutController
 {
     /**
      * {@inheritdoc}

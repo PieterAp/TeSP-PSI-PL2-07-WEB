@@ -12,7 +12,7 @@ use yii\filters\VerbFilter;
 /**
  * ReparacaoController implements the CRUD actions for Reparacao model.
  */
-class ReparacaoController extends Controller
+class ReparacaoController extends LayoutController
 {
     /**
      * {@inheritdoc}
