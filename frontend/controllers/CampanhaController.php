@@ -37,22 +37,32 @@ class CampanhaController extends LayoutController
      * produtos dentro de uma campanha ativa
      * @return string
      */
-    public function actionProdutocampanha($id){
+    public function actionProdutocampanha($id,$limit){
 
 
         $rows = (new Query())
-            ->select(['idCampanha','idprodutos','campanhaNome','campanhaDataInicio','campanhaDataFim','campanhaPercentagem','produtoNome'])
+            ->select(['idprodutos','produtoPreco-(produtoPreco*(campanhaPercentagem / 100)) as "precoDpsDesconto"','produtoNome', 'produtoPreco','produtoImagem1'])
             ->from('campanha')
             ->innerJoin('produtocampanha','campanha_idCampanha=idCampanha')
             ->innerJoin('produto','produtos_idprodutos=idprodutos')
-            ->where(['idCampanha' => $id]);
+            ->where(['idCampanha' => $id])
+            ->limit($limit)
+            ->all();
 
-        $dataProvider = new ActiveDataProvider(['query' => $rows]);
+        $count = (new Query())
+            ->select(['count(*) as count'])
+            ->from('campanha')
+            ->innerJoin('produtocampanha','campanha_idCampanha=idCampanha')
+            ->innerJoin('produto','produtos_idprodutos=idprodutos')
+            ->where(['idCampanha' => $id])
+            ->limit($limit)
+            ->all();
 
-
-        return $this->render('../produtocampanha/index', [
-            'dataProvider' => $dataProvider,
+        return $this->render('../site/product',[
+            'products' => $rows,
+            'count' => $count,
         ]);
+
     }
 
     /**
