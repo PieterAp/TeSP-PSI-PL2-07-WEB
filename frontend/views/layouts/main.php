@@ -89,8 +89,8 @@ $this->title = 'FixByte';
                     foreach ($cart as $key => $value){
                         echo '<li class="header-cart-item values'.$key.'">';?>
                             <?= Html::a('
-                             <div class="header-cart-item-img">
-                                <img href ="#" src="'.Url::to('@web/images/products/'.$cart[$key]['idprodutos'].'/'.$cart[$key]['produtoImagem4']).'" alt="IMG">
+                             <div class="header-cart-item-img text-center" style="display: table-cell;">
+                                <img href ="#" src="'.Url::to('@web/images/products/'.$cart[$key]['idprodutos'].'/'.$cart[$key]['produtoImagem1']).'" alt="IMG" style="max-width: 55px; max-height: 55px; margin: auto;">
                              </div>
                             ',null,['onclick' => 'compraDeleteAJAX("'.Yii::$app->request->baseUrl.'","'.$key.'","'.Yii::$app->request->getCsrfToken().'")']);?>
                                 <?php echo '<div class="header-cart-item-txt">
@@ -187,8 +187,8 @@ $this->title = 'FixByte';
                                 foreach ($cart as $key => $value){
                                     echo '<li class="header-cart-item values'.$key.'">';?>
                                     <?= Html::a('
-                                     <div class="header-cart-item-img">
-                                        <img href ="#" src="'.Url::to('@web/images/products/'.$cart[$key]['idprodutos'].'/'.$cart[$key]['produtoImagem4']).'" alt="IMG">
+                                    <div class="header-cart-item-img text-center" style="display: table-cell;">
+                                        <img href ="#" src="'.Url::to('@web/images/products/'.$cart[$key]['idprodutos'].'/'.$cart[$key]['produtoImagem1']).'" alt="IMG"  style="max-width: 55px; max-height: 55px; margin: auto;">
                                      </div>
                                     ',null,['onclick' => 'compraDeleteAJAX("'.Yii::$app->request->baseUrl.'","'.$key.'","'.Yii::$app->request->getCsrfToken().'")']);?>
                                             <?php echo '<div class="header-cart-item-txt">
@@ -302,7 +302,7 @@ $this->title = 'FixByte';
                                     echo '<li class="header-cart-item values'.$key.'">';?>
                                     <?= Html::a('
                                      <div class="header-cart-item-img">
-                                        <img href ="#" src="'.Url::to('@web/images/products/'.$cart[$key]['idprodutos'].'/'.$cart[$key]['produtoImagem4']).'" alt="IMG">
+                                        <img href ="#" src="'.Url::to('@web/images/products/'.$cart[$key]['idprodutos'].'/'.$cart[$key]['produtoImagem1']).'" alt="IMG">
                                      </div>
                                     ',null,['onclick' => 'compraDeleteAJAX("'.Yii::$app->request->baseUrl.'","'.$key.'","'.Yii::$app->request->getCsrfToken().'")']);?>
                                             <?php echo '<div class="header-cart-item-txt">
@@ -390,6 +390,49 @@ $this->title = 'FixByte';
     <?= Alert::widget() ?>
     <?= $content ?>
 </div>
+
+    <!-- Footer -->
+    <footer class="bg6 p-t-45 p-b-43 p-l-45 p-r-45">
+        <div class="t-center p-l-15 p-r-15">
+            <div class="t-center p-l-15 p-r-15">
+                <a href="#">
+                    <img class="h-size2" src="<?= Url::to('@web/images/icons/paypal.png') ?>" alt="IMG-PAYPAL">
+                </a>
+
+                <a href="#">
+                    <img class="h-size2" src="<?= Url::to('@web/images/icons/visa.png') ?>" alt="IMG-VISA">
+                </a>
+
+                <a href="#">
+                    <img class="h-size2" src="<?= Url::to('@web/images/icons/mastercard.png') ?>" alt="IMG-MASTERCARD">
+                </a>
+
+                <a href="#">
+                    <img class="h-size2" src="<?= Url::to('@web/images/icons/express.png') ?>" alt="IMG-EXPRESS">
+                </a>
+
+                <a href="#">
+                    <img class="h-size2" src="<?= Url::to('@web/images/icons/discover.png') ?>" alt="IMG-DISCOVER">
+                </a>
+                <div class="t-center s-text8 p-t-20">
+                    Copyright � 2018 All rights reserved. |
+                    <b style="display: inline-flex;">
+                <span style="color: #F44336;">
+                    Fix
+                </span>
+                        <span style="color: #37a0f4;">
+                    Byte
+                </span>
+                    </b>
+                </div>
+            </div>
+    </footer>
+    <div class="btn-back-to-top bg0-hov" id="myBtn">
+		<span class="symbol-btn-back-to-top">
+			<i class="fa fa-angle-double-up" aria-hidden="true"></i>
+		</span>
+    </div>
+
     <?php $this->endBody() ?>
     </body>
 </html>
