@@ -60,7 +60,7 @@ $userData = $this->params['userData'];
                     <ul class="nav navbar-nav">
                         <!-- User Account: style can be found in dropdown.less -->
                         <li class="dropdown user user-menu">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <a href="#" class="dropdown-toggle user" name="user" data-toggle="dropdown">
                                 <span><?= $userData->userNomeProprio.' '.$userData->userApelido ?></span>
                             </a>
                             <ul class="dropdown-menu">

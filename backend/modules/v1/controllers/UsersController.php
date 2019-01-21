@@ -165,11 +165,14 @@ class UsersController extends ActiveController
         $editAccount->userNomeProprio = Yii::$app->request->getBodyParam('firstname');
         $editAccount->userApelido = Yii::$app->request->getBodyParam('lastname');
         $editAccount->userMorada = Yii::$app->request->getBodyParam('address');
-        $editAccount->userDataNasc = Yii::$app->request->getBodyParam('date');
+
+        $date = $date = str_replace('/', '-',  Yii::$app->request->getBodyParam('date'));
+        $newDate = date("Y-m-d", strtotime($date));
+        $editAccount->userDataNasc = $newDate;
 
         if ($editAccount->editAccount()) {
-            if(Yii::$app->request->post('password') != ''){
-                $user->setPassword(Yii::$app->request->post('password'));
+            if(Yii::$app->request->getBodyParam('password') != ''){
+                $user->setPassword(Yii::$app->request->getBodyParam('password'));
                 $user->save();
             }
 
@@ -183,7 +186,7 @@ class UsersController extends ActiveController
         }else{
             return $editAccount->errors;
         }
-        return "Alteracao com sucesso";
+        return 'Alteracao com sucesso';
     }
 
     /**

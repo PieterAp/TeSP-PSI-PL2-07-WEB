@@ -62,13 +62,13 @@ class m181125_162407_createDefaultTableData extends Migration
         //region Role:admin
         //region Username:pieter Role:admin
         $user = $this->createUser('pieter','pieter@gmail.com','pieterpieter');
-        $this->createUserData($user,'Pieter','Aparicio','245875326','1997-05-08','Avenida Humberto Delgado, Leiria');
+        $this->createUserData($user,'Pieter','Aparicio','123123123','1997-05-08','Avenida Humberto Delgado, Leiria');
         $this->givePermission($user,'admin');
         //endregion
 
         //region Username:pedro Role:admin
         $user = $this->createUser('pedro','pedro@gmail.com','pedropedro');
-        $this->createUserData($user,'Pedro','Inácio','245875326','1997-09-08','Rua António Frade, Marinha Grande');
+        $this->createUserData($user,'Pedro','Inácio','111222333','1997-09-08','Rua António Frade, Marinha Grande');
         $this->givePermission($user,'admin');
         //endregion
         //endregion
@@ -76,13 +76,13 @@ class m181125_162407_createDefaultTableData extends Migration
         //region Role:funcionarios
         //region Username:david Role:funcionario
         $user = $this->createUser('david','david@gmail.com','daviddavid');
-        $this->createUserData($user,'David','Sousa','245875326','1995-09-08','Rua Humberto Delgado, Lisboa');
+        $this->createUserData($user,'David','Sousa','111222332','1995-09-08','Rua Humberto Delgado, Lisboa');
         $this->givePermission($user,'funcionario');
         //endregion
 
         //region Username:tiago Role:funcionario
         $user = $this->createUser('tiago','tiago@gmail.com','tiagotiago');
-        $this->createUserData($user,'Tiago','Mendes','245875326','1995-09-08','Rua Humberto Delgado, Lisboa');
+        $this->createUserData($user,'Tiago','Mendes','111222334','1995-09-08','Rua Humberto Delgado, Lisboa');
         $this->givePermission($user,'funcionario');
         //endregion
         //endregion
@@ -90,13 +90,13 @@ class m181125_162407_createDefaultTableData extends Migration
         //region Role:clientes
         //region Username:margarida Role:cliente
         $user = $this->createUser('margarida','margarida@gmail.com','margaridamargarida');
-        $this->createUserData($user,'Margarida','Isabel','245875326','1997-02-14','Rua Humberto Delgado, Rio Maior');
+        $this->createUserData($user,'Margarida','Isabel','111222335','1997-02-14','Rua Humberto Delgado, Rio Maior');
         $this->givePermission($user,'cliente');
         //endregion
 
         //region Username:joao Role:cliente
         $user = $this->createUser('joao','joao@gmail.com','joaojoao');
-        $this->createUserData($user,'João','Almeida','245875326','1997-09-06','Rua Humberto Delgado, Lisboa');
+        $this->createUserData($user,'João','Almeida','111222336','1997-09-06','Rua Humberto Delgado, Lisboa');
         $this->givePermission($user,'cliente');
         //endregion
         //endregion
