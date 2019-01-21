@@ -90,52 +90,28 @@ class SiteController extends LayoutController
 
         $categories = (new Query())
             ->select([
-                'count(DISTINCT categoria.idcategorias) as "qntCategories"',
+                'count(DISTINCT idcategorias) as "Total"',
 
-                '(SELECT count(produto.idprodutos) as "qntNew"
-                       FROM produto
-                       WHERE (produto.produtoEstado = 1) AND (DATEDIFF(NOW(),produtoDataCriacao) < 5)
-                       ORDER BY produtoDataCriacao DESC) as "qntNew"',
+                '(select count(DISTINCT idcategorias) from categoria where categoriaEstado = 1) As "Show"',
 
-                '(SELECT count(produto.idprodutos) as "qntDiscount"
-                       FROM produto RIGHT JOIN produtocampanha ON produto.idprodutos = produtocampanha.produtos_idprodutos
-                       WHERE (produto.produtoEstado = 1)) as "qntDiscount"',
+                '(select count(DISTINCT idcategorias) from categoria where categoriaEstado = 0) As "Hide"',
 
-                '(SELECT count(*) as "qntVisible"
-                        FROM produto
-                        WHERE produto.produtoEstado = 1) as "qntVisible"',
-
-                '(SELECT count(*) as "qntVisible"
-                        FROM produto
-                        WHERE produto.produtoEstado = 0) as "qntInvisible"',
             ])
             ->from('categoria')
             ->one();
 
+
+
         $subCategories = (new Query())
             ->select([
-                'count(DISTINCT produto.idprodutos) as "qntProducts"',
+                'count(DISTINCT idchild) as "Total"',
 
-                '(SELECT count(produto.idprodutos) as "qntNew"
-                       FROM produto
-                       WHERE (produto.produtoEstado = 1) AND (DATEDIFF(NOW(),produtoDataCriacao) < 5)
-                       ORDER BY produtoDataCriacao DESC) as "qntNew"',
+                '(select count(DISTINCT idchild) from categoria_child where childEstado = 1) As "Show"',
 
-                '(SELECT count(produto.idprodutos) as "qntDiscount"
-                       FROM produto RIGHT JOIN produtocampanha ON produto.idprodutos = produtocampanha.produtos_idprodutos
-                       WHERE (produto.produtoEstado = 1)) as "qntDiscount"',
-
-                '(SELECT count(*) as "qntVisible"
-                        FROM produto
-                        WHERE produto.produtoEstado = 1) as "qntVisible"',
-
-                '(SELECT count(*) as "qntVisible"
-                        FROM produto
-                        WHERE produto.produtoEstado = 0) as "qntInvisible"',
+                '(select count(DISTINCT idchild) from categoria_child where childEstado = 0) As "Hide"',
             ])
-            ->from('produto')
+            ->from('categoria_child')
             ->one();
-
 
         $products = (new Query())
             ->select([
@@ -162,11 +138,53 @@ class SiteController extends LayoutController
             ->where(['produtoEstado'=>'1'])
             ->one();
 
+        $sales = (new Query())
+            ->select([
+                'count(DISTINCT idCampanha) as "Total"',
+
+                '(SELECT count(idCampanha) as "old"
+                       FROM campanha
+                       WHERE (campanhaDataFim) < NOW()) as Old',
+
+                '(SELECT Count(idCampanha) as "current" 
+                        FROM campanha 
+                        WHERE NOW() > campanhaDataInicio AND NOW() < campanhaDataFim) as Current',
+
+                '(SELECT Count(idCampanha) as ComingUp 
+                        FROM campanha 
+                        WHERE campanhaDataInicio > NOW() AND campanhaDataInicio > NOW()) as Coming_Up',
+
+            ])
+            ->from('campanha')
+            ->one();
+
+        $productSales = (new Query())
+            ->select ('count(idprodutos) as products')
+            ->from ('campanha')
+            ->innerJoin('produtocampanha', 'idCampanha = campanha_idCampanha')
+            ->innerJoin('produto', 'produtos_idprodutos = idprodutos')
+            ->where(['>=','campanhaDataFim', date('Y-m-d')])
+            ->andWhere(['<=','campanhaDataInicio', date('Y-m-d')])
+            ->one();
+
+
+        $price = (new Query())
+                ->select(['sum(compraValor) as "total"'])
+                ->from('compra')
+            ->where (['compraEstado' => 0])
+            ->one();
+
+
+
+
         return $this->render('index', [
             'users' => $users,
             'categories' => $categories,
             'subCategories' => $subCategories,
             'products' => $products,
+            'sales' => $sales,
+            'productSales' => $productSales,
+            'price' => $price,
         ]);
     }
 
