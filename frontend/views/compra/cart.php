@@ -85,31 +85,3 @@ if (isset($_GET['nostock'])){
 		</div>
 	</div>
 </section>
-<!-- Footer -->
-<footer class="bg6 p-t-45 p-b-43 p-l-45 p-r-45" style="float:none">
-	<div class="t-center p-l-15 p-r-15">
-		<a href="#">
-			<img class="h-size2" src="images/icons/paypal.png" alt="IMG-PAYPAL">
-		</a>
-		<a href="#">
-			<img class="h-size2" src="images/icons/visa.png" alt="IMG-VISA">
-		</a>
-		<a href="#">
-			<img class="h-size2" src="images/icons/mastercard.png" alt="IMG-MASTERCARD">
-		</a>
-		<a href="#">
-			<img class="h-size2" src="images/icons/express.png" alt="IMG-EXPRESS">
-		</a>
-		<a href="#">
-			<img class="h-size2" src="images/icons/discover.png" alt="IMG-DISCOVER">
-		</a>
-		<div class="t-center s-text8 p-t-20">
-			Copyright © 2018 All rights reserved. | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-		</div>
-	</div>
-</footer>
-<div class="btn-back-to-top bg0-hov" id="myBtn">
-	<span class="symbol-btn-back-to-top">
-		<i class="fa fa-angle-double-up" aria-hidden="true"></i>
-	</span>
-</div>
