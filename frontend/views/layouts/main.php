@@ -415,16 +415,17 @@ $this->title = 'FixByte';
                     <img class="h-size2" src="<?= Url::to('@web/images/icons/discover.png') ?>" alt="IMG-DISCOVER">
                 </a>
                 <div class="t-center s-text8 p-t-20">
-                    Copyright � 2018 All rights reserved. |
+                    Copyright © 2018 All rights reserved. | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>.
+                    Adapted by
                     <b style="display: inline-flex;">
-                <span style="color: #F44336;">
-                    Fix
-                </span>
+                        <span style="color: #F44336;">
+                            Fix
+                        </span>
                         <span style="color: #37a0f4;">
-                    Byte
-                </span>
+                            Byte
+                        </span>
                     </b>
-                </div>
+                    2018-2019
             </div>
     </footer>
     <div class="btn-back-to-top bg0-hov" id="myBtn">

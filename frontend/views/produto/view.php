@@ -9,7 +9,7 @@ use yii\widgets\DetailView;
 /* @var $model common\models\Produto */
 
 $this->title = $model->produtoNome;
-$this->params['breadcrumbs'][] = ['label' => 'Categorias'];
+$this->params['breadcrumbs'][] = ['label' => 'Categories'];
 $this->params['breadcrumbs'][] = ['label' => $produtoCategoria->categoriaNome, 'url' => ['categoria/view', 'id' => $produtoCategoria->idcategorias]];
 $this->params['breadcrumbs'][] = ['label' => $produtoCategoriaChild->childNome, 'url' => ['categoria-child/view', 'id' => $produtoCategoriaChild->idchild]];
 $this->params['breadcrumbs'][] = $this->title;

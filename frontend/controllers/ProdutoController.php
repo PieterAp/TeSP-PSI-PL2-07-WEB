@@ -37,6 +37,7 @@ class ProdutoController extends LayoutController
      */
     public function actionIndex()
     {
+        /*
         $searchModel = new ProdutoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
         $model = new Produto();
@@ -47,6 +48,8 @@ class ProdutoController extends LayoutController
             'dataProvider' => $dataProvider,
             'model' => $model,
         ]);
+        */
+        return $this->render('index');
     }
 
     /**

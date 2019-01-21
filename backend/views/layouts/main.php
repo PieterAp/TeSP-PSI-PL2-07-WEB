@@ -152,7 +152,9 @@ $userData = $this->params['userData'];
                     <?= Html::img(Url::to('@web/images/icons/ipl.png'), ['alt'=>'IPL', 'class'=>'img-responsive;', 'style'=>'height: 35px; margin-top: -5px;']);?>
                 </a>
             </div>
-            <strong>Copyright &copy; 2018-2019
+            <strong>Copyright © 2014-2016 <a href="https://adminlte.io" target="_blank">Almsaeed Studio</a>.</strong>
+            Adapted by
+            <strong>
                 <b style="display: inline-flex;">
                     <span style="color: #F44336;">
                         Fix
@@ -162,6 +164,7 @@ $userData = $this->params['userData'];
                     </span>
                 </b>
             </strong>
+            2018-2019
         </footer>
 
 <?php $this->endBody() ?>
