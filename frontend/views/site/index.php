@@ -170,7 +170,7 @@
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
                 <li class="nav-item">
-                    <a class="nav-link" href="<?= Url::to(['product/index']) ?>" role="tab"><b><span style="color: #352bfe;">All</span></b></a>
+                    <a class="nav-link" href="<?= Url::to(['produto/index']) ?>" role="tab"><b><span style="color: #352bfe;">All</span></b></a>
                 </li>
                 <?php
                     if ($bestSeller!=null or !isset($bestSeller))
