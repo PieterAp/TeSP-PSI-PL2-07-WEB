@@ -5,19 +5,21 @@ class criarCampanhaCest
 {
     protected $formSale = '#form-sales';
 
-    public function createSales(FunctionalTester $I)
+    public function Login(FunctionalTester $I)
     {
-
+        //login
         $I->amOnPage('/site/login');
-        $I->fillField('Username', 'pedroa');
-        $I->fillField('Password', '123123');
+        $I->fillField('LoginForm[username]', 'pedro');
+        $I->fillField('LoginForm[password]', 'pedropedro');
         $I->click('login-button');
 
-        $I->see('Logout (pedroa)', 'form button[type=submit]');
+        $I->see('Pedro Inácio', '.user');
         $I->dontSeeLink('Login');
         $I->dontSeeLink('Signup');
-        $I->see('Promotion Campaign', 'a');
-        $I->click('Promotion Campaign', 'a');
+
+        //campanha
+        $I->see('All campaigns', 'a');
+        $I->click('All campaigns', 'a');
         $I->see('Campanhas', 'h1');
         $I->click('Create Campanha', 'a');
         $I->see('Create Campanha', 'h1');

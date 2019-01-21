@@ -16,7 +16,7 @@ use yii\rest\ActiveController;
  */
 class ComprasController extends ActiveController
 {
-    public $modelClass = 'common\models\Compra';    
+    public $modelClass = 'common\models\Compra';
     /**
      * API Authorization - Query Parameter Authentication
      */
