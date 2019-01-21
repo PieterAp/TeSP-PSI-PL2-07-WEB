@@ -382,4 +382,12 @@ class SiteController extends LayoutController
             'model' => $model,
         ]);
     }
+    public function actionProduct()
+    {
+        return $this->render('product');
+    }
+    public function actionProductDetail()
+    {
+        return $this->render('product-detail');
+    }
 }
