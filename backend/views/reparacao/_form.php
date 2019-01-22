@@ -28,7 +28,7 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'reparacaoDescricao')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'user_iduser')->dropDownList(
-        $users->id,
+        $users,
         ['promt'=>'Select user'])->label('User:') ?>
 
 
