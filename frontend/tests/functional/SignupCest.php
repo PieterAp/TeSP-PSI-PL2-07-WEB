@@ -21,7 +21,7 @@ class SignupCest
         $I->seeValidationError('First name cannot be blank.');
         $I->seeValidationError('Last name cannot be blank.');
         $I->seeValidationError('NIF cannot be blank.');
-        $I->seeValidationError('Adress cannot be blank.');
+        $I->seeValidationError('Address cannot be blank.');
         $I->seeValidationError('Birthday cannot be blank.');
         $I->seeValidationError('Email cannot be blank.');
         $I->seeValidationError('Password cannot be blank.');

@@ -2,9 +2,11 @@
 
 namespace backend\controllers;
 
+use common\models\Produto;
 use Yii;
 use common\models\Reparacao;
 use app\models\ReparacaoSearch;
+use yii\db\Query;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -70,8 +72,29 @@ class ReparacaoController extends LayoutController
             return $this->redirect(['view', 'id' => $model->idreparacao]);
         }
 
+        $users = (new Query())
+            ->select('user.id','user.username')
+            ->from('user')
+            ->innerJoin('userdata', 'user.id = userdata.iduser')
+            ->where(['userVisibilidade'=>1])
+            ->all();
+
+        $produtos = (new Query())
+            ->select(['produtoNome'])
+            ->from('compra')
+            ->rightJoin('compraproduto', 'compraproduto.compra_idcompras = compra.idcompras')
+            ->leftJoin('produto', 'compraproduto.produto_idprodutos = produto.idprodutos')
+            ->where(['produtoEstado'=>1])
+            ->andWhere(['compra.compraEstado' => 0])
+            ->groupBy('produto_idprodutos')
+            ->orderBy('compraData DESC')
+            ->all();
+
+
         return $this->render('create', [
             'model' => $model,
+            'users' => $users,
+            'produtos' => $produtos,
         ]);
     }
 
