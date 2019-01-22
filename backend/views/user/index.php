@@ -29,7 +29,16 @@ $this->params['breadcrumbs'][] = $this->title;
             'username',
             ['label' => 'First name', 'value' => 'userNomeProprio'],
             ['label' => 'Last name', 'value' => 'userApelido'],
-            ['label' => 'Hide/seek', 'value' => 'userVisibilidade'],
+            [
+                'label' => 'Hide/Show',
+                'value' => function ($dataProvider) {
+                    if ($dataProvider['userVisibilidade']==1){
+                        return 'Visible';
+                    }else{
+                        return 'Hidden';
+                    }
+                },
+            ],
             [
                 'label' => 'Role',
                 'value' => function ($dataProvider) {
