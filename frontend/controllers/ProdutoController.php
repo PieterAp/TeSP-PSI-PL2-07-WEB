@@ -71,7 +71,7 @@ class ProdutoController extends LayoutController
                               FROM produtocampanha INNER JOIN campanha ON produtocampanha.campanha_idCampanha=campanha.idCampanha
                               WHERE (campanha.campanhaDataInicio <= CURRENT_DATE()) AND (campanha.campanhaDataFim >= CURRENT_DATE())
                               ) as produtocampanha ON produto.idprodutos=produtocampanha.produtos_idprodutos')
-            ->innerJoin('(SELECT campanha.*
+            ->{($campanha==null) ? 'leftJoin' : 'innerjoin'}('(SELECT campanha.*
                               FROM campanha
                               WHERE (campanha.campanhaDataInicio <= CURRENT_DATE())
                                     AND 
@@ -169,9 +169,31 @@ class ProdutoController extends LayoutController
             ->where(['produto.idprodutos'=>$id])
             ->one();
 
+        $products = (new Query())
+            ->select(['produto.*',
+                'produtocampanha.campanhaPercentagem',
+                'produtoPreco-(produtoPreco*(campanhaPercentagem / 100)) AS "precoDpsDesconto"',
+                'count(compraproduto.produto_idprodutos) as "qntCompras"
+                      '])
+            ->from('compraproduto')
+            ->innerJoin('compra','compra.idcompras = compraproduto.compra_idcompras')
+            ->rightJoin('produto', 'compraproduto.produto_idprodutos = produto.idprodutos')
+            ->leftJoin('(SELECT produtocampanha.*
+                              FROM produtocampanha INNER JOIN campanha ON produtocampanha.campanha_idCampanha=campanha.idCampanha
+                              WHERE (campanha.campanhaDataInicio <= CURRENT_DATE()) AND (campanha.campanhaDataFim >= CURRENT_DATE())
+                              ) as produtocampanha ON produto.idprodutos=produtocampanha.produtos_idprodutos')
+            ->leftJoin('(SELECT campanha.*
+                              FROM campanha
+                              WHERE (campanha.campanhaDataInicio <= CURRENT_DATE()) AND (campanha.campanhaDataFim >= CURRENT_DATE())
+                              ) AS campanha ON produtocampanha.campanha_idCampanha=campanha.idCampanha')
+            ->where(['produtoEstado'=>1])
+            ->andWhere(['produto.idprodutos' => $id])
+            ->groupBy('produto_idprodutos')
+            ->orderBy('(count(compraproduto.produto_idprodutos)) DESC, produtocampanha.campanhaPercentagem DESC')
+            ->one();
 
         return $this->render('view', [
-            'model' => $this->findModel($id),
+            'model' => $products,
             'produtoCategoria' => $produtoCategoria,
             'produtoCategoriaChild' => $produtoCategoriaChild,
         ]);
