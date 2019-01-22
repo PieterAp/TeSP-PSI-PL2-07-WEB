@@ -141,7 +141,7 @@ $this->title = 'FixByte';
         <div class="topbar2">
             <!-- Logo2 -->
             <a href="<?php echo Yii::$app->homeUrl?>" class="logot">
-                <b>
+                <b style="display: inline-flex;">
                     <span class="md-red-500">
                         Fix
                     </span>
