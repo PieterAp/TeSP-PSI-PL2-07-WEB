@@ -107,7 +107,7 @@ $this->title = 'FixByte';
             echo'</ul>';
                 if(isset($totalPrice['compraValor'])){
                     echo '<div class="header-cart-total total">';
-                    echo 'Total: ' . $totalPrice['compraValor'];
+                    echo 'Total: ' . $totalPrice['compraValor'].'€';
                     echo '</div>';
                 }
             echo '<div class="header-cart-buttons">
@@ -205,7 +205,7 @@ $this->title = 'FixByte';
                         echo'</ul>';
                             if(isset($totalPrice['compraValor'])){
                                 echo '<div class="header-cart-total total">';
-                                echo 'Total: ' . $totalPrice['compraValor'];
+                                echo 'Total: ' . $totalPrice['compraValor'].'€';
                                 echo '</div>';
                             }
                         echo '<div class="header-cart-buttons">
@@ -319,7 +319,7 @@ $this->title = 'FixByte';
                         echo '</ul>';
                             if(isset($totalPrice['compraValor'])){
                                 echo '<div class="header-cart-total total">';
-                                echo 'Total: ' . $totalPrice['compraValor'];
+                                echo 'Total: ' . $totalPrice['compraValor'].'€';
                                 echo '</div>';
                             }
                         echo '<div class="header-cart-buttons">
