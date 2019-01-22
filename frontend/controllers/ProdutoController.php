@@ -106,7 +106,7 @@ class ProdutoController extends LayoutController
                               FROM produtocampanha INNER JOIN campanha ON produtocampanha.campanha_idCampanha=campanha.idCampanha
                               WHERE (campanha.campanhaDataInicio <= CURRENT_DATE()) AND (campanha.campanhaDataFim >= CURRENT_DATE())
                               ) as produtocampanha ON produto.idprodutos=produtocampanha.produtos_idprodutos')
-            ->innerJoin('(SELECT campanha.*
+            ->{($campanha==null) ? 'leftJoin' : 'innerjoin'}('(SELECT campanha.*
                               FROM campanha
                               WHERE (campanha.campanhaDataInicio <= CURRENT_DATE())
                                     AND 
