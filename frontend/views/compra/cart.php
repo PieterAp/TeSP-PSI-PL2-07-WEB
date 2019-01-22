@@ -35,7 +35,7 @@ if (isset($_GET['nostock'])){
 					</tr>
 					<?php
 					foreach ($cart as $key => $value){
-						echo '<tr class="table-row values'.$key.'">
+						echo '<tr class="table-row values'.$cart[$key]['idprodutos'].'">
 						<td class="column-1">';?>
 						<?= Html::a('
 							 <div class="cart-img-product b-rad-4 o-f-hidden">
