@@ -175,8 +175,8 @@ class userdataTest extends \Codeception\Test\Unit
     //f. Apagar o registo
     function testDeletedSavedUser()
     {
-        $id = $this->tester->grabRecord('common\models\User',['username' => 'pedromig']);
-        $user = User::findOne(['id'=>$id->id]);
+        $idData = $this->tester->grabRecord('common\models\User',['username' => 'pedromig']);
+        $user = User::findOne(['iduser'=>$idData->iduser]);
         $user->delete();
     }
 
