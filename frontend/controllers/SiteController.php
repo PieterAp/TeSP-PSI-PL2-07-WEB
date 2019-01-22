@@ -69,11 +69,6 @@ class SiteController extends LayoutController
         ];
     }
 
-    public function actionIndexdefault()
-    {
-        return $this->render('index_backup');
-    }
-
     /**
      * Displays homepage.
      *

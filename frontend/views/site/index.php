@@ -496,7 +496,7 @@
                     <div class="col-sm-10 col-md-4 p-b-30 m-l-r-left">
                         <!-- Block3 -->
                         <div class="block3">
-                            <a href="blog-detail.html" class="block3-img dis-block hov-img-zoom">';
+                            <a href="'.Url::to(['produto/index', 'campanha' =>  $eachSale['idCampanha']]).'" class="block3-img dis-block hov-img-zoom">';
                                 $imgPath = Url::to('@web/images/products/'.$eachSale['idprodutos'].'/'.$eachSale['produtoImagem1']);
                                 
                                 echo Html::img($imgPath, ['alt'=>'some', 'class'=>'img-responsive']);
