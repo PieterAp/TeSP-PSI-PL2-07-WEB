@@ -113,6 +113,7 @@ $userData = $this->params['userData'];
                         </ul>
                     </li>
                     <li><a href="<?= Url::to(['compra/historic']); ?>"><i class="fa fa-dollar"></i> <span>Sales</span></a></li>
+                    <li><a href="<?= Url::to(['reparacao/index']); ?>"><i class="fa fa-wrench"></i> <span>Repairs</span></a></li>
                 </ul>
                 <!-- /.sidebar-menu -->
             </section>

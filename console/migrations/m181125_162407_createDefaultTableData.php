@@ -211,13 +211,13 @@ class m181125_162407_createDefaultTableData extends Migration
         $categoria = new Categoria();
         $categoria->categoriaNome = 'Storage';
         $categoria->categoriaDescricao = 'To save all of your precious art';
-        $categoria->categoriaEstado = 1;
+        $categoria->categoriaEstado = 0;
         $categoria->save();
 
         $categoria = new Categoria();
         $categoria->categoriaNome = 'Network';
         $categoria->categoriaDescricao = 'To connect and share data between two or more computers';
-        $categoria->categoriaEstado = 1;
+        $categoria->categoriaEstado = 0;
         $categoria->save();
         //endregion
 
@@ -274,21 +274,21 @@ class m181125_162407_createDefaultTableData extends Migration
         $categoriaChild->childNome = 'USB Sticks';
         $categoriaChild->childDescricao = 'Small and mobile';
         $categoriaChild->categoria_idcategorias = 3;
-        $categoriaChild->childEstado = 1;
+        $categoriaChild->childEstado = 0;
         $categoriaChild->save();
 
         $categoriaChild = new CategoriaChild();
         $categoriaChild->childNome = 'Internal';
         $categoriaChild->childDescricao = 'For the inside of you computer';
         $categoriaChild->categoria_idcategorias = 3;
-        $categoriaChild->childEstado = 1;
+        $categoriaChild->childEstado = 0;
         $categoriaChild->save();
 
         $categoriaChild = new CategoriaChild();
         $categoriaChild->childNome = 'External';
         $categoriaChild->childDescricao = 'Same as internal storage but more practical';
         $categoriaChild->categoria_idcategorias = 3;
-        $categoriaChild->childEstado = 1;
+        $categoriaChild->childEstado = 0;
         $categoriaChild->save();
         //endregion
 
@@ -297,7 +297,7 @@ class m181125_162407_createDefaultTableData extends Migration
         $categoriaChild->childNome = 'Switch';
         $categoriaChild->childDescricao = 'To manage all the connections';
         $categoriaChild->categoria_idcategorias = 4;
-        $categoriaChild->childEstado = 1;
+        $categoriaChild->childEstado = 0;
         $categoriaChild->save();
         //endregion
         //endregion
@@ -317,7 +317,7 @@ class m181125_162407_createDefaultTableData extends Migration
         $produto->produtoDescricao2 = 'Descrição 2';
         $produto->produtoDescricao3 = 'Descrição 3';
         $produto->produtoDescricao4 = 'Descrição 4';
-        $produto->produtoImagem1 = 'image1';
+        $produto->produtoImagem1 = 'i5.jpg';
         $produto->categoria_child_id = 1;
         $produto->produtoEstado = 1;
         $produto->save(false);
@@ -333,7 +333,7 @@ class m181125_162407_createDefaultTableData extends Migration
         $produto->produtoDescricao2 = 'Descrição 2';
         $produto->produtoDescricao3 = 'Descrição 3';
         $produto->produtoDescricao4 = 'Descrição 4';
-        $produto->produtoImagem1 = 'image1';
+        $produto->produtoImagem1 = 'i7.jpg';
         $produto->categoria_child_id = 1;
         $produto->produtoEstado = 1;
         $produto->save(false);
@@ -349,7 +349,7 @@ class m181125_162407_createDefaultTableData extends Migration
         $produto->produtoDescricao2 = 'Descrição 2';
         $produto->produtoDescricao3 = 'Descrição 3';
         $produto->produtoDescricao4 = 'Descrição 4';
-        $produto->produtoImagem1 = 'image1';
+        $produto->produtoImagem1 = 'i9.jpg';
         $produto->categoria_child_id = 1;
         $produto->produtoEstado = 0;
         $produto->save(false);
@@ -367,7 +367,7 @@ class m181125_162407_createDefaultTableData extends Migration
         $produto->produtoDescricao2 = 'Descrição 2';
         $produto->produtoDescricao3 = 'Descrição 3';
         $produto->produtoDescricao4 = 'Descrição 4';
-        $produto->produtoImagem1 = 'image1';
+        $produto->produtoImagem1 = 'fan1.png';
         $produto->categoria_child_id = 2;
         $produto->produtoEstado = 1;
         $produto->save(false);
@@ -383,7 +383,7 @@ class m181125_162407_createDefaultTableData extends Migration
         $produto->produtoDescricao2 = 'Descrição 2';
         $produto->produtoDescricao3 = 'Descrição 3';
         $produto->produtoDescricao4 = 'Descrição 4';
-        $produto->produtoImagem1 = 'image1';
+        $produto->produtoImagem1 = 'fan2.jpg';
         $produto->categoria_child_id = 2;
         $produto->produtoEstado = 0;
         $produto->save(false);
@@ -399,7 +399,7 @@ class m181125_162407_createDefaultTableData extends Migration
         $produto->produtoDescricao2 = 'Descrição 2';
         $produto->produtoDescricao3 = 'Descrição 3';
         $produto->produtoDescricao4 = 'Descrição 4';
-        $produto->produtoImagem1 = 'image1';
+        $produto->produtoImagem1 = 'fan3.jpg';
         $produto->categoria_child_id = 2;
         $produto->produtoEstado = 0;
         $produto->save(false);
@@ -420,7 +420,7 @@ class m181125_162407_createDefaultTableData extends Migration
         $produto->produtoDescricao2 = 'Descrição 2';
         $produto->produtoDescricao3 = 'Descrição 3';
         $produto->produtoDescricao4 = 'Descrição 4';
-        $produto->produtoImagem1 = 'image1';
+        $produto->produtoImagem1 = 'win10.png';
         $produto->categoria_child_id = 4;
         $produto->produtoEstado = 1;
         $produto->save(false);
