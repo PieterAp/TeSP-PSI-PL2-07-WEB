@@ -8,6 +8,7 @@ use Yii;
 use common\models\Campanha;
 use app\models\CampanhaSearch;
 use yii\data\ActiveDataProvider;
+use yii\data\Pagination;
 use yii\db\Query;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -41,7 +42,7 @@ class CampanhaController extends LayoutController
 
 
         $rows = (new Query())
-            ->select(['idprodutos','produtoPreco-(produtoPreco*(campanhaPercentagem / 100)) as "precoDpsDesconto"','produtoNome', 'produtoPreco','produtoImagem1'])
+            ->select(['idprodutos','produtoPreco-(produtoPreco*(campanhaPercentagem / 100)) as "precoDpsDesconto"','campanhaPercentagem','produtoNome', 'produtoPreco','produtoImagem1'])
             ->from('campanha')
             ->innerJoin('produtocampanha','campanha_idCampanha=idCampanha')
             ->innerJoin('produto','produtos_idprodutos=idprodutos')
@@ -58,7 +59,11 @@ class CampanhaController extends LayoutController
             ->limit($limit)
             ->all();
 
-        return $this->render('../site/product',[
+        $countQuery = $rows;
+        $pages = new Pagination(['totalCount' => count($countQuery)]);
+
+        return $this->render('../produto/index',[
+            'pages' => $pages,
             'products' => $rows,
             'count' => $count,
         ]);

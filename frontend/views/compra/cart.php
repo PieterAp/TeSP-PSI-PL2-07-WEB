@@ -41,7 +41,7 @@ if (isset($_GET['nostock'])){
 							 <div class="cart-img-product b-rad-4 o-f-hidden">
 								<img href ="#" src="'.Url::to('@web/images/products/'.$cart[$key]['idprodutos'].'/'.$cart[$key]['produtoImagem1']).'" alt="IMG">
 							 </div>
-							',null,['onclick' => 'compraDeleteAJAX("'.Yii::$app->request->baseUrl.'","'.$key.'","'.Yii::$app->request->getCsrfToken().'")']);?>
+							',null,['onclick' => 'compraDeleteAJAX("'.Yii::$app->request->baseUrl.'","'.$cart[$key]['idprodutos'].'","'.Yii::$app->request->getCsrfToken().'")']);?>
 						<?php echo '</td>
 						<td class="column-2">'.$cart[$key]['produtoNome'].'</td>
 						<td class="column-3">'.$cart[$key]['produto_preco'].'€</td>

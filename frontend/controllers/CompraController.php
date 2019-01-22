@@ -125,40 +125,74 @@ class CompraController extends LayoutController
      */
     public function actionCreate($id)
     {
-        $compra = new Compra();
         $produto = Produto::findOne(['idprodutos'=>$id]);
-
-        if ($produto['produtoStock'] >0){
-        }else {
-            return $this->render('errorstock');
-        }
+        $camp = (new Query())
+            ->select(['produto.*',
+                'produtocampanha.campanhaPercentagem',
+                'produtoPreco-(produtoPreco*(campanhaPercentagem / 100)) AS "precoDpsDesconto"'])
+            ->from('campanha')
+            ->leftJoin('produtocampanha', '`campanha`.`idCampanha` = `produtocampanha`.`campanha_idCampanha`')
+            ->leftJoin('produto', '`produtocampanha`.`produtos_idprodutos` = `produto`.`idprodutos`')
+            ->where(['>=','campanhaDataFim', date('Y-m-d')])
+            ->andWhere(['<=','campanhaDataInicio', date('Y-m-d')])
+            ->andWhere(['produto.produtoEstado'=>1])
+            ->andWhere(['idprodutos' => $id])
+            ->groupBy('idCampanha')
+            ->orderBy("campanhaDataFim, produtoDataCriacao DESC")
+            ->limit(8)
+            ->one();
+        var_dump($camp);
         $compra = Compra::find()
             ->where(['user_iduser' => Yii::$app->user->id, 'compraEstado'=> 1])
             ->one();
-        if($compra == null){
-            $compra = new Compra();
-            $compra->compraData = date('Y-m-d H:i:s');
-            $compra->user_iduser = Yii::$app->user->id;
-            $compra->compraValor = $produto->produtoPreco;
-            $compra->save();
-            $compra = Compra::find()
-                ->where(['user_iduser' => Yii::$app->user->id, 'compraEstado'=> 1])
-                ->one();
-        }else{
-            $compra->compraData = date('Y-m-d H:i:s');
-            $compra->user_iduser = Yii::$app->user->id;
-            $compra->compraValor += $produto->produtoPreco;
-            $compra->save();
+
+        if ($produto->produtoStock > 0){
+            if($compra == null){  //se nao existir CART, CRIA
+                $compra = new Compra();
+                $compra->compraData = date('Y-m-d H:i:s');
+                $compra->user_iduser = Yii::$app->user->id;
+                if ($camp != null or $camp != false){ //SE O PRODUTO TIVER EM CAMPANHA METE O PREÇO DA CAMPANHa
+                    $compra->compraValor = $camp['precoDpsDesconto'];
+                    $compra->save();
+                    $produto->save(false);
+                    $compraproduto = new Compraproduto();
+                    $compraproduto->produto_preco = $camp['precoDpsDesconto'];
+                }else{
+                    $compra->compraValor = $produto->produtoPreco;
+                    $compra->save();
+                    $produto->save(false);
+                    $compraproduto = new Compraproduto();
+                    $compraproduto->produto_preco = $produto->produtoPreco;
+                }
+                $compraproduto->compra_idcompras = $compra->idcompras;
+                $compraproduto->produto_idprodutos = $id;
+                $produto->produtoStock = $produto->produtoStock -1;
+                $produto->save(false);
+                $compraproduto->save(false);
+            }else{ // se existir CART adiciona ao CART
+                $compra->compraData = date('Y-m-d H:i:s');
+                $compra->user_iduser = Yii::$app->user->id;
+                if ($camp != null or $camp != false){ //SE O PRODUTO TIVER EM CAMPANHA METE O PREÇO DA CAMPANHA
+                    $compra->compraValor += $camp['precoDpsDesconto'];
+                    $compra->save();
+                    $compraproduto = new Compraproduto();
+                    $compraproduto->produto_preco = $camp['precoDpsDesconto'];
+                }else{
+                    $compra->compraValor += $produto->produtoPreco;
+                    $compra->save();
+                    $compraproduto = new Compraproduto();
+                    $compraproduto->produto_preco = $produto->produtoPreco;
+                }
+                $compraproduto->compra_idcompras = $compra->idcompras;
+                $compraproduto->produto_idprodutos = $id;
+                $produto->produtoStock = $produto->produtoStock -1;
+                $produto->save(false);
+                $compraproduto->save(false);
+            }
+        }else {
+            return $this->render('errorstock');
         }
 
-
-        $compraproduto = new Compraproduto();
-        $compraproduto->produto_preco = $produto->produtoPreco;
-        $compraproduto->compra_idcompras = $compra->idcompras;
-        $compraproduto->produto_idprodutos = $id;
-        $produto->save(false);
-
-        $compraproduto->save(false);
         return $this->redirect(Yii::$app->request->referrer);
     }
     /**
@@ -179,14 +213,15 @@ class CompraController extends LayoutController
 
             $cart = Compraproduto::find()
                 ->where (['compra_idcompras' => $compra->idcompras])
+                ->andWhere(['produto_idprodutos' => Yii::$app->request->post('idproduto')])
                 ->all();
 
             $myCommand =  Yii::$app->db->createCommand()
-                ->delete('compraproduto', 'compra_idcompras = '.$cart[$id]->compra_idcompras.' AND produto_idprodutos = '.$cart[$id]->produto_idprodutos.' AND produto_preco = '.$cart[$id]->produto_preco.' limit 1');
+                ->delete('compraproduto', 'compra_idcompras = '.$cart[0]->compra_idcompras.' AND produto_idprodutos = '.$cart[0]->produto_idprodutos.' AND produto_preco = '.$cart[0]->produto_preco.' limit 1');
             $check = $myCommand->execute();
 
             if ($check == 1){
-                $compra->compraValor = $compra->compraValor - $cart[$id]->produto_preco;
+                $compra->compraValor = $compra->compraValor - $cart[0]->produto_preco;
                 $compra->save();
             }
             $rows = (new Query())
