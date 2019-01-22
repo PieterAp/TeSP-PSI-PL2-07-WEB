@@ -141,7 +141,7 @@ class CompraController extends LayoutController
             ->orderBy("campanhaDataFim, produtoDataCriacao DESC")
             ->limit(8)
             ->one();
-        var_dump($camp);
+
         $compra = Compra::find()
             ->where(['user_iduser' => Yii::$app->user->id, 'compraEstado'=> 1])
             ->one();
@@ -166,7 +166,6 @@ class CompraController extends LayoutController
                 }
                 $compraproduto->compra_idcompras = $compra->idcompras;
                 $compraproduto->produto_idprodutos = $id;
-                $produto->produtoStock = $produto->produtoStock -1;
                 $produto->save(false);
                 $compraproduto->save(false);
             }else{ // se existir CART adiciona ao CART
@@ -185,7 +184,6 @@ class CompraController extends LayoutController
                 }
                 $compraproduto->compra_idcompras = $compra->idcompras;
                 $compraproduto->produto_idprodutos = $id;
-                $produto->produtoStock = $produto->produtoStock -1;
                 $produto->save(false);
                 $compraproduto->save(false);
             }
@@ -225,18 +223,18 @@ class CompraController extends LayoutController
                 $compra->save();
             }
             $rows = (new Query())
-                ->select(['count(*)'])
+                ->select(['count(*) as count'])
                 ->from('userdata')
                 ->innerJoin('compra','user_iduser=iduser')
                 ->innerJoin('compraproduto','compra_idcompras=idcompras')
                 ->innerJoin('produto','produto_idprodutos=idprodutos')
                 ->where(['iduser'=>Yii::$app->user->id, 'compraEstado' => 1]);
-            $cart = $rows->all();
+            $cart1 = $rows->all();
 
             return [
                 'check' => $id,
                 'total' =>$compra->compraValor,
-                'count' =>$compra->compraValor
+                'count' =>$cart1
             ];
         }
     }
