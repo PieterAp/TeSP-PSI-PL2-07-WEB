@@ -93,7 +93,7 @@ use yii\helpers\Url;
         <div class="box box-default collapsed-box">
             <div class="small-box bg-green" style="margin-bottom: 0px">
                 <div class="inner">
-                    <h3>150</h3>
+                    <h3><?= $productSales["products"]?></h3>
 
                     <p>Sales</p>
                     <small class="text-justify">(only if sales have been finished)</small>
@@ -109,11 +109,11 @@ use yii\helpers\Url;
             <div class="box-body" style="padding: 0px;">
                 <div class="box-footer" style="padding: 0px;">
                     <ul class="nav nav-stacked">
-                        <li style="padding: 10px 15px;">Total <span class="pull-right badge  bg-blue">842</span></li>
-                        <li style="padding: 10px 15px;">Admins <span class="pull-right badge bg-blue">31</span></li>
+                        <li style="padding: 10px 15px;">Total <span class="pull-right badge  bg-blue"><?= $productSales["products"]?></span></li>
+                        <!--<li style="padding: 10px 15px;">Admins <span class="pull-right badge bg-blue">31</span></li>
                         <li style="padding: 10px 15px;">Employees <span class="pull-right badge bg-aqua">5</span></li>
-                        <li style="padding: 10px 15px;">Clients <span class="pull-right badge bg-green">12</span></li>
-                        <li style="padding: 10px 15px;">Total price <span class="pull-right badge bg-red"><?= $price["total"]?> €</span></li>
+                        <li style="padding: 10px 15px;">Clients <span class="pull-right badge bg-green">12</span></li>-->
+                        <li style="padding: 10px 15px;">Revenue <span class="pull-right badge bg-green"><?= $price["total"]?> €</span></li>
                     </ul>
                 </div>
             </div>
