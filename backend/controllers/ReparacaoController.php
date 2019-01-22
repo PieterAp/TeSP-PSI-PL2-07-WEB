@@ -73,7 +73,7 @@ class ReparacaoController extends LayoutController
         }
 
         $users = (new Query())
-            ->select('user.id','user.username')
+            ->select(['user.id'])
             ->from('user')
             ->innerJoin('userdata', 'user.id = userdata.iduser')
             ->where(['userVisibilidade'=>1])
