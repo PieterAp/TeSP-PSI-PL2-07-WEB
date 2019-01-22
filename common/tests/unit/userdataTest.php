@@ -176,7 +176,7 @@ class userdataTest extends \Codeception\Test\Unit
     function testDeletedSavedUser()
     {
         $idData = $this->tester->grabRecord('common\models\User',['username' => 'pedromig']);
-        $user = User::findOne(['iduser'=>$idData->iduser]);
+        $user = User::findOne(['iduser'=>$idData->id]);
         $user->delete();
     }
 
