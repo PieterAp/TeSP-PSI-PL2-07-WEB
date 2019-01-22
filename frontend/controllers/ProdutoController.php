@@ -7,6 +7,7 @@ use common\models\CategoriaChild;
 use Yii;
 use common\models\Produto;
 use app\models\ProdutoSearch;
+use yii\data\Pagination;
 use yii\db\Query;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -36,7 +37,7 @@ class ProdutoController extends LayoutController
      * Lists all Produto models.
      * @return mixed
      */
-    public function actionIndex($categoria=null,$categoriaChild=null )
+    public function actionIndex($categoria=null, $categoriaChild=null, $campanha=null)
     {
         /*
         $searchModel = new ProdutoSearch();
@@ -51,9 +52,9 @@ class ProdutoController extends LayoutController
         ]);
         */
 
-        //todo: show selected category
+        $products = new Query;
 
-        $products = (new Query())
+        $products
             ->select(['produto.*',
                 'produtocampanha.campanhaPercentagem',
                 'produtoPreco-(produtoPreco*(campanhaPercentagem / 100)) AS "precoDpsDesconto"'])
@@ -70,19 +71,62 @@ class ProdutoController extends LayoutController
                               FROM produtocampanha INNER JOIN campanha ON produtocampanha.campanha_idCampanha=campanha.idCampanha
                               WHERE (campanha.campanhaDataInicio <= CURRENT_DATE()) AND (campanha.campanhaDataFim >= CURRENT_DATE())
                               ) as produtocampanha ON produto.idprodutos=produtocampanha.produtos_idprodutos')
-            ->leftJoin('(SELECT campanha.*
+            ->innerJoin('(SELECT campanha.*
                               FROM campanha
-                              WHERE (campanha.campanhaDataInicio <= CURRENT_DATE()) AND (campanha.campanhaDataFim >= CURRENT_DATE())
+                              WHERE (campanha.campanhaDataInicio <= CURRENT_DATE())
+                                    AND 
+                                    (campanha.campanhaDataFim >= CURRENT_DATE())
+                                    '.(($campanha==null) ? '' : ('AND idCampanha='.$campanha)).'
                               ) AS campanha ON produtocampanha.campanha_idCampanha=campanha.idCampanha')
-            ->where(['produtoEstado'=>1])
+        ->where(['produtoEstado'=>1])
             ->groupBy('idprodutos')
             ->orderBy('produtoDataCriacao DESC')
             ->all();
 
+        $products = $products->all();
+
+
+        $countQuery = $products;
+        $pages = new Pagination(['totalCount' => count($countQuery)]);
+        $products = new Query;
+        $models = $products
+            ->select(['produto.*',
+                      'produtocampanha.campanhaPercentagem',
+                      'produtoPreco-(produtoPreco*(campanhaPercentagem / 100)) AS "precoDpsDesconto"'])
+            ->from('produto')
+            ->innerJoin('(SELECT categoria_child.*
+                              FROM categoria_child
+                              '.(($categoriaChild==null) ? '' : ('WHERE idchild='.$categoriaChild)).'
+                              ) AS categoria_child ON categoria_child.idchild = produto.categoria_child_id')
+            ->innerJoin('(SELECT categoria.*
+                              FROM categoria
+                              '.(($categoria==null) ? '' : ('WHERE idcategorias='.$categoria)).'
+                              ) AS categoria ON categoria.idcategorias = categoria_child.categoria_idcategorias')
+            ->leftJoin('(SELECT produtocampanha.*
+                              FROM produtocampanha INNER JOIN campanha ON produtocampanha.campanha_idCampanha=campanha.idCampanha
+                              WHERE (campanha.campanhaDataInicio <= CURRENT_DATE()) AND (campanha.campanhaDataFim >= CURRENT_DATE())
+                              ) as produtocampanha ON produto.idprodutos=produtocampanha.produtos_idprodutos')
+            ->innerJoin('(SELECT campanha.*
+                              FROM campanha
+                              WHERE (campanha.campanhaDataInicio <= CURRENT_DATE())
+                                    AND 
+                                    (campanha.campanhaDataFim >= CURRENT_DATE())
+                                    '.(($campanha==null) ? '' : ('AND idCampanha='.$campanha)).'
+                              ) AS campanha ON produtocampanha.campanha_idCampanha=campanha.idCampanha')
+            ->where(['produtoEstado'=>1])
+            ->groupBy('idprodutos')
+            ->orderBy('produtoDataCriacao DESC')
+            ->offset($pages->offset)
+            ->limit($pages->limit)
+            ->all();
+
+        $pages->pageSize = 4;
+
         return $this->render('index', [
             //'categories' => $categories,
             //'subCategories' => $subCategories,
-            'products' => $products,
+            'products' => $models,
+            'pages' => $pages,
         ]);
     }
 

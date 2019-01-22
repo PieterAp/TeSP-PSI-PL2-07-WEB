@@ -1,6 +1,8 @@
 <?php
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\widgets\LinkPager;
+
 ?>
 
 
@@ -160,27 +162,30 @@ use yii\helpers\Url;
 					<!-- Product listing -->
                     <div class="row">
                         <?php
-                        foreach ($products as $eachProduct)
+                        if ($products!=null)
                         {
-                            echo '
+                            foreach ($products as $key=>$eachProduct)
+                            {
+
+                                echo '
                                 <div class="col-sm-12 col-md-6 col-lg-2 p-b-50">
                                         <!-- Block2 -->
                                         <div class="block2">
                                         ';
-                            if ($eachProduct['campanhaPercentagem']==null)
-                            {
-                                echo '<div class="block2-img wrap-pic-w of-hidden pos-relative block2-label">';
-                            }
-                            elseif ($eachProduct['campanhaPercentagem']!=null)
-                            {
-                                echo '<div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelsale">';
+                                if ($eachProduct['campanhaPercentagem']==null)
+                                {
+                                    echo '<div class="block2-img wrap-pic-w of-hidden pos-relative block2-label">';
+                                }
+                                elseif ($eachProduct['campanhaPercentagem']!=null)
+                                {
+                                    echo '<div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelsale">';
 
-                            }
-                            $imgPath = Url::to('@web/images/products/'.$eachProduct['idprodutos'].'/'.$eachProduct['produtoImagem1']);
-                            echo '<div class="imageResize">';
-                            echo Html::img($imgPath, ['alt'=>'some', 'class'=>'img-responsive']);
-                            echo '</div>';
-                            echo'                                              
+                                }
+                                $imgPath = Url::to('@web/images/products/'.$eachProduct['idprodutos'].'/'.$eachProduct['produtoImagem1']);
+                                echo '<div class="imageResize">';
+                                echo Html::img($imgPath, ['alt'=>'some', 'class'=>'img-responsive']);
+                                echo '</div>';
+                                echo'                                              
                                                 <div class="block2-overlay trans-0-4">
                                                     <div class="block2-btn-addcart w-size1 trans-0-4">
                                                         <!-- Button -->
@@ -195,17 +200,17 @@ use yii\helpers\Url;
                                     <a href="'.Url::to(['produto/view', 'id' => $eachProduct['idprodutos']]).'" class="block2-name dis-block s-text3 p-b-5">
                                         '.$eachProduct['produtoNome'].'
                                     </a>';
-                            if ($eachProduct['precoDpsDesconto']==null)
-                            {
-                                echo '
+                                if ($eachProduct['precoDpsDesconto']==null)
+                                {
+                                    echo '
                                         										<span class="block2-price m-text6 p-r-5">
 											'.$eachProduct['produtoPreco'].'€
 										</span>
                                         ';
-                            }
-                            else
-                            {
-                                echo '
+                                }
+                                else
+                                {
+                                    echo '
                                                                         <span class="block2-oldprice m-text7 p-r-5">
 											'.$eachProduct['produtoPreco'].'€
                                     </span>
@@ -214,7 +219,7 @@ use yii\helpers\Url;
 											'.$eachProduct['precoDpsDesconto'].'€
 									</span>
                                     ';
-                            }echo'
+                                }echo'
                                 </div>
                             </div>
                         </div>
@@ -222,14 +227,34 @@ use yii\helpers\Url;
                                 
                                 
                                 ';
+                            }
+                        }
+                        else
+                        {
+                            echo '<h2 style="color: red;">No products found</h2>';
                         }
                         ?>
                     </div>
 
 					<!-- Pagination -->
 					<div class="pagination flex-m flex-w p-t-26">
-						<a href="#" class="item-pagination flex-c-m trans-0-4 active-pagination">1</a>
-						<a href="#" class="item-pagination flex-c-m trans-0-4">2</a>
+                        <?php
+                        echo LinkPager::widget([
+                            'pagination' => $pages,
+                            'activePageCssClass' => 'active-pagination',
+                            'firstPageLabel' => 'first',
+                            'lastPageLabel' => 'last',
+                            'prevPageLabel' => 'previous',
+                            'nextPageLabel' => 'next',
+                            'options' => [
+                                'tag' => 'a',
+                                'class' => 'item-pagination flex-c-m trans-0-4'
+                            ]
+                        ]);
+                        ?>
+                        <a href="#" class="item-pagination flex-c-m trans-0-4 active-pagination">1</a>
+                        <a href="#" class="item-pagination flex-c-m trans-0-4">2</a>
+
 					</div>
 				</div>
                 <!-- /Main/ -->

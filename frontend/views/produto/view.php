@@ -63,7 +63,7 @@ use yii\helpers\Url;
 		</div>
 	</div>
 
-    <?php if($model->produtoDescricao1 or $model->produtoDescricao2 != null or $model->produtoDescricao3 != null or $model->produtoDescricao4 != null or $model->produtoDescricao5 != null or $model->produtoDescricao6 != null or $model->produtoDescricao7 != null or $model->produtoDescricao8 != null or $model->produtoDescricao9 != null or $model->produtoDescricao10 != null){ ?>
+    <?php if($model->produtoDescricao1 != null or $model->produtoDescricao2 != null or $model->produtoDescricao3 != null or $model->produtoDescricao4 != null or $model->produtoDescricao5 != null or $model->produtoDescricao6 != null or $model->produtoDescricao7 != null or $model->produtoDescricao8 != null or $model->produtoDescricao9 != null or $model->produtoDescricao10 != null){ ?>
 	<div class="wrap-dropdown-content bo6 p-t-15 p-b-14 active-dropdown-content m-t-20" style="max-width: 1000px;
     margin-left: 25%;    margin-right: 25%;">
 		<h5 class="flex-sb-m cs-pointer m-text19 color0-hov trans-0-4 dropdown1">
