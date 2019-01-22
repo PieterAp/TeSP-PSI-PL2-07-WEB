@@ -21,7 +21,7 @@
 
                         <div class="wrap-btn-slide1 w-size1 animated visible-false" data-appear="zoomIn">
                             <!-- Button -->
-                            <a href="<?php echo Url::to(['/campanha/produtocampanha'])?>" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite hov1 trans-0-4">
+                            <a href="<?= Url::to(['produto/index', 'campanha' => $sale[0]['idCampanha']])?>" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite hov1 trans-0-4">
                                 Take a look
                             </a>
                         </div>
@@ -64,8 +64,8 @@
 
                         <div class="wrap-btn-slide1 w-size1 animated visible-false" data-appear="slideInUp">
                             <!-- Button -->
-                            <a href="product.html" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite hov1 trans-0-4">
-                                Shop Now
+                            <a href="<?= Url::to(['produto/view', 'id' => $bestSeller[0]['idprodutos']])?>" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite hov1 trans-0-4">
+                                Take a look
                             </a>
                         </div>
                     </div>
@@ -106,8 +106,8 @@
 
                         <div class="wrap-btn-slide1 w-size1 animated visible-false" data-appear="rotateIn">
                             <!-- Button -->
-                            <a href="product.html" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite hov1 trans-0-4">
-                                Shop Now
+                            <a href="<?= Url::to(['produto/view', 'id' => $new[0]['idprodutos']])?>" class="flex-c-m size2 bo-rad-23 s-text2 bgwhite hov1 trans-0-4">
+                                Take a look
                             </a>
                         </div>
                     </div>
@@ -261,7 +261,7 @@
                                     else
                                     {
                                     echo '
-                                                                        <span class="block2-oldprice m-text7 p-r-5">
+                                    <span class="block2-oldprice m-text7 p-r-5">
 											'.$eachBest['produtoPreco'].'€
                                     </span>
 
@@ -384,7 +384,7 @@
                                         '.$eachProductSale['produtoNome'].'
                                     </a>';
                                   echo '
-                                                                        <span class="block2-oldprice m-text7 p-r-5">
+                                    <span class="block2-oldprice m-text7 p-r-5">
 											'.$eachProductSale['produtoPreco'].'€
                                     </span>
 
@@ -504,7 +504,7 @@
         
                             <div class="block3-txt p-t-14">
                                 <h4 class="p-b-7">
-                                    <a href="blog-detail.html" class="m-text11">
+                                    <a href="'.Url::to(['produto/index', 'campanha' =>  $eachSale['idCampanha']]).'" class="m-text11">
                                         '.$eachSale['campanhaNome'].'
                                     </a>
                                 </h4>

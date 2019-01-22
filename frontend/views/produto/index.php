@@ -252,9 +252,10 @@ use yii\widgets\LinkPager;
                             ]
                         ]);
                         ?>
-                        <a href="#" class="item-pagination flex-c-m trans-0-4 active-pagination">1</a>
-                        <a href="#" class="item-pagination flex-c-m trans-0-4">2</a>
-
+                        <!--
+                            <a href="#" class="item-pagination flex-c-m trans-0-4 active-pagination">1</a>
+                            <a href="#" class="item-pagination flex-c-m trans-0-4">2</a>
+                        -->
 					</div>
 				</div>
                 <!-- /Main/ -->

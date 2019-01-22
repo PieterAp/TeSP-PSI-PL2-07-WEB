@@ -254,7 +254,7 @@ $this->title = 'FixByte';
     <div class="wrap_header_mobile"     style="max-height: 0;">
         <!-- Logo moblie -->
         <a href="<?php echo Yii::$app->homeUrl?>" style="font-size: 25px">
-            <b>
+            <b style="display: inline-flex;">
                     <span class="md-red-500">
                         Fix
                     </span>
