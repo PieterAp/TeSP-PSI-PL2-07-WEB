@@ -87,12 +87,12 @@ $this->title = 'FixByte';
                 <ul class="header-cart-wrapitem">';
                 if (isset($cart)){
                     foreach ($cart as $key => $value){
-                        echo '<li class="header-cart-item values'.$key.'">';?>
+                        echo '<li class="header-cart-item values'.$cart[$key]['idprodutos'].'">';?>
                             <?= Html::a('
                              <div class="header-cart-item-img text-center" style="display: table-cell;">
                                 <img href ="#" src="'.Url::to('@web/images/products/'.$cart[$key]['idprodutos'].'/'.$cart[$key]['produtoImagem1']).'" alt="IMG" style="max-width: 55px; max-height: 55px; margin: auto;">
                              </div>
-                            ',null,['onclick' => 'compraDeleteAJAX("'.Yii::$app->request->baseUrl.'","'.$key.'","'.Yii::$app->request->getCsrfToken().'")']);?>
+                            ',null,['onclick' => 'compraDeleteAJAX("'.Yii::$app->request->baseUrl.'","'.$cart[$key]['idprodutos'].'","'.Yii::$app->request->getCsrfToken().'")']);?>
                                 <?php echo '<div class="header-cart-item-txt">
                                     <a href="#" class="header-cart-item-name">';
                                         echo $cart[$key]['produtoNome'];
@@ -185,12 +185,12 @@ $this->title = 'FixByte';
                         <ul class="item">';
                             if (isset($cart)){
                                 foreach ($cart as $key => $value){
-                                    echo '<li class="header-cart-item values'.$key.'">';?>
+                                    echo '<li class="header-cart-item values'.$cart[$key]['idprodutos'].'">';?>
                                     <?= Html::a('
                                     <div class="header-cart-item-img text-center" style="display: table-cell;">
                                         <img href ="#" src="'.Url::to('@web/images/products/'.$cart[$key]['idprodutos'].'/'.$cart[$key]['produtoImagem1']).'" alt="IMG"  style="max-width: 55px; max-height: 55px; margin: auto;">
                                      </div>
-                                    ',null,['onclick' => 'compraDeleteAJAX("'.Yii::$app->request->baseUrl.'","'.$key.'","'.Yii::$app->request->getCsrfToken().'")']);?>
+                                    ',null,['onclick' => 'compraDeleteAJAX("'.Yii::$app->request->baseUrl.'","'.$cart[$key]['idprodutos'].'","'.Yii::$app->request->getCsrfToken().'")']);?>
                                             <?php echo '<div class="header-cart-item-txt">
                                             <a href="#" class="header-cart-item-name">';
                                             echo $cart[$key]['produtoNome'];
@@ -299,12 +299,12 @@ $this->title = 'FixByte';
                         <ul class="header-cart-wrapitem" style="overflow: hidden;">';
                             if (isset($cart)){
                                 foreach ($cart as $key => $value){
-                                    echo '<li class="header-cart-item values'.$key.'">';?>
+                                    echo '<li class="header-cart-item values'.$cart[$key]['idprodutos'].'">';?>
                                     <?= Html::a('
                                      <div class="header-cart-item-img">
                                         <img href ="#" src="'.Url::to('@web/images/products/'.$cart[$key]['idprodutos'].'/'.$cart[$key]['produtoImagem1']).'" alt="IMG">
                                      </div>
-                                    ',null,['onclick' => 'compraDeleteAJAX("'.Yii::$app->request->baseUrl.'","'.$key.'","'.Yii::$app->request->getCsrfToken().'")']);?>
+                                    ',null,['onclick' => 'compraDeleteAJAX("'.Yii::$app->request->baseUrl.'","'.$cart[$key]['idprodutos'].'","'.Yii::$app->request->getCsrfToken().'")']);?>
                                             <?php echo '<div class="header-cart-item-txt">
                                             <a href="#" class="header-cart-item-name">';
                                             echo $cart[$key]['produtoNome'];
