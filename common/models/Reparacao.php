@@ -50,13 +50,13 @@ class Reparacao extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idreparacao' => 'Idreparacao',
-            'reparacaoNome' => 'Reparacao Nome',
-            'reparacaoEstado' => 'Reparacao Estado',
-            'reparacaoNumero' => 'Reparacao Numero',
-            'reparacaoData' => 'Reparacao Data',
-            'reparacaoDataConcluido' => 'Reparacao Data Concluido',
-            'reparacaoDescricao' => 'Reparacao Descricao',
+            'idreparacao' => 'RepairId',
+            'reparacaoNome' => 'Repair product name',
+            'reparacaoEstado' => 'Repair status',
+            'reparacaoNumero' => 'Repair identificator',
+            'reparacaoData' => 'Repair start date',
+            'reparacaoDataConcluido' => 'Repair finish date',
+            'reparacaoDescricao' => 'Repair description',
             'user_iduser' => 'User Iduser',
         ];
     }

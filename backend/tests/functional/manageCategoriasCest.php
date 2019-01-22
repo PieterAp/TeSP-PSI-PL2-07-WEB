@@ -11,22 +11,20 @@ class manageCategoriasCest
         codecept_debug("\n\n .::Login::. \n");
 
         $I->amOnPage('/site/login');
-        $I->fillField('Username', 'pieter');
-        $I->fillField('Password', 'pieterpieter');
+        $I->fillField('LoginForm[username]', 'pieter');
+        $I->fillField('LoginForm[password]', 'pieterpieter');
 
         $I->click('login-button');
-        $I->see('Logout (pieter)', 'form button[type=submit]');
+        $I->see('Pieter Aparicio', '.user');
         $I->dontSeeLink('Login');
         $I->dontSeeLink('Signup');
-        $I->see('Welcome to backend!', 'h1');
 
 
         //Creates new CATEGORIA
         codecept_debug("\n\n .::Create CATEGORIA::. \n");
         $I->amOnPage('/site/index');
-        $I->see('Welcome to backend!', 'h1');
-        $I->see('Categories', 'h2');
-        $I->click('Manage', 'a');
+        $I->see('Categories', 'span');
+        $I->click('Categories', 'a');
         $I->see('Categories', 'h1');
         $I->click('Create Category', 'a');
         $I->see('Create Category', 'h1');
@@ -50,10 +48,7 @@ class manageCategoriasCest
 
         //Edits previously created CATEGORIA
         codecept_debug("\n\n .::Edit CATEGORIA::. \n");
-        $I->amOnPage('/site/index');
-        $I->see('Categories', 'h2');
-        $I->click('Manage', 'a');
-        $I->see('Categories', 'h1');
+        $I->amOnPage('/categoria/index');
         $I->see('DIY', 'strong');
         $I->see('Edit', '#editDIY');
         $I->click('Edit', '#editDIY');
@@ -70,18 +65,14 @@ class manageCategoriasCest
             'categoriaEstado' => 0,
         ]);
 
-        $I->amOnPage('/site/index');
-        $I->see('Categories', 'h2');
-        $I->click('Manage', 'a');
+        $I->amOnPage('/categoria/index');
         $I->see('Categories', 'h1');
         $I->see('Gaming', 'strong');
 
 
         //Hides CATEGORIA
         codecept_debug("\n\n .::Hide CATEGORIA::. \n");
-        $I->amOnPage('/site/index');
-        $I->see('Categories', 'h2');
-        $I->click('Manage', 'a');
+        $I->amOnPage('/categoria/index');
         $I->see('Categories', 'h1');
         $I->see('Gaming', 'strong');
         $I->see('Unhide Cat', '#hideGaming');
@@ -93,9 +84,7 @@ class manageCategoriasCest
             'categoriaEstado' => 1,
         ]);
 
-        $I->amOnPage('/site/index');
-        $I->see('Categories', 'h2');
-        $I->click('Manage', 'a');
+        $I->amOnPage('/categoria/index');
         $I->see('Categories', 'h1');
         $I->see('Gaming', 'strong');
         $I->see('Hide Cat', '#hideGaming');
@@ -103,10 +92,9 @@ class manageCategoriasCest
 
 
         //Deletes CATEGORIA
+        /*
         codecept_debug("\n\n .::Delete CATEGORIA::. \n");
-        $I->amOnPage('/site/index');
-        $I->see('Categories', 'h2');
-        $I->click('Manage', 'a');
+        $I->amOnPage('/categoria/index');
         $I->see('Categories', 'h1');
         $I->see('Gaming', 'strong');
         $I->see('Delete', '#deleteGaming');
@@ -123,11 +111,6 @@ class manageCategoriasCest
         $I->click('Manage', 'a');
         $I->see('Categories', 'h1');
         $I->dontSee('Gaming', 'strong');
-
-
-
-
-
-        codecept_debug("\n\n\n\n .::CATEGORIA CHILD::. \n");
+        */
     }
 }
