@@ -7,6 +7,7 @@ use common\models\CategoriaChild;
 use Yii;
 use common\models\Produto;
 use app\models\ProdutoSearch;
+use yii\db\Query;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -35,7 +36,7 @@ class ProdutoController extends LayoutController
      * Lists all Produto models.
      * @return mixed
      */
-    public function actionIndex()
+    public function actionIndex($categoriaSelect=null)
     {
         /*
         $searchModel = new ProdutoSearch();
@@ -49,7 +50,38 @@ class ProdutoController extends LayoutController
             'model' => $model,
         ]);
         */
-        return $this->render('index');
+
+
+        //todo: show selected category
+
+
+
+
+
+        $products = (new Query())
+            ->select(['produto.*',
+                'produtocampanha.campanhaPercentagem',
+                'produtoPreco-(produtoPreco*(campanhaPercentagem / 100)) AS "precoDpsDesconto"'])
+            ->from('produto')
+            ->leftJoin('(SELECT produtocampanha.*
+                              FROM produtocampanha INNER JOIN campanha ON produtocampanha.campanha_idCampanha=campanha.idCampanha
+                              WHERE (campanha.campanhaDataInicio <= CURRENT_DATE()) AND (campanha.campanhaDataFim >= CURRENT_DATE())
+                              ) as produtocampanha ON produto.idprodutos=produtocampanha.produtos_idprodutos')
+            ->leftJoin('(SELECT campanha.*
+                              FROM campanha
+                              WHERE (campanha.campanhaDataInicio <= CURRENT_DATE()) AND (campanha.campanhaDataFim >= CURRENT_DATE())
+                              ) AS campanha ON produtocampanha.campanha_idCampanha=campanha.idCampanha')
+            ->where(['produtoEstado'=>1])
+            ->groupBy('idprodutos')
+            ->orderBy('produtoDataCriacao DESC')
+            ->all();
+
+        return $this->render('index', [
+            //'categories' => $categories,
+            //'subCategories' => $subCategories,
+            'products' => $products,
+            'categoriaSelect' => $categoriaSelect,
+        ]);
     }
 
     /**
