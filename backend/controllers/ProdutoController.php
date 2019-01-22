@@ -177,8 +177,7 @@ class ProdutoController extends LayoutController
                 {
                     if ($images[$i]!=null)
                     {
-                        var_dump($model->{'produtoImagem'.($i+1)});
-                        die();
+
                         $images[$i]->saveAs($path.'/'.$model->{'produtoImagem'.($i+1)});
                     }
                 }

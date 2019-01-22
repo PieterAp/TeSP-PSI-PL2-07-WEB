@@ -231,7 +231,9 @@
 
                                         }
                                         $imgPath = Url::to('@web/images/products/'.$eachBest['idprodutos'].'/'.$eachBest['produtoImagem1']);
-                                        echo Html::img($imgPath, ['alt'=>'some', 'class'=>'img-responsive']);
+                                echo '<div class="imageResizeIndex">';
+                                echo Html::img($imgPath, ['alt'=>'some', 'class'=>'img-responsive']);
+                                echo '</div>';
                                         echo'                                              
                                                 <div class="block2-overlay trans-0-4">
                                                     <div class="block2-btn-addcart w-size1 trans-0-4">
@@ -299,7 +301,9 @@
 
                             }
                             $imgPath = Url::to('@web/images/products/'.$eachRecent['idprodutos'].'/'.$eachRecent['produtoImagem1']);
+                            echo '<div class="imageResizeIndex">';
                             echo Html::img($imgPath, ['alt'=>'some', 'class'=>'img-responsive']);
+                            echo '</div>';
                             echo'                                              
                                                 <div class="block2-overlay trans-0-4">
                                                     <div class="block2-btn-addcart w-size1 trans-0-4">
@@ -361,7 +365,9 @@
                                 echo '<div class="block2-img wrap-pic-w of-hidden pos-relative block2-labelsale">';
 
                             $imgPath = Url::to('@web/images/products/'.$eachProductSale['idprodutos'].'/'.$eachProductSale['produtoImagem1']);
+                            echo '<div class="imageResizeIndex">';
                             echo Html::img($imgPath, ['alt'=>'some', 'class'=>'img-responsive']);
+                            echo'</div>';
                             echo'                                              
                                                 <div class="block2-overlay trans-0-4">
                                                     <div class="block2-btn-addcart w-size1 trans-0-4">
@@ -420,7 +426,9 @@
 
                             }
                             $imgPath = Url::to('@web/images/products/'.$eachRecentBuy['idprodutos'].'/'.$eachRecentBuy['produtoImagem1']);
+                            echo '<div class="imageResizeIndex">';
                             echo Html::img($imgPath, ['alt'=>'some', 'class'=>'img-responsive']);
+                            echo '</div>';
                             echo'                                              
                                                 <div class="block2-overlay trans-0-4">
                                                     <div class="block2-btn-addcart w-size1 trans-0-4">
@@ -490,6 +498,7 @@
                         <div class="block3">
                             <a href="blog-detail.html" class="block3-img dis-block hov-img-zoom">';
                                 $imgPath = Url::to('@web/images/products/'.$eachSale['idprodutos'].'/'.$eachSale['produtoImagem1']);
+                                
                                 echo Html::img($imgPath, ['alt'=>'some', 'class'=>'img-responsive']);
                        echo'</a>
         

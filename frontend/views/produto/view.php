@@ -1,105 +1,85 @@
+<!DOCTYPE html>
 <?php
-
 
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\widgets\DetailView;
-
-/* @var $this yii\web\View */
-/* @var $model common\models\Produto */
-
-$this->title = $model->produtoNome;
-$this->params['breadcrumbs'][] = ['label' => 'Categories'];
-$this->params['breadcrumbs'][] = ['label' => $produtoCategoria->categoriaNome, 'url' => ['categoria/view', 'id' => $produtoCategoria->idcategorias]];
-$this->params['breadcrumbs'][] = ['label' => $produtoCategoriaChild->childNome, 'url' => ['categoria-child/view', 'id' => $produtoCategoriaChild->idchild]];
-$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="produto-view">
-
-    <div class="table-bordered">
-        <div class="text-center">
-            <!-- Carousel starts here -->
-            <div id="myCarousel" class="carousel slide" data-ride="carousel">
-                <ol class="carousel-indicators">
-                    <?php
-                        $imagesCount = [];
-                        for ($k=1; $k<=4; $k++)
+<body class="animsition">
+	<div class="container bgwhite p-t-35">
+		<div class="flex-w flex-sb">
+			<div class="w-size13 p-t-30 respon5">
+                <div class="wrap-slick3 flex-sb flex-w">
+                    <div class="wrap-slick3-dots"></div>
+                    <div class="slick3">
+                        <?php
+                        for ($i=1;$i<=4;$i++)
                         {
-                            if ($model->{'produtoImagem'.$k} != null)
+                            $image = 'produtoImagem'.$i;
+                            if ($model->$image!=null)
                             {
-                                $imagesCount[] = 'produtoImagem'.$k;
+                                $imgPath = Url::to('@web/images/products/'.$model['idprodutos'].'/'.$model[$image]);
+                                echo '
+                                    <div class="item-slick3" data-thumb="'. Url::to($imgPath) .'" style="max-height: 668px; max-width: 501px;">
+                                        <div class="wrap-pic-w">
+                                            '.Html::img($imgPath, ['alt'=>'some', 'class'=>'img-responsive']).'							        
+                                        </div>
+                                    </div>   
+                                ';
                             }
                         }
-
-                        for ($i=0; $i<count($imagesCount); $i++)
-                        {
-                            if ($i==0)
-                            {
-                                echo '<li data-target="#myCarousel" data-slide-to="'.$i.'" class="active" style="background-color: orange"></li>';
-                            }
-                            else
-                            {
-                                echo '<li data-target="#myCarousel" data-slide-to="'.$i.'" style="background-color: orange"></li>';
-                            }
-                        }
-                    ?>
-                </ol>
-                <div class="carousel-inner">
-                    <?php
-                    for ($i=0; $i<count($imagesCount); $i++)
-                    {
-                        $imgPath = Url::to('../images/products/'.$model->idprodutos.'/'.$model->{$imagesCount[$i]});
-                        if ($i==0)
-                        {
-                            echo '<div class="item active" style="backcolor: red;">';
-
-                        }
-                        else
-                        {
-                            echo '<div class="item" style="color: red;">';
-                        }
-                        echo Html::img($imgPath, ['alt'=>'some', 'class'=>'img-responsive text-center', 'style' => 'margin: 0 auto;']);
-                        echo '</div>';
-                    }
-
-                    ?>
-                </div>
-                <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-                    <span class="glyphicon glyphicon-chevron-left"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="right carousel-control" href="#myCarousel" data-slide="next">
-                    <span class="glyphicon glyphicon-chevron-right"></span>
-                    <span class="sr-only">Next</span>
-                </a>
-            </div>
-            <!-- Carousel ends here -->
-        </div>
-        <div class="page-header" style="padding-left: 10px;">
-            <h1>
-                <div class="row">
-                    <div class="col-lg-8 col-md-8 col-xs-8">
-                        <?= Html::encode($model->produtoNome) ?><span style="color:#777;"> - <?= $model->produtoMarca ?></span>
+                        ?>
+                        <div>
+                        </div>
                     </div>
-                    <div class="col-lg-4 col-md-4 col-xs-4 text-center">
-                        <small>Price:</small>
-                        <span style="color:orange;"> <?= $model->produtoPreco ?>€</span>
-                    </div>
-                </div>
-                <small><h4><?= $produtoCategoria->categoriaNome.' / '.$produtoCategoriaChild->childNome ?></h4></small>
-            </h1>
-        </div>
-        <div style="padding-left: 10px;">
-            <h3>Description:</h3>
-            <div style="padding-left: 20px;">
+
+			<div class="w-size14 p-t-140 respon5">
+				<h4 class="product-detail-name m-text16 p-b-13">
+					<?= $model->produtoNome ?>
+				</h4>
+
+				<span class="m-text17">
+					<?= $model->produtoPreco ?>€
+				</span>
+
+				<p class="s-text8 p-t-10">
+					<?= $produtoCategoria['categoriaNome'] ?> > <?= $produtoCategoriaChild['childNome'] ?>
+				</p>
+
+				<!--  -->
+				<div class="p-t-20 p-b-60">
+					<div class="flex-r-m flex-w p-t-10">
+						<div class="w-size16 flex-m flex-w">
+							<div class="btn-addcart-product-detail size9 trans-0-4 m-t-10 m-b-10">
+								<!-- Button -->
+                                <a class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4" href="'.Url::to(['compra/create', 'id' => $eachProduct['idprodutos']]).'">
+                                    Add to Cart
+                                </a>
+                            </div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+    <?php if($model->produtoDescricao1 or $model->produtoDescricao2 != null or $model->produtoDescricao3 != null or $model->produtoDescricao4 != null or $model->produtoDescricao5 != null or $model->produtoDescricao6 != null or $model->produtoDescricao7 != null or $model->produtoDescricao8 != null or $model->produtoDescricao9 != null or $model->produtoDescricao10 != null){ ?>
+	<div class="wrap-dropdown-content bo6 p-t-15 p-b-14 active-dropdown-content m-t-20" style="max-width: 1000px;
+    margin-left: 25%;    margin-right: 25%;">
+		<h5 class="flex-sb-m cs-pointer m-text19 color0-hov trans-0-4 dropdown1">
+			Description
+			<i class="up-mark fs-12 color1 fa fa-plus plus1" aria-hidden="true"></i>
+		</h5>
+
+		<div class="dropdown-content dis-none p-t-15 p-b-23 down1">
                 <?php
-                    for ($i=1;$i<=10;$i++)
-                    {
-                        $description = 'produtoDescricao'.$i;
-                        echo '<p>'.$model->$description.'</p>';
-                    }
+                for ($i=1;$i<=10;$i++)
+                {
+                    $description = 'produtoDescricao'.$i;
+                    echo '<p class="s-text8">'.$model->$description.'</p>';
+                }
                 ?>
-            </div>
+		</div>
+	</div>
+<?php } ?>
         </div>
-    </div>
-</div>

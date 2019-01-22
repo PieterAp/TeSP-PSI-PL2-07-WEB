@@ -100,8 +100,6 @@ class SiteController extends LayoutController
             ->from('categoria')
             ->one();
 
-
-
         $subCategories = (new Query())
             ->select([
                 'count(DISTINCT idchild) as "Total"',
@@ -167,13 +165,11 @@ class SiteController extends LayoutController
             ->andWhere(['<=','campanhaDataInicio', date('Y-m-d')])
             ->one();
 
-
         $price = (new Query())
                 ->select(['sum(compraValor) as "total"'])
                 ->from('compra')
             ->where (['compraEstado' => 0])
             ->one();
-
 
 
 

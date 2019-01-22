@@ -102,7 +102,7 @@ $userData = $this->params['userData'];
                     <li><a href="<?= Url::to(['categoria/index']); ?>"><i class="fa fa-list"></i> <span>Categories</span></a></li>
                     <li><a href="<?= Url::to(['produto/index']); ?>"><i class="fa fa-th-large"></i> <span>Products</span></a></li>
                     <li class="treeview">
-                        <a href="<?= Url::to(['campanha/index']); ?>"><i class="fa fa-link"></i> <span>Sale Campaigns</span>
+                        <a href="<?= Url::to(['campanha/index']); ?>"><i class="fa fa-tags"></i> <span>Sale Campaigns</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                               </span>

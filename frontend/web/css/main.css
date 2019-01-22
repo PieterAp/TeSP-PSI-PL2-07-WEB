@@ -1705,6 +1705,92 @@ input[type=text] {
     margin: auto;
 }
 
+
+.imageResize {
+    min-width: 160px;
+    min-height: 207px;
+    margin: auto;
+}
+
+.imageResize img
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.imageResizeIndex {
+    min-width: 270px;
+    min-height: 270px;
+    margin: auto;
+}
+
+.imageResizeIndex img
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+@media (max-width: 1360px) {
+    .imageResize {
+        min-width: 140px;
+        min-height: 140px;
+        margin: auto;
+    }
+}
+
+@media (max-width: 1258px) {
+    .imageResize {
+        min-width: 120px;
+        min-height: 120px;
+        margin: auto;
+    }
+}
+
+@media (max-width: 1189px) {
+    .imageResize {
+        min-width: 110px;
+        min-height: 110px;
+        margin: auto;
+    }
+}
+
+@media (max-width: 1140px) {
+    .imageResize {
+        min-width: 100px;
+        min-height: 100px;
+        margin: auto;
+    }
+}
+
+@media (max-width: 1000px) {
+    .imageResize {
+        min-width: 90px;
+        min-height: 90px;
+        margin: auto;
+    }
+}
+
+@media (max-width: 991px) {
+    .imageResize {
+        min-width: 200px;
+        min-height: 200px;
+        margin: auto;
+    }
+}
+
+@media (max-width: 360px) {
+    .imageResize {
+        min-width: 270px;
+        min-height: 270px;
+        margin: auto;
+    }
+}
+
+
 .block3
 {
     max-width: 263px;
