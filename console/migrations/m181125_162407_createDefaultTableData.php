@@ -317,7 +317,7 @@ class m181125_162407_createDefaultTableData extends Migration
         $produto->produtoDescricao2 = 'Descrição 2';
         $produto->produtoDescricao3 = 'Descrição 3';
         $produto->produtoDescricao4 = 'Descrição 4';
-        $produto->produtoImagem1 = 'image1';
+        $produto->produtoImagem1 = 'i5.jpg';
         $produto->categoria_child_id = 1;
         $produto->produtoEstado = 1;
         $produto->save(false);
@@ -333,7 +333,7 @@ class m181125_162407_createDefaultTableData extends Migration
         $produto->produtoDescricao2 = 'Descrição 2';
         $produto->produtoDescricao3 = 'Descrição 3';
         $produto->produtoDescricao4 = 'Descrição 4';
-        $produto->produtoImagem1 = 'image1';
+        $produto->produtoImagem1 = 'i7.jpg';
         $produto->categoria_child_id = 1;
         $produto->produtoEstado = 1;
         $produto->save(false);
@@ -349,7 +349,7 @@ class m181125_162407_createDefaultTableData extends Migration
         $produto->produtoDescricao2 = 'Descrição 2';
         $produto->produtoDescricao3 = 'Descrição 3';
         $produto->produtoDescricao4 = 'Descrição 4';
-        $produto->produtoImagem1 = 'image1';
+        $produto->produtoImagem1 = 'i9.jpg';
         $produto->categoria_child_id = 1;
         $produto->produtoEstado = 0;
         $produto->save(false);
@@ -367,7 +367,7 @@ class m181125_162407_createDefaultTableData extends Migration
         $produto->produtoDescricao2 = 'Descrição 2';
         $produto->produtoDescricao3 = 'Descrição 3';
         $produto->produtoDescricao4 = 'Descrição 4';
-        $produto->produtoImagem1 = 'image1';
+        $produto->produtoImagem1 = 'fan1.png';
         $produto->categoria_child_id = 2;
         $produto->produtoEstado = 1;
         $produto->save(false);
@@ -383,7 +383,7 @@ class m181125_162407_createDefaultTableData extends Migration
         $produto->produtoDescricao2 = 'Descrição 2';
         $produto->produtoDescricao3 = 'Descrição 3';
         $produto->produtoDescricao4 = 'Descrição 4';
-        $produto->produtoImagem1 = 'image1';
+        $produto->produtoImagem1 = 'fan2.jpg';
         $produto->categoria_child_id = 2;
         $produto->produtoEstado = 0;
         $produto->save(false);
@@ -399,7 +399,7 @@ class m181125_162407_createDefaultTableData extends Migration
         $produto->produtoDescricao2 = 'Descrição 2';
         $produto->produtoDescricao3 = 'Descrição 3';
         $produto->produtoDescricao4 = 'Descrição 4';
-        $produto->produtoImagem1 = 'image1';
+        $produto->produtoImagem1 = 'fan3.jpg';
         $produto->categoria_child_id = 2;
         $produto->produtoEstado = 0;
         $produto->save(false);
@@ -420,7 +420,7 @@ class m181125_162407_createDefaultTableData extends Migration
         $produto->produtoDescricao2 = 'Descrição 2';
         $produto->produtoDescricao3 = 'Descrição 3';
         $produto->produtoDescricao4 = 'Descrição 4';
-        $produto->produtoImagem1 = 'image1';
+        $produto->produtoImagem1 = 'win10.png';
         $produto->categoria_child_id = 4;
         $produto->produtoEstado = 1;
         $produto->save(false);
