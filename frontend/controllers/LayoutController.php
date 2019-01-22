@@ -62,12 +62,12 @@ class LayoutController extends Controller
 
         foreach ($categorias as $keyMain => $categoria)
         {
-            $categoriaNavbar[]= ['label' => '' . $categoria->categoriaNome .'', 'url' => Url::to(['categoria/view', 'id' => $categoria->idcategorias]),'id' => $categoria->idcategorias];
+            $categoriaNavbar[]= ['label' => '' . $categoria->categoriaNome .'', 'url' => Url::to(['produto/index', 'categoria' => $categoria->idcategorias]),'id' => $categoria->idcategorias];
         }
 
         foreach ($categoriasChild as $key => $child)
         {
-            $categoriaChildNavbar[]= ['childnome' => '' .  $child->childNome .'', 'childurl' => Url::to(['categoria-child/view', 'id' =>  $child->idchild]),'id' => ''.$child->categoria_idcategorias.''];
+            $categoriaChildNavbar[]= ['childnome' => '' .  $child->childNome .'', 'childurl' => Url::to(['produto/index', 'categoriaChild' =>  $child->idchild]),'id' => ''.$child->categoria_idcategorias.''];
         }
 
         Yii::$app->view->params['categoriaNavbar'] = $categoriaNavbar;
