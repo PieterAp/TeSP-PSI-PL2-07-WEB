@@ -142,7 +142,7 @@
     
                                 echo '<div class="block1-wrapbtn w-size2">
                                     <!-- Button -->
-                                    <a href="#" class="flex-c-m size2 m-text2 bg3 hov1 trans-0-4">
+                                    <a href="'.Url::to(['produto/index', 'categoriaChild' =>  $eachCategory['idchild']]).'" class="flex-c-m size2 m-text2 bg3 hov1 trans-0-4">
                                         '.$eachCategory['childNome'].'
                                     </a>
                                 </div>
@@ -246,7 +246,7 @@
                                             </div>
 
                                 <div class="block2-txt p-t-20">
-                                    <a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
+                                    <a href="'.Url::to(['produto/view', 'id' => $eachBest['idprodutos']]).'" class="block2-name dis-block s-text3 p-b-5">
                                         '.$eachBest['produtoNome'].'
                                     </a>';
                                     echo $eachBest['qntCompras'].' sold <br>';
@@ -316,7 +316,7 @@
                                             </div>
 
                                 <div class="block2-txt p-t-20">
-                                    <a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
+                                    <a href="'.Url::to(['produto/view', 'id' => $eachRecent['idprodutos']]).'" class="block2-name dis-block s-text3 p-b-5">
                                         '.$eachRecent['produtoNome'].'
                                     </a>';
                             if ($eachRecent['precoDpsDesconto']==null)
@@ -380,7 +380,7 @@
                                             </div>
 
                                 <div class="block2-txt p-t-20">
-                                    <a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
+                                    <a href="'.Url::to(['produto/view', 'id' => $eachProductSale['idprodutos']]).'" class="block2-name dis-block s-text3 p-b-5">
                                         '.$eachProductSale['produtoNome'].'
                                     </a>';
                                   echo '
@@ -441,7 +441,7 @@
                                             </div>
 
                                 <div class="block2-txt p-t-20">
-                                    <a href="product-detail.html" class="block2-name dis-block s-text3 p-b-5">
+                                    <a href="'.Url::to(['produto/view', 'id' => $eachRecentBuy['idprodutos']]).'" class="block2-name dis-block s-text3 p-b-5">
                                         '.$eachRecentBuy['produtoNome'].'
                                     </a>';
                             if ($eachRecentBuy['precoDpsDesconto']==null)

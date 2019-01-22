@@ -36,7 +36,7 @@ class ProdutoController extends LayoutController
      * Lists all Produto models.
      * @return mixed
      */
-    public function actionIndex($categoriaSelect=null)
+    public function actionIndex($categoria=null,$categoriaChild=null )
     {
         /*
         $searchModel = new ProdutoSearch();
@@ -51,18 +51,21 @@ class ProdutoController extends LayoutController
         ]);
         */
 
-
         //todo: show selected category
-
-
-
-
 
         $products = (new Query())
             ->select(['produto.*',
                 'produtocampanha.campanhaPercentagem',
                 'produtoPreco-(produtoPreco*(campanhaPercentagem / 100)) AS "precoDpsDesconto"'])
             ->from('produto')
+            ->innerJoin('(SELECT categoria_child.*
+                              FROM categoria_child
+                              '.(($categoriaChild==null) ? '' : ('WHERE idchild='.$categoriaChild)).'
+                              ) AS categoria_child ON categoria_child.idchild = produto.categoria_child_id')
+            ->innerJoin('(SELECT categoria.*
+                              FROM categoria
+                              '.(($categoria==null) ? '' : ('WHERE idcategorias='.$categoria)).'
+                              ) AS categoria ON categoria.idcategorias = categoria_child.categoria_idcategorias')
             ->leftJoin('(SELECT produtocampanha.*
                               FROM produtocampanha INNER JOIN campanha ON produtocampanha.campanha_idCampanha=campanha.idCampanha
                               WHERE (campanha.campanhaDataInicio <= CURRENT_DATE()) AND (campanha.campanhaDataFim >= CURRENT_DATE())
@@ -80,7 +83,6 @@ class ProdutoController extends LayoutController
             //'categories' => $categories,
             //'subCategories' => $subCategories,
             'products' => $products,
-            'categoriaSelect' => $categoriaSelect,
         ]);
     }
 
