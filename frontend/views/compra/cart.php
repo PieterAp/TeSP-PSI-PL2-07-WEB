@@ -81,7 +81,6 @@ if (isset($_GET['nostock'])){
 					</div>';
 				}
 				?>
-
 		</div>
 	</div>
 </section>

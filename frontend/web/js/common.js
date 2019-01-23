@@ -45,10 +45,15 @@ function compraDeleteAJAX($url,$id,$csrf){
         }
     })
         .done( function (data) {
-            $(".values"+data.check).remove();
+            $(".data1").find(".values"+data.check).eq(0).remove();
+            $(".data").find(".values"+data.check).eq(0).remove();
+            $(".item").find(".values"+data.check).eq(0).remove();
+            $(".newtable").find(".values"+data.check).eq(0).remove();
             $(".total").html("Total: "+data.total +"€");
             $(".header-icons-noti").html(data.count[0].count);
-            $(".comprabuttom").remove();
+            if(!$(".table-row")[0]){
+                $(".comprabuttom").remove();
+            }
         })
         .fail( function (xhr, textStatus, errorThrown){
             $(".total").html("Something went wrong, refresh page and if this error persists, contact support");

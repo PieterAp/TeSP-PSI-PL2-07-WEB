@@ -84,7 +84,7 @@ $this->title = 'FixByte';
 
             <!-- Header cart noti -->
             <div class="header-cart header-dropdown" style="overflow-y: auto;max-height: 320px;">
-                <ul class="header-cart-wrapitem">';
+                <ul class="header-cart-wrapitem data1">';
                 if (isset($cart)){
                     foreach ($cart as $key => $value){
                         echo '<li class="header-cart-item values'.$cart[$key]['idprodutos'].'">';?>
@@ -296,7 +296,7 @@ $this->title = 'FixByte';
                     <!-- Header cart noti -->
                     <div class="header-cart header-dropdown" style="max-height: 320px;overflow-y: auto;">
 
-                        <ul class="header-cart-wrapitem" style="overflow: hidden;">';
+                        <ul class="header-cart-wrapitem data" style="overflow: hidden;">';
                             if (isset($cart)){
                                 foreach ($cart as $key => $value){
                                     echo '<li class="header-cart-item values'.$cart[$key]['idprodutos'].'">';?>
