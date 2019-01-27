@@ -19,7 +19,7 @@ class m181109_143956_create_table_reparacao extends Migration
             'reparacaoData' => $this->dateTime()->notNull(),
             'reparacaoDataConcluido' => $this->dateTime()->notNull(),
             'reparacaoDescricao' => $this->string()->notNull(),
-            'user_iduser' => $this->integer()->notNull(),
+            'user_iduser' => $this->integer(),
         ], $tableOptions);
 
         $this->createIndex('fk_reparacao_user1_idx', '{{%reparacao}}', 'user_iduser');

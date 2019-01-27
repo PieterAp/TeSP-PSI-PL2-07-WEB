@@ -68,16 +68,9 @@ class ReparacaoController extends LayoutController
     {
         $model = new Reparacao();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idreparacao]);
-        }
-
-        $users = (new Query())
-            ->select(['user.id'])
-            ->from('user')
-            ->innerJoin('userdata', 'user.id = userdata.iduser')
-            ->where(['userVisibilidade'=>1])
-            ->all();
+        $model->reparacaoData = date("Y-m-d H:i:s");
+        $model->reparacaoEstado = "Tratamento";
+        $model->reparacaoNumero = rand(0,2147483647);
 
         $produtos = (new Query())
             ->select(['produtoNome'])
@@ -91,9 +84,13 @@ class ReparacaoController extends LayoutController
             ->all();
 
 
+
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['view', 'id' => $model->idreparacao]);
+        }
+
         return $this->render('create', [
             'model' => $model,
-            'users' => $users,
             'produtos' => $produtos,
         ]);
     }
