@@ -34,12 +34,30 @@ class Reparacao extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['reparacaoNome', 'reparacaoNumero', 'reparacaoData', 'reparacaoDataConcluido', 'reparacaoDescricao', 'user_iduser'], 'required'],
-            [['reparacaoEstado'], 'string'],
-            [['reparacaoNumero', 'user_iduser'], 'integer'],
-            [['reparacaoData', 'reparacaoDataConcluido'], 'safe'],
-            [['reparacaoNome'], 'string', 'max' => 45],
-            [['reparacaoDescricao'], 'string', 'max' => 128],
+            ['reparacaoNome', 'required'],
+            ['reparacaoNome', 'trim'],
+            ['reparacaoNome', 'string', 'max' => 45],
+
+            ['reparacaoEstado', 'string'],
+            ['reparacaoEstado', 'trim'],
+
+            ['reparacaoNumero', 'required'],
+            ['reparacaoNumero', 'integer'],
+
+            ['reparacaoData', 'required'],
+            ['reparacaoData', 'safe'],
+            ['reparacaoData', 'datetime', 'format' => 'php:Y-m-d H:i:s'],
+
+            ['reparacaoDataConcluido', 'required'],
+            ['reparacaoDataConcluido', 'safe'],
+            ['reparacaoDataConcluido', 'datetime', 'format' => 'php:Y-m-d'],
+
+            ['reparacaoDescricao', 'required'],
+            ['reparacaoDescricao', 'trim'],
+            ['reparacaoDescricao', 'string', 'max' => 128],
+
+            //['user_iduser', 'required'],
+            ['user_iduser', 'integer'],
             [['user_iduser'], 'exist', 'skipOnError' => true, 'targetClass' => Userdata::className(), 'targetAttribute' => ['user_iduser' => 'iduser']],
         ];
     }
@@ -50,14 +68,14 @@ class Reparacao extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'idreparacao' => 'RepairId',
+            'idreparacao' => 'Repair ID',
             'reparacaoNome' => 'Repair product name',
             'reparacaoEstado' => 'Repair status',
-            'reparacaoNumero' => 'Repair identificator',
+            'reparacaoNumero' => 'Repair unique id',
             'reparacaoData' => 'Repair start date',
             'reparacaoDataConcluido' => 'Repair finish date',
             'reparacaoDescricao' => 'Repair description',
-            'user_iduser' => 'User Iduser',
+            'user_iduser' => 'User ID',
         ];
     }
 
