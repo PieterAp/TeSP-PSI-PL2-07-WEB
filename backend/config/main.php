@@ -125,7 +125,7 @@ return [
                     'extraPatterns' => [
                         'GET' => 'getcompras',
                         'GET state' => 'state',
-                        'GET delete' => 'delete',
+                        'GET deleteCompra' => 'deleteCompra',
                         'PUT' => 'setcompras',
                     ]
                 ],

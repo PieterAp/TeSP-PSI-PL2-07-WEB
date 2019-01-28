@@ -144,15 +144,84 @@ class ComprasController extends ActiveController
      */
     public function actionState($accesstoken)
     {
+        $user = User::findIdentityByAccessToken($accesstoken);
+        if ($user == null or empty($user)){
+            return false;
+        }
 
+        $compra = Compra::find()
+            ->where(['user_iduser' => $user->id, 'compraEstado'=> 1])
+            ->one();
+
+        if ($compra !=null){
+            $compra->compraEstado = 0;
+        }else{
+            return 'no cart';
+        }
+
+        $cart = Compraproduto::find()
+            ->where (['compra_idcompras' => $compra->idcompras])
+            ->all();
+
+
+
+        foreach ($cart as $key){
+            $produto = Produto::find()
+                ->where (['idprodutos' => $key->produto_idprodutos])
+                ->one();
+            if ($produto->produtoStock >0){
+                $produto->produtoStock -= 1;
+                $produto->save();
+            }else{
+
+                $myCommand =  Yii::$app->db->createCommand()
+                    ->delete('compraproduto', 'compra_idcompras = '.$key->compra_idcompras.' AND produto_idprodutos = '.$key->produto_idprodutos.' AND produto_preco = '.$key->produto_preco.' limit 1');
+                $check = $myCommand->execute();
+
+                if ($check == 1){
+                    $compra->compraValor = $compra->compraValor - $key->produto_preco;
+                    $compra->save();
+                    $nostock[] = $produto->produtoNome .' - '. $key->produto_preco;
+                }
+            }
+        }
+
+        $compra->save();
+        if (isset($nostock)){
+            return ['nostock' => $nostock];
+
+        }else{
+            return true;
+        }
     }
 
     /**
      * Shows all COMPRAS
      */
-    public function actionDelete($accesstoken)
+    public function actionDeletecompra($accesstoken, $id)
     {
+        $user = User::findIdentityByAccessToken($accesstoken);
+        if ($user == null or empty($user)){
+            return false;
+        }
+        $compra = Compra::find()
+            ->where(['user_iduser' => $user->id, 'compraEstado'=> 1])
+            ->one();
 
+        $cart = Compraproduto::find()
+            ->where (['compra_idcompras' => $compra->idcompras])
+            ->andWhere(['produto_idprodutos' => $id])
+            ->all();
+
+        $myCommand =  Yii::$app->db->createCommand()
+            ->delete('compraproduto', 'compra_idcompras = '.$cart[0]->compra_idcompras.' AND produto_idprodutos = '.$cart[0]->produto_idprodutos.' AND produto_preco = '.$cart[0]->produto_preco.' limit 1');
+        $check = $myCommand->execute();
+
+        if ($check == 1){
+            $compra->compraValor = $compra->compraValor - $cart[0]->produto_preco;
+            $compra->save();
+        }
+        return true;
     }
 
 }
