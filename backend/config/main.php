@@ -124,6 +124,8 @@ return [
                     'pluralize' => false,
                     'extraPatterns' => [
                         'GET' => 'getcompras',
+                        'GET state' => 'state',
+                        'GET delete' => 'delete',
                         'PUT' => 'setcompras',
                     ]
                 ],

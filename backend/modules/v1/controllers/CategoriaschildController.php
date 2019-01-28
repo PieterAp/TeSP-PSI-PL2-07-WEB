@@ -52,12 +52,13 @@ class CategoriaschildController extends ActiveController
     public function actionAvailable()
     {
         $allCategoriaschild = (new Query())
-            ->select(['categoria_child.*','COUNT(produto.idprodutos) as "qntProdutos"'])
+            ->select(['categoria_child.*','COUNT(produto.idprodutos) as "qntProdutos"', 'produto.produtoImagem1'])
             ->from('categoria_child')
             ->innerJoin('produto', '`categoria_child`.`idchild` = `produto`.`categoria_child_id`')
             ->where(['categoria_child.childEstado'=>1])
             ->andWhere(['produto.produtoEstado'=>1])
             ->groupBy('categoria_child.idchild')
+            ->orderBy('count(categoria_child_id) DESC, produtoDataCriacao DESC')
             ->all();
 
         if ($allCategoriaschild!=null)
