@@ -137,4 +137,22 @@ class ComprasController extends ActiveController
 
         return 'Adicionado com sucesso';
     }
+
+
+    /**
+     * Get COMPRA state
+     */
+    public function actionState($accesstoken)
+    {
+
+    }
+
+    /**
+     * Shows all COMPRAS
+     */
+    public function actionDelete($accesstoken)
+    {
+
+    }
+
 }
