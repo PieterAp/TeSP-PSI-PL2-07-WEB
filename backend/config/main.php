@@ -129,6 +129,14 @@ return [
                         'PUT' => 'setcompras',
                     ]
                 ],
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => 'v1/reparacoes',
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'GET' => 'available',
+                    ]
+                ],
             ],
         ],
         'urlManagerFrontend' => [
