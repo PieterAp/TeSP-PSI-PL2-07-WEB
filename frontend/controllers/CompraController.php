@@ -29,10 +29,10 @@ class CompraController extends LayoutController
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['index','historic','cart','purchase','delete'],
+                'only' => ['create','index','historic','cart','purchase','delete'],
                 'rules' => [
                     [
-                        'actions' => ['index','historic','cart','purchase','delete'],
+                        'actions' => ['create','index','historic','cart','purchase','delete'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
