@@ -68,9 +68,15 @@ class ReparacaoController extends LayoutController
     {
         $model = new Reparacao();
 
+        do{
+            $randomNumber = rand(0,2147483647);
+            $result = Reparacao::find()->where(['reparacaoNumero'=>$randomNumber])->one();
+        }while($result!=null);
+
+        $model->reparacaoNumero = $randomNumber;
         $model->reparacaoData = date("Y-m-d H:i:s");
         $model->reparacaoEstado = "Tratamento";
-        $model->reparacaoNumero = rand(0,2147483647);
+
 
         $produtos = (new Query())
             ->select(['produtoNome'])

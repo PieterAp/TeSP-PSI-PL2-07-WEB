@@ -7,7 +7,7 @@ use yii\grid\GridView;
 /* @var $searchModel app\models\ReparacaoSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Reparacaos';
+$this->title = 'Repairs';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="reparacao-index">
@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Create Reparacao', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Create Repair', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
     <?= GridView::widget([
@@ -31,7 +31,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'reparacaoData',
             //'reparacaoDataConcluido',
             //'reparacaoDescricao',
-            //'user_iduser',
+            'user_iduser',
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

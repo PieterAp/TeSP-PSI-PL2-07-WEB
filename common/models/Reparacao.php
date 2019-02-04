@@ -50,13 +50,14 @@ class Reparacao extends \yii\db\ActiveRecord
 
             ['reparacaoDataConcluido', 'required'],
             ['reparacaoDataConcluido', 'safe'],
-            ['reparacaoDataConcluido', 'datetime', 'format' => 'php:Y-m-d'],
+            ['reparacaoDataConcluido', 'datetime', 'format' => 'php:Y-m-d H:i:s'],
+            ['reparacaoDataConcluido', 'compare', 'compareAttribute' => 'reparacaoData', 'operator' => '>', 'message' => 'End date must be greater than the starting date'],
 
             ['reparacaoDescricao', 'required'],
             ['reparacaoDescricao', 'trim'],
             ['reparacaoDescricao', 'string', 'max' => 128],
 
-            //['user_iduser', 'required'],
+            ['user_iduser', 'required'],
             ['user_iduser', 'integer'],
             [['user_iduser'], 'exist', 'skipOnError' => true, 'targetClass' => Userdata::className(), 'targetAttribute' => ['user_iduser' => 'iduser']],
         ];
