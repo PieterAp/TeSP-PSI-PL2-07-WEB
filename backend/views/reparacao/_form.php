@@ -34,7 +34,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'reparacaoDataConcluido')->widget(\yii\jui\DatePicker::class, [
         'dateFormat' => 'yyyy-MM-dd',
-    ])->textInput()?>
+    ])->textInput(['onchange'=>'$( "#'.Html::getInputId($model, 'reparacaoDataConcluido').'").val($(this).val()+" 00:00:00");'])?>
 
     <?= $form->field($model, 'reparacaoDescricao')->textInput(['maxlength' => true])->textarea(['rows' => '6']) ?>
 
