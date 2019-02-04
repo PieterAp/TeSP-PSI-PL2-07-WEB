@@ -80,6 +80,7 @@ class Reparacao extends \yii\db\ActiveRecord
         ];
     }
 
+
     /**
      * @return \yii\db\ActiveQuery
      */

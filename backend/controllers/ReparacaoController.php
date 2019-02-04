@@ -77,27 +77,12 @@ class ReparacaoController extends LayoutController
         $model->reparacaoData = date("Y-m-d H:i:s");
         $model->reparacaoEstado = "Tratamento";
 
-
-        $produtos = (new Query())
-            ->select(['produtoNome'])
-            ->from('compra')
-            ->rightJoin('compraproduto', 'compraproduto.compra_idcompras = compra.idcompras')
-            ->leftJoin('produto', 'compraproduto.produto_idprodutos = produto.idprodutos')
-            ->where(['produtoEstado'=>1])
-            ->andWhere(['compra.compraEstado' => 0])
-            ->groupBy('produto_idprodutos')
-            ->orderBy('compraData DESC')
-            ->all();
-
-
-
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->idreparacao]);
         }
 
         return $this->render('create', [
             'model' => $model,
-            'produtos' => $produtos,
         ]);
     }
 
